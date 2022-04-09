@@ -10,10 +10,5 @@ app.use(function(req, res, next) {
 
 app.use('/v1', require('./routes'));
 
-// Catch-all route to return a JSON error if endpoint not defined
-app.all("/*", (req, res) => {
-  res.status(404).json({ error: `Not found: ${req.method} ${req.url}` });
-});
-
 const port = 4000;
 app.listen(port, () => console.log(`listening on port ${port}`));
