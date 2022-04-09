@@ -7,9 +7,19 @@ import { ethers } from "ethers";
 function App() {
   const [data, setData] = React.useState("");
 
+  const postAaveUrl = "http://localhost:4000/v1/ethereum/kovan/lend/aave/supply";
+  const postCompoundUrl = "http://localhost:4000/v1/ethereum/rinkeby/lend/compound/supply";
+  const requestJson = {
+      "walletAddress": "0x2C91371715700a2D4BD7444F5F35E89Bf41F22dB",
+      "token": "eth",
+      "amount": ".001",
+      "gasPriority": "medium"
+    }
+
   const fetchData = React.useCallback(async () => {
     axios
-      .get("http://localhost:4000/v1/ethereum/rinkeby/lend/compound/eth/.001/medium")
+      // .post(postAaveUrl, requestJson)
+      .post(postCompoundUrl, requestJson)
       .then((response) => setData(response.data));
   }, []);
   React.useEffect(() => {
@@ -35,7 +45,7 @@ function App() {
 
     // Acccounts now exposed
     const params = [{
-      from: address,
+      from: data.walletAddress,
       to: data.to,
       value: data.value,
       data: data.data,
@@ -46,6 +56,10 @@ function App() {
 
     const transactionHash = await provider.send('eth_sendTransaction', params)
     console.log('transactionHash is ' + transactionHash);
+  }
+
+  async function printConsole() {
+    console.log(data);
   }
 
   return (
