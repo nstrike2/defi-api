@@ -1,0 +1,125 @@
+.menu-modal {
+    background-color: #211F2D;
+    border-bottom-left-radius: 3%;
+    border-bottom-right-radius: 3%;
+    color: #BDBDBD;
+    padding-left: 18.48px;
+    padding-right: 18.48px;
+}
+
+.menu-form {
+    display: flex;
+    flex-direction: row;
+}
+
+.description {
+    font-size: 12px;
+    margin-top: 14px;
+}
+
+.token-modal {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    justify-content: center;
+}
+
+.token-logo {
+    width: 12%;
+    height: 70%;
+    margin-right: 15px;
+}
+
+.token-text {
+    color: #fff;
+}
+
+.amount {
+    background-color: transparent;
+    color: white;
+    text-align: center;
+    font-size: 18px;
+    width: 60%;
+    margin-top: 7px;
+    height: 48px;
+    border: 1px solid #464646;
+    border-radius: 8px;
+}
+  
+.amount:focus {
+    outline: none;
+}
+
+.amount:focus-within {
+    border: 2px solid #BDBDBD;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.protocol {
+    display: flex;
+    flex-direction: row;
+    margin-top: 18.48px;
+    padding-left: 0px;
+}
+
+.transaction-detail-cell {
+    height: 45px;
+    font-size: 14px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.gas-setting {
+    color: rgb(101, 209, 124);
+}
+
+.label {
+    margin-left: 12px;
+    width: 27%;
+}
+
+.gear-logo {
+    margin-left: 0.7vh;
+}
+
+.data {
+    color: white;
+}
+
+.close-icon {
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.supply-button {
+    cursor: pointer;
+    background-color: rgb(101, 209, 124);
+    height: 39px;
+    margin-top: 14px;
+    margin-bottom: 26px;
+    color: white;
+    font-style: normal;
+    font-weight: 590;
+    font-size: 16px;
+    border: 1px solid #464646;
+    box-sizing: border-box;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.supply-button:hover {
+    background-color: #60C582;
+}
