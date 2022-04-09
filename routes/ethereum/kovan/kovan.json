@@ -1,0 +1,15 @@
+{
+    "chainId": "0x42",
+    "chainName": "Kovan",
+    "rpcUrls": [
+        "https://kovan.poa.network"
+    ],
+    "nativeCurrency": {
+        "name": "Kovan ETH",
+        "symbol": "KOV",
+        "decimals": 18
+    },
+    "blockExplorerUrls": [
+        "https://kovan.etherscan.io/"
+    ]
+}
