@@ -4,7 +4,7 @@
 
 ```sh
 git clone https://github.com/nstrike2/defi-api.git
-cd axon-api
+cd defi-api
 yarn install
 cd client
 yarn install
