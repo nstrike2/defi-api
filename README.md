@@ -3,30 +3,30 @@
 ## Getting Started
 
 ```sh
-$ git clone https://github.com/rohansanjay/axon-api.git
-$ cd axon-api
-$ git checkout client --
-$ yarn install
-$ cd client
-$ yarn install
-$ cd ..
+git clone https://github.com/nstrike2/defi-api.git
+cd defi-api
+git checkout client --
+yarn install
+cd client
+yarn install
+cd ..
 ```
 
 ## Development
 
 **fe**
 ```sh
-$ yarn client
+yarn client
 ```
 
 **be**
 ```sh
-$ yarn server
+yarn server
 ```
 
 **fe & be**
 ```sh
-$ yarn start
+yarn start
 ```
 
 
