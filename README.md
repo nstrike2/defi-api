@@ -1,4 +1,4 @@
-# axon-api
+# defi-api
 
 ## Getting Started
 
