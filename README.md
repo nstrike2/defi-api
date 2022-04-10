@@ -5,7 +5,6 @@
 ```sh
 $ git clone https://github.com/rohansanjay/axon-api.git
 $ cd axon-api
-$ yarn install
 $ git checkout client --
 $ yarn install
 $ cd client
