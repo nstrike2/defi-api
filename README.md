@@ -1,11 +1,12 @@
-# axon-api
+# defi-api
 
 ## Getting Started
 
 ```sh
-$ git clone git@github.com:rohansanjay/axon-api.git
-$ cd axon-api
-$ yarn install
+git clone https://github.com/nstrike2/defi-api.git
+cd defi-api
+git checkout error-handling
+yarn install
 ```
 
 
@@ -13,17 +14,17 @@ $ yarn install
 
 **fe**
 ```sh
-$ yarn client
+yarn client
 ```
 
 **be**
 ```sh
-$ yarn server
+yarn server
 ```
 
 **fe & be**
 ```sh
-$ yarn start
+yarn start
 ```
 
 
