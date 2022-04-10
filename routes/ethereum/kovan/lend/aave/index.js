@@ -12,9 +12,10 @@ router.post('/supply', async (req, res) => {
         const gasPriority = req.body.gasPriority;
 
         if (token.toLowerCase() === 'eth') {
-            const contractAddress = "0xA61ca04DF33B72b235a8A28CfB535bb7A5271B70";
-            const contract = new ethers.Contract(contractAddress, abi)
-            const data = await contract.populateTransaction.depositETH("0xE0fBa4Fc209b4948668006B2bE61711b7f465bAe", walletAddress, 0);
+            const contractAddress = "0xA61ca04DF33B72b235a8A28CfB535bb7A5271B70"; // aWETH
+            const lendingPoolAddress = "0xE0fBa4Fc209b4948668006B2bE61711b7f465bAe";
+            const contract = new ethers.Contract(contractAddress, abi);
+            const data = await contract.populateTransaction.depositETH(lendingPoolAddress, walletAddress, 0);
 
             data.walletAddress = walletAddress;
             data.value = ethers.utils.parseUnits(amount, 'ether').toHexString();

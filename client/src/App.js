@@ -9,8 +9,9 @@ function App() {
 
   const postAaveUrl = "http://localhost:4000/v1/ethereum/kovan/lend/aave/supply";
   const postCompoundUrl = "http://localhost:4000/v1/ethereum/rinkeby/lend/compound/supply";
+  const marcusAddress = "0x1c87Ba20aB980f0c4C26AFEf9502967f6C4fD502";
   const requestJson = {
-      "walletAddress": "0x2C91371715700a2D4BD7444F5F35E89Bf41F22dB",
+      "walletAddress": marcusAddress,
       "token": "eth",
       "amount": ".001",
       "gasPriority": "medium"
@@ -18,8 +19,8 @@ function App() {
 
   const fetchData = React.useCallback(async () => {
     axios
-      // .post(postAaveUrl, requestJson)
-      .post(postCompoundUrl, requestJson)
+      .post(postAaveUrl, requestJson)
+      // .post(postCompoundUrl, requestJson)
       .then((response) => setData(response.data));
   }, []);
   React.useEffect(() => {
@@ -54,7 +55,7 @@ function App() {
 
     console.log(params)
 
-    const transactionHash = await provider.send('eth_sendTransaction', params)
+    const transactionHash = await provider.send("eth_sendTransaction", params);
     console.log('transactionHash is ' + transactionHash);
   }
 
@@ -67,6 +68,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
+          <button onClick={checkMetamask}>Check Metamask</button><br/>
           <button onClick={transact}>Transact</button>
         </p>
       </header>

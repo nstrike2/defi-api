@@ -12,7 +12,8 @@ router.post('/supply', async (req, res) => {
         const gasPriority = req.body.gasPriority;
 
         if (token.toLowerCase() === 'eth') {
-            const contractAddress = "0xd6801a1dffcd0a410336ef88def4320d6df1883e";
+            const neetishAddress = "0xEc644B2e080F0653809e2B40B6C90773498dF07c";
+            const contractAddress = neetishAddress;
             const contract = new ethers.Contract(contractAddress, abi)
             const data = await contract.populateTransaction.mint();
 
