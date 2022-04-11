@@ -1,5 +1,6 @@
 import React from "react";
 import APIOptions from "../utils/APIOptions.json";
+import networks from "../utils/networks.json";
 import "./APIForm.css";
 import { Box } from "@mui/material";
 
@@ -8,11 +9,6 @@ class APIForm extends React.Component {
     super(props);
     this.state = {
       amount: '',
-      protocols: [
-        "Aave",
-        "Compound",
-        "Rari"
-      ],
       tokens: {
         "ethereum": {
           "image": "ethereum-logo.png",
@@ -26,6 +22,12 @@ class APIForm extends React.Component {
         2: "Fast"
       }
     };
+    this.actions = {
+      "Lend": this.lendAction.bind(this),
+      "Stake": this.stakeAction.bind(this),
+      "Exchange": this.exchangeAction.bind(this),
+      "Earn": this.earnAction.bind(this)
+    }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.revealProtocol = this.revealProtocol.bind(this);
@@ -35,19 +37,79 @@ class APIForm extends React.Component {
     this.setState({ amount: event.target.value });
   }
 
+  async requestNetworkChange(networkName) {
+    return await this.requestNetworkChangeJSON(networks[networkName]);
+  }
+
+  async requestNetworkChangeJSON(networkJSON) {
+    await window.ethereum.request({
+      method: "wallet_addEthereumChain",
+      params: [{
+        ...networkJSON
+      }],
+    });
+  }
+
+  /* TODO this remains unimplemented */
+  lendAction(state) {
+    // const data = "???";
+    // const requestJson = {
+    //   "walletAddress": ethereum.selectedAddress,
+    //   "amount": this.state.amount,
+    // }
+    // const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+    // // Prompt user for account connections
+    // await provider.send("eth_requestAccounts", []);
+    // const signer = provider.getSigner();
+    // const address = await signer.getAddress();
+    // console.log("Account:", address);
+
+    // // Acccounts now exposed
+    // const params = [{
+    //   from: data.walletAddress,
+    //   to: data.to,
+    //   value: data.value,
+    //   data: data.data,
+    // }];
+
+    // console.log("Params:", params)
+
+    // const transactionHash = await provider.send("eth_sendTransaction", params);
+    // console.log('transactionHash is ' + transactionHash);
+  }
+
+  stakeAction(state) {
+    alert("User staked " + this.state.amount + " ETH!!");
+  }
+
+  exchangeAction(state) {
+    alert("User exchanged " + this.state.amount + " ETH!!");
+  }
+
+  earnAction(state) {
+    alert("User submitted " + this.state.amount + " ETH to earn yield!!");
+  }
+
   handleSubmit(event) {
     event.preventDefault();
-    alert("User submitted " + this.state.amount + " ETH!!");
+    const APIConfig = APIOptions[this.props.id];
+    const necessaryNetwork = networks[APIConfig.network];
+    const necessaryChainId = parseInt(necessaryNetwork.chainId);
+    const currentChainId = parseInt(window.ethereum.chainId);
+    console.log(currentChainId, necessaryChainId);
+    if(currentChainId != necessaryChainId) {
+      // The line below only works for non-standard networks
+      // await this.requestNetworkChangeJSON(necessaryNetwork);
+      alert(`Please switch your wallet to the ${necessaryNetwork.chainName} network to perform this action.`)
+      return;
+    }
+    this.actions[APIConfig.action](this.state);
     // TODO: Fetch respective API endpoint using this.props.id
     // this.state.amount is the input value
   }
 
   revealProtocol(id) {
-    for (let protocol of this.state.protocols) {
-      if (APIOptions[this.props.id].text.toLowerCase().includes(protocol.toLowerCase())) {
-        return protocol;
-      }
-    }
+    return APIOptions[id].protocol;
   }
 
   render() {
@@ -66,7 +128,7 @@ class APIForm extends React.Component {
           <img className="close-icon" src="close-icon.svg" alt="Close icon" onClick={this.props.exitAPIForm}/>
         </div>
         
-          <form className="input-api-form"onSubmit={this.handleSubmit} autoComplete="off">
+          <form className="input-api-form" onSubmit={this.handleSubmit} autoComplete="off">
             <label>
               <div className="description">Amount</div>
               <div className="menu-form">

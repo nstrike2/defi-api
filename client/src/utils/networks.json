@@ -1,0 +1,32 @@
+{
+   "Kovan": {
+      "chainId": "0x2a",
+      "chainName": "Kovan",
+      "rpcUrls": [
+          "https://kovan.poa.network"
+      ],
+      "nativeCurrency": {
+          "name": "Kovan ETH",
+          "symbol": "KOV",
+          "decimals": 18
+      },
+      "blockExplorerUrls": [
+          "https://kovan.etherscan.io/"
+      ]
+  },
+  "Rinkeby": {
+      "chainId": "0x4",
+      "chainName": "Rinkeby",
+      "rpcUrls": [
+         "https://rinkeby.infura.io/v3/INSERT_API_KEY_HERE"
+      ],
+      "nativeCurrency": {
+         "name": "Rinkeby ETH",
+         "symbol": "RIN",
+         "decimals": 18
+      },
+      "blockExplorerUrls": [
+         "https://rinkeby.etherscan.io"
+      ]
+   }
+}

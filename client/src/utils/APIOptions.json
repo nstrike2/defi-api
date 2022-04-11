@@ -1,17 +1,16 @@
-[
-{
+[{
     "id": 0,
     "text": "Lend on Aave",
-    "img": "https://cryptologos.cc/logos/aave-aave-logo.png?v=022"
+    "img": "https://cryptologos.cc/logos/aave-aave-logo.png?v=022",
+    "protocol": "Aave",
+    "action": "Lend",
+    "network": "Kovan"
 },
 {
     "id": 1,
     "text": "Lend on Compound",
-    "img": "https://cryptologos.cc/logos/compound-comp-logo.png?v=022"
-},
-{
-    "id": 2,
-    "text": "Lend on Rari",
-    "img": "https://rari.capital/images/finallsmall.png"
-}
-] 
+    "img": "https://cryptologos.cc/logos/compound-comp-logo.png?v=022",
+    "protocol": "Compound",
+    "action": "Lend",
+    "network": "Rinkeby"
+}]
