@@ -23,20 +23,17 @@ function App() {
       // .post(postCompoundUrl, requestJson)
       .then((response) => setData(response.data));
   }, []);
-  React.useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-  
+
   function checkMetamask() {
     if (typeof window.ethereum === "undefined" && window.ethereum === null) {
       console.log('No metamask!')
     } else {
       console.log("Metamask good")
     }
-    // console.log("Metamask");
   }
 
   async function transact() {
+    fetchData();
     const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
     // Prompt user for account connections
     await provider.send("eth_requestAccounts", []);
@@ -50,10 +47,9 @@ function App() {
       to: data.to,
       value: data.value,
       data: data.data,
-      chainid: data.chain.chainId
     }];
 
-    console.log(params)
+    console.log("Params:", params)
 
     const transactionHash = await provider.send("eth_sendTransaction", params);
     console.log('transactionHash is ' + transactionHash);

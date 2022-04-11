@@ -1,8 +1,9 @@
 {
-    "chainId": "0x42",
+    "chainId": "42",
     "chainName": "Kovan",
     "rpcUrls": [
-        "https://kovan.poa.network"
+        "https://kovan.poa.network",
+        "https://kovan.infura.io"
     ],
     "nativeCurrency": {
         "name": "Kovan ETH",

@@ -21,6 +21,7 @@ router.post('/supply', async (req, res) => {
             data.value = ethers.utils.parseUnits(amount, 'ether').toHexString();
             data.gasPriority = gasPriority;
             data.chain = chain;
+            console.log("Data:", data);
             res.json(data);
         } else {
             res.status(400).send("Invalid token");
