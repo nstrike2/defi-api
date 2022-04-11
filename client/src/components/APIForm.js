@@ -3,6 +3,8 @@ import APIOptions from "../utils/APIOptions.json";
 import networks from "../utils/networks.json";
 import "./APIForm.css";
 import { Box } from "@mui/material";
+import axios from "axios";
+import { ethers } from "ethers";
 
 class APIForm extends React.Component {
   constructor(props) {
@@ -37,11 +39,7 @@ class APIForm extends React.Component {
     this.setState({ amount: event.target.value });
   }
 
-  async requestNetworkChange(networkName) {
-    return await this.requestNetworkChangeJSON(networks[networkName]);
-  }
-
-  async requestNetworkChangeJSON(networkJSON) {
+  async requestNetworkChange(networkJSON) {
     await window.ethereum.request({
       method: "wallet_addEthereumChain",
       params: [{
@@ -50,60 +48,63 @@ class APIForm extends React.Component {
     });
   }
 
-  /* TODO this remains unimplemented */
-  lendAction(state) {
-    // const data = "???";
-    // const requestJson = {
-    //   "walletAddress": ethereum.selectedAddress,
-    //   "amount": this.state.amount,
-    // }
-    // const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-    // // Prompt user for account connections
-    // await provider.send("eth_requestAccounts", []);
-    // const signer = provider.getSigner();
-    // const address = await signer.getAddress();
-    // console.log("Account:", address);
-
-    // // Acccounts now exposed
-    // const params = [{
-    //   from: data.walletAddress,
-    //   to: data.to,
-    //   value: data.value,
-    //   data: data.data,
-    // }];
-
-    // console.log("Params:", params)
-
-    // const transactionHash = await provider.send("eth_sendTransaction", params);
-    // console.log('transactionHash is ' + transactionHash);
+  async fetchData(postURL, requestJSON) {
+    const response = await axios.post(postURL, requestJSON);
+    return response.data;
   }
 
-  stakeAction(state) {
+  async lendAction() {
+    const requestJSON = {
+      "walletAddress": window.ethereum.selectedAddress,
+      "amount": this.state.amount,
+      "token": "eth",
+      "gasPriority": "medium"
+    };
+    const APIConfig = APIOptions[this.props.id];
+    const postURL = APIConfig.postURL;
+    const data = await this.fetchData(postURL, requestJSON);
+    
+    const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+    await provider.send("eth_requestAccounts", []);
+    const signer = provider.getSigner();
+    const address = await signer.getAddress();
+    console.log("Account:", address);
+    // Acccounts now exposed
+    const params = [{
+      from: data.walletAddress,
+      to: data.to,
+      value: data.value,
+      data: data.data,
+    }];
+    console.log("Params:", params)
+
+    const transactionHash = await provider.send("eth_sendTransaction", params);
+    console.log('transactionHash is ' + transactionHash);
+  }
+
+  async stakeAction() {
     alert("User staked " + this.state.amount + " ETH!!");
   }
 
-  exchangeAction(state) {
+  async exchangeAction() {
     alert("User exchanged " + this.state.amount + " ETH!!");
   }
 
-  earnAction(state) {
+  async earnAction() {
     alert("User submitted " + this.state.amount + " ETH to earn yield!!");
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
     const APIConfig = APIOptions[this.props.id];
-    const necessaryNetwork = networks[APIConfig.network];
-    const necessaryChainId = parseInt(necessaryNetwork.chainId);
-    const currentChainId = parseInt(window.ethereum.chainId);
-    console.log(currentChainId, necessaryChainId);
-    if(currentChainId != necessaryChainId) {
-      // The line below only works for non-standard networks
-      // await this.requestNetworkChangeJSON(necessaryNetwork);
-      alert(`Please switch your wallet to the ${necessaryNetwork.chainName} network to perform this action.`)
+    const possibleChainIds = APIConfig.chainIds;
+    const currentChainId = window.ethereum.chainId;
+    if(!possibleChainIds.includes(currentChainId)) {
+      alert(`Please switch your wallet one of the following networks to perform this action: ${
+        possibleChainIds.map(chainId => networks[chainId].chainName).join(", ")}`)
       return;
     }
-    this.actions[APIConfig.action](this.state);
+    await this.actions[APIConfig.action](this.state);
     // TODO: Fetch respective API endpoint using this.props.id
     // this.state.amount is the input value
   }

@@ -1,5 +1,5 @@
 {
-   "Kovan": {
+   "0x2a": {
       "chainId": "0x2a",
       "chainName": "Kovan",
       "rpcUrls": [
@@ -14,7 +14,7 @@
           "https://kovan.etherscan.io/"
       ]
   },
-  "Rinkeby": {
+  "0x4": {
       "chainId": "0x4",
       "chainName": "Rinkeby",
       "rpcUrls": [

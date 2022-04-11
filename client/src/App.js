@@ -23,13 +23,9 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <p className="Text-header">Axon</p>
-          {this.isWalletConnected() ? (
-            <button className="Wallet-button">Wallet Connected</button>
-          ) : (
-            <button className="Wallet-button" onClick={this.connectToMetaMask}>
-              Connect Wallet
-            </button>
-          )}
+          {this.isWalletConnected()
+            ? (<button className="Wallet-button">Wallet Connected</button>)
+            : (<button className="Wallet-button" onClick={this.connectToMetaMask}> Connect Wallet </button>)}
         </header>
 
         <div className="Main-container">
@@ -38,7 +34,7 @@ class App extends React.Component {
             Showcasing the world's most powerful universal DeFi API.
           </div>
 
-         <APISearchBox lend={this.lend}/>
+         <APISearchBox/>
         </div>
       </div>
     );

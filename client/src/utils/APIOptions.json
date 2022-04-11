@@ -4,7 +4,8 @@
     "img": "https://cryptologos.cc/logos/aave-aave-logo.png?v=022",
     "protocol": "Aave",
     "action": "Lend",
-    "network": "Kovan"
+    "chainIds": ["0x2a"],
+    "postURL": "http://localhost:4000/v1/ethereum/kovan/lend/aave/supply"
 },
 {
     "id": 1,
@@ -12,5 +13,6 @@
     "img": "https://cryptologos.cc/logos/compound-comp-logo.png?v=022",
     "protocol": "Compound",
     "action": "Lend",
-    "network": "Rinkeby"
+    "chainIds": ["0x4"],
+    "postURL": "http://localhost:4000/v1/ethereum/rinkeby/lend/compound/supply"
 }]
