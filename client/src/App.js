@@ -1,75 +1,44 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import axios from "axios";
-import { ethers } from "ethers";
+import APISearchBox from "./components/APISearchBox";
+import  Adam from "./adam"
 
-function App() {
-  const [data, setData] = React.useState("");
+class App extends React.Component {
+	constructor(props) {
+		super(props);
+		Adam.initialize();
+	}
 
-  const postAaveUrl = "http://localhost:4000/v1/ethereum/kovan/lend/aave/supply";
-  const postCompoundUrl = "http://localhost:4000/v1/ethereum/rinkeby/lend/compound/supply";
-  const marcusAddress = "0x1c87Ba20aB980f0c4C26AFEf9502967f6C4fD502";
-  const requestJson = {
-      "walletAddress": marcusAddress,
-      "token": "eth",
-      "amount": ".001",
-      "gasPriority": "medium"
-    }
+	isWalletConnected = () => {
+		return false;
+	}
 
-  const fetchData = React.useCallback(async () => {
-    axios
-      .post(postAaveUrl, requestJson)
-      // .post(postCompoundUrl, requestJson)
-      .then((response) => setData(response.data));
-  }, []);
+	connectToMetaMask = async () => {
+		// All it takes to connect to metamask
+		Adam.connect();
+	};
 
-  function checkMetamask() {
-    if (typeof window.ethereum === "undefined" && window.ethereum === null) {
-      console.log('No metamask!')
-    } else {
-      console.log("Metamask good")
-    }
-  }
+	render() {
+		return (
+		<div className="App">
+			<header className="App-header">
+				<p className="Text-header">Axon</p>
+				{this.isWalletConnected()
+				? (<button className="Wallet-button">Wallet Connected</button>)
+				: (<button className="Wallet-button" onClick={this.connectToMetaMask}> Connect Wallet </button>)}
+			</header>
 
-  async function transact() {
-    fetchData();
-    const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-    // Prompt user for account connections
-    await provider.send("eth_requestAccounts", []);
-    const signer = provider.getSigner();
-    const address = await signer.getAddress();
-    console.log("Account:", address);
+			<div className="Main-container">
+				<div className="Text-title-big">Lend. Stake. Yield.</div>
+				<div className="Text-title-small">
+				Showcasing the world's most powerful universal DeFi API.
+				</div>
 
-    // Acccounts now exposed
-    const params = [{
-      from: data.walletAddress,
-      to: data.to,
-      value: data.value,
-      data: data.data,
-    }];
-
-    console.log("Params:", params)
-
-    const transactionHash = await provider.send("eth_sendTransaction", params);
-    console.log('transactionHash is ' + transactionHash);
-  }
-
-  async function printConsole() {
-    console.log(data);
-  }
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          <button onClick={checkMetamask}>Check Metamask</button><br/>
-          <button onClick={transact}>Transact</button>
-        </p>
-      </header>
-    </div>
-  );
+			<APISearchBox/>
+			</div>
+		</div>
+		);
+	}
 }
 
 export default App;

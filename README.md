@@ -5,12 +5,12 @@
 ```sh
 git clone https://github.com/nstrike2/defi-api.git
 cd defi-api
+git checkout client --
 yarn install
 cd client
 yarn install
 cd ..
 ```
-
 
 ## Development
 
@@ -32,12 +32,15 @@ yarn start
 
 ## Current Blueprint
 ```sh
-.
+
 ├── README.md
 ├── client
 │   ├── README.md
 │   ├── public
+│   │   ├── close-icon.svg
+│   │   ├── ethereum-logo.png
 │   │   ├── favicon.ico
+│   │   ├── gear.svg
 │   │   ├── index.html
 │   │   ├── logo192.png
 │   │   ├── logo512.png

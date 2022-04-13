@@ -1,15 +1,15 @@
 {
-    "chainId": "0x4",
-    "chainName": "Rinkeby",
-    "rpcUrls": [
-        "https://rinkeby.infura.io/v3/INSERT_API_KEY_HERE"
-    ],
-    "nativeCurrency": {
-        "name": "Rinkeby ETH",
-        "symbol": "RIN",
-        "decimals": 18
-    },
-    "blockExplorerUrls": [
-        "https://rinkeby.etherscan.io"
-    ]
+	"chainId": "0x4",
+	"chainName": "Rinkeby",
+	"rpcUrls": [
+		"https://rinkeby.infura.io/"
+	],
+	"nativeCurrency": {
+		"name": "Rinkeby ETH",
+		"symbol": "RIN",
+		"decimals": 18
+	},
+	"blockExplorerUrls": [
+		"https://rinkeby.etherscan.io"
+	]
 }
