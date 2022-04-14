@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const ethers = require('ethers');
-const abi = require('./aave.json');
+const abi = require('./abi.json');
 const chain = require('../../kovan.json');
 
 router.post('/supply', async (req, res) => {
