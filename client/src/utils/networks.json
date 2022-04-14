@@ -28,5 +28,20 @@
 		"blockExplorerUrls": [
 			"https://rinkeby.etherscan.io"
 		]
+	},
+	"0x5": {
+		"chainId": "0x5",
+		"chainName": "Goerli",
+		"rpcUrls": [
+			"https://goerli.infura.io"
+		],
+		"nativeCurrency": {
+			"name": "Goerli ETH",
+			"symbol": "GOR",
+			"decimals": 18
+		},
+		"blockExplorerUrls": [
+			"https://goerli.etherscan.io/"
+		]
 	}
 }

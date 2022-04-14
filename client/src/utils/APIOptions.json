@@ -15,4 +15,14 @@
 	"action": "Lend",
 	"chainIds": ["0x4"],
 	"postURL": "http://localhost:4000/v1/ethereum/rinkeby/lend/compound/supply"
-}]
+},
+{
+	"id": 2,
+	"text": "Stake on Rocket Pool",
+	"img": "https://docs.rocketpool.net/images/logo.png",
+	"protocol": "Rocket Pool",
+	"action": "Stake",
+	"chainIds": ["0x5"],
+	"postURL": "http://localhost:4000/v1/ethereum/goerli/stake/rocket-pool/stake"
+}
+]

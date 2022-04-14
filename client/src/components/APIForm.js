@@ -63,7 +63,7 @@ class APIForm extends React.Component {
 		const APIConfig = APIOptions[this.props.id];
 		const postURL = APIConfig.postURL;
 		const data = await this.fetchData(postURL, requestJSON);
-		
+
 		const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
 		await provider.send("eth_requestAccounts", []);
 		const signer = provider.getSigner();
@@ -83,7 +83,32 @@ class APIForm extends React.Component {
 	}
 
 	async stakeAction() {
-		alert("User staked " + this.state.amount + " ETH!!");
+		const requestJSON = {
+			"walletAddress": window.ethereum.selectedAddress,
+			"amount": this.state.amount,
+			"token": "eth",
+			"gasPriority": "medium"
+		};
+		const APIConfig = APIOptions[this.props.id];
+		const postURL = APIConfig.postURL;
+		const data = await this.fetchData(postURL, requestJSON);
+
+		const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+		await provider.send("eth_requestAccounts", []);
+		const signer = provider.getSigner();
+		const address = await signer.getAddress();
+		console.log("Account:", address);
+		// Acccounts now exposed
+		const params = [{
+			from: data.walletAddress,
+			to: data.to,
+			value: data.value,
+			data: data.data,
+		}];
+		console.log("Params:", params)
+
+		const transactionHash = await provider.send("eth_sendTransaction", params);
+		console.log('transactionHash is ' + transactionHash);
 	}
 
 	async exchangeAction() {
@@ -99,14 +124,11 @@ class APIForm extends React.Component {
 		const APIConfig = APIOptions[this.props.id];
 		const possibleChainIds = APIConfig.chainIds;
 		const currentChainId = window.ethereum.chainId;
-		if(!possibleChainIds.includes(currentChainId)) {
-			alert(`Please switch your wallet one of the following networks to perform this action: ${
-				possibleChainIds.map(chainId => networks[chainId].chainName).join(", ")}`)
+		if (!possibleChainIds.includes(currentChainId)) {
+			alert(`Please switch your wallet one of the following networks to perform this action: ${possibleChainIds.map(chainId => networks[chainId].chainName).join(", ")}`)
 			return;
 		}
 		await this.actions[APIConfig.action](this.state);
-		// TODO: Fetch respective API endpoint using this.props.id
-		// this.state.amount is the input value
 	}
 
 	revealProtocol(id) {
@@ -126,77 +148,77 @@ class APIForm extends React.Component {
 					<div>
 
 					</div>
-					<img className="close-icon" src="close-icon.svg" alt="Close icon" onClick={this.props.exitAPIForm}/>
+					<img className="close-icon" src="close-icon.svg" alt="Close icon" onClick={this.props.exitAPIForm} />
 				</div>
-				
-					<form className="input-api-form" onSubmit={this.handleSubmit} autoComplete="off">
-						<label>
-							<div className="description">Amount</div>
-							<div className="menu-form">
-								<input
-									className="amount"
-									type="number"
-									placeholder="0"
-									value={this.state.amount}
-									onChange={this.handleChange}
-								/>
-								<Box
-									className="token-modal"
-									sx={ {
-										width: "40%",
-										marginTop: "7px",
-										marginLeft: "14px",
-										height: "50px",
-										border: 1,
-										borderColor: "#464646",
-										borderRadius: 2
-									} }
-								>
-									<img className="token-logo" src={this.state.tokens["ethereum"]["image"]} alt="Ethereum logo"/>
-									<div className="token-text">{this.state.tokens["ethereum"]["text"]}</div>
-								</Box>
-							</div>
 
-							<div className="description">Transaction Details</div>
-							<div className="menu-form">
-								<Box
-										className="transaction-detail-form"
-										sx={ {
-											width: "100%",
-											marginTop: "7px",
-											height: "100%",
-											border: 1,
-											borderColor: "#464646",
-											borderRadius: 2,
-											input: {
-												textAlign: "center",
-												color: "#BDBDBD"
-											}
-										} }
-								>
-									<div className="transaction-details">
-										<div className="transaction-detail-cell">
-											<div className="label">Supply APY</div>
-											<div className="data">{0.39}%</div>
-										</div>
-										<div className="transaction-detail-cell">
-											<div className="label">Rewards APY</div>
-											<div className="data">{0.11}%</div>
-										</div>
-										<div className="transaction-detail-cell">
-											{/* TODO: Logic for choosing the index within gasSetting mapping */}
-											<div className="label">
-												Gas | <span className="gas-setting">{this.state.gasSetting[1]}</span>
-												<img className="gear-logo" src="gear.svg" alt="Ethereum logo"/>
-											</div>
-											<div className="data">${58.08}</div>
-										</div>
+				<form className="input-api-form" onSubmit={this.handleSubmit} autoComplete="off">
+					<label>
+						<div className="description">Amount</div>
+						<div className="menu-form">
+							<input
+								className="amount"
+								type="number"
+								placeholder="0"
+								value={this.state.amount}
+								onChange={this.handleChange}
+							/>
+							<Box
+								className="token-modal"
+								sx={{
+									width: "40%",
+									marginTop: "7px",
+									marginLeft: "14px",
+									height: "50px",
+									border: 1,
+									borderColor: "#464646",
+									borderRadius: 2
+								}}
+							>
+								<img className="token-logo" src={this.state.tokens["ethereum"]["image"]} alt="Ethereum logo" />
+								<div className="token-text">{this.state.tokens["ethereum"]["text"]}</div>
+							</Box>
+						</div>
+
+						<div className="description">Transaction Details</div>
+						<div className="menu-form">
+							<Box
+								className="transaction-detail-form"
+								sx={{
+									width: "100%",
+									marginTop: "7px",
+									height: "100%",
+									border: 1,
+									borderColor: "#464646",
+									borderRadius: 2,
+									input: {
+										textAlign: "center",
+										color: "#BDBDBD"
+									}
+								}}
+							>
+								<div className="transaction-details">
+									<div className="transaction-detail-cell">
+										<div className="label">Supply APY</div>
+										<div className="data">{0.39}%</div>
 									</div>
-								</Box>
-							</div>
-						</label>
-						<input className="supply-button" type="submit" value={"Supply " + this.state.tokens["ethereum"]["acronym"]} />
-					</form>
+									<div className="transaction-detail-cell">
+										<div className="label">Rewards APY</div>
+										<div className="data">{0.11}%</div>
+									</div>
+									<div className="transaction-detail-cell">
+										{/* TODO: Logic for choosing the index within gasSetting mapping */}
+										<div className="label">
+											Gas | <span className="gas-setting">{this.state.gasSetting[1]}</span>
+											<img className="gear-logo" src="gear.svg" alt="Ethereum logo" />
+										</div>
+										<div className="data">${58.08}</div>
+									</div>
+								</div>
+							</Box>
+						</div>
+					</label>
+					<input className="supply-button" type="submit" value={"Supply " + this.state.tokens["ethereum"]["acronym"]} />
+				</form>
 			</div>
 		);
 	}
