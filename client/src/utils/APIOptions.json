@@ -1,28 +1,44 @@
-[{
-	"id": 0,
-	"text": "Lend on Aave",
-	"img": "https://cryptologos.cc/logos/aave-aave-logo.png?v=022",
-	"protocol": "Aave",
-	"action": "Lend",
-	"chainIds": ["0x2a"],
-	"postURL": "http://localhost:4000/v1/ethereum/kovan/lend/aave/supply"
-},
-{
-	"id": 1,
-	"text": "Lend on Compound",
-	"img": "https://cryptologos.cc/logos/compound-comp-logo.png?v=022",
-	"protocol": "Compound",
-	"action": "Lend",
-	"chainIds": ["0x4"],
-	"postURL": "http://localhost:4000/v1/ethereum/rinkeby/lend/compound/supply"
-},
-{
-	"id": 2,
-	"text": "Stake on Rocket Pool",
-	"img": "https://docs.rocketpool.net/images/logo.png",
-	"protocol": "Rocket Pool",
-	"action": "Stake",
-	"chainIds": ["0x5"],
-	"postURL": "http://localhost:4000/v1/ethereum/goerli/stake/rocket-pool/stake"
-}
+[
+	{
+		"id": 0,
+		"text": "Lend on Aave",
+		"img": "https://cryptologos.cc/logos/aave-aave-logo.png?v=022",
+		"protocol": "Aave",
+		"action": "Lend",
+		"chainIds": [
+			"0x2a"
+		],
+		"postURL": "http://localhost:4000/v1/ethereum/kovan/lend/aave/supply"
+	},
+	{
+		"id": 1,
+		"text": "Lend on Compound",
+		"img": "https://cryptologos.cc/logos/compound-comp-logo.png?v=022",
+		"protocol": "Compound",
+		"action": "Lend",
+		"chainIds": [
+			"0x4"
+		],
+		"postURL": "http://localhost:4000/v1/ethereum/rinkeby/lend/compound/supply"
+	},
+	{
+		"id": 2,
+		"text": "Stake on Rocket Pool",
+		"img": "https://docs.rocketpool.net/images/logo.png",
+		"protocol": "Rocket Pool",
+		"action": "Stake",
+		"chainIds": [
+			"0x5"
+		],
+		"postURL": "http://localhost:4000/v1/ethereum/goerli/stake/rocket-pool/stake"
+	},
+	{
+		"id": 3,
+		"text": "Stake on Lido",
+		"img": "https://lido.fi/static/images/%D1%81omingSoon/logo-color.svg",
+		"protocol": "Lido",
+		"action": "Stake",
+		"chainIds": ["0x5"],
+		"postURL": "http://localhost:4000/v1/ethereum/goerli/stake/lido/stake"
+	}
 ]

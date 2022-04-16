@@ -78,14 +78,16 @@ class APISearchBox extends React.Component {
 				{this.state.isSearching ? (
 					this.state.filteredData.map((item) => (
 						<div key={item.id} className="Search-cell" onClick={this.optionClick.bind(this, item.id)}>
-							<img src={item.img} className="Search-img" alt="Protocol Logo"/>
+							<div className="Search-img-container">
+								<img src={item.img} className="Search-img" alt="Protocol Logo" />
+							</div>
 							<div className="Search-text">{item.text}</div>
 						</div>
 					))
-				) 
-				: (
-					<APIForm exitAPIForm={this.exitAPIForm} id={this.state.selectedId}/>
-				)}
+				)
+					: (
+						<APIForm exitAPIForm={this.exitAPIForm} id={this.state.selectedId} />
+					)}
 			</div>
 		);
 	}
