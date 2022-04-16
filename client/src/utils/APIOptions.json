@@ -6,7 +6,7 @@
 		"action": "Lend",
 		"chainIds": ["0x4"],
 		"img": "https://cryptologos.cc/logos/compound-comp-logo.png?v=022",
-		"postURL": "http://localhost:4000/v1/ethereum/rinkeby/lend/compound/supply"
+		"postURL": "/lend/compound/supply"
 	},{
 		"id": 1,
 		"text": "Lend on Aave",
@@ -14,7 +14,7 @@
 		"action": "Lend",
 		"chainIds": ["0x2a"],
 		"img": "https://cryptologos.cc/logos/aave-aave-logo.png?v=022",
-		"postURL": "http://localhost:4000/v1/ethereum/kovan/lend/aave/supply"
+		"postURL": "/lend/aave/supply"
 	},{
 		"id": 2,
 		"text": "Exchange on Uniswap",
@@ -22,7 +22,7 @@
 		"action": "Exchange",
 		"chainIds": ["0x1"],
 		"img": "https://cryptologos.cc/logos/uniswap-uni-logo.png",
-		"postURL": "http://localhost:4000/v1/ethereum/mainnet/exchange/uniswap/swap"
+		"postURL": "/exchange/uniswap/swap"
 	},{
 		"id": 3,
 		"text": "Exchange on Sushiswap",
@@ -30,7 +30,7 @@
 		"action": "Exchange",
 		"chainIds": ["0x1"],
 		"img": "https://cryptologos.cc/logos/sushiswap-sushi-logo.png?v=022",
-		"postURL": "http://localhost:4000/v1/ethereum/mainnet/exchange/sushiswap/swap"
+		"postURL": "/exchange/sushiswap/swap"
 	},{
 		"id": 4,
 		"text": "Stake on Rocket Pool",
@@ -38,7 +38,7 @@
 		"action": "Stake",
 		"chainIds": ["0x5"],
 		"img": "https://docs.rocketpool.net/images/logo.png",
-		"postURL": "http://localhost:4000/v1/ethereum/goerli/stake/rocket-pool/stake"
+		"postURL": "/stake/rocket-pool/stake"
 	},{
 		"id": 5,
 		"text": "Stake on Lido",
@@ -46,6 +46,6 @@
 		"action": "Stake",
 		"chainIds": ["0x5"],
 		"img": "https://lido.fi/static/images/%D1%81omingSoon/logo-color.svg",
-		"postURL": "http://localhost:4000/v1/ethereum/goerli/stake/lido/stake"
+		"postURL": "/stake/lido/stake"
 	}
 ]

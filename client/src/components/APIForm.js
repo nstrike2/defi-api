@@ -67,7 +67,7 @@ class APIForm extends React.Component {
 		const requestJSON = this.getRequestJSON();
 		// Get configuration data from APIOptions.json
 		const APIConfig = APIOptions[this.props.id];
-		const postURL = APIConfig.postURL;
+		const postURL = networks[this.ethereum.chainId].postURL + APIConfig.postURL;
 		// Call the backend to get the data for the transaction
 		const data = await this.fetchData(postURL, requestJSON);
 		console.log("Data:", data);
