@@ -14,7 +14,7 @@ router.post('/stake', async (req, res) => {
 		const contract = new ethers.Contract(proxyContractAddress, abi)
 		const _referral = "0x0000000000000000000000000000000000000000";
 		const data = await contract.populateTransaction.submit(_referral);
-        
+		
 		data.walletAddress = walletAddress;
 		data.value = ethers.utils.parseUnits(amount, 'ether').toHexString();
 		data.gasPriority = gasPriority;
