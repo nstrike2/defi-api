@@ -27,7 +27,7 @@ router.post("/swap", async (req, res) => {
 			const data = Object.assign({walletAddress}, response.data);
 			const toHexProps = ["sellAmount", "buyAmount", "estimatedGas", "gas", "gasPrice", "value"];
 			for(let prop of toHexProps) {
-				data[prop] = parseInt(data[prop]).toString(16);
+				data[prop] = "0x" + parseInt(data[prop]).toString(16);
 			}
 			res.json(data);
 		} else {
