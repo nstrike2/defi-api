@@ -6,11 +6,14 @@
 	"author": "Rohan Sanjay <rohanpsanjay@gmail.com>",
 	"license": "MIT",
 	"dependencies": {
+		"axios": "^0.26.1",
 		"concurrently": "^7.0.0",
 		"cors": "^2.8.5",
-		"ethers": "^5.6.1",
+		"ethers": "^5.6.4",
 		"express": "^4.17.3",
-		"nodemon": "^2.0.15"
+		"nodemon": "^2.0.15",
+		"qs": "^6.10.3",
+		"web3": "^1.7.3"
 	},
 	"scripts": {
 		"client": "yarn --cwd client run start",
