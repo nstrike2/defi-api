@@ -5,7 +5,7 @@
 ```sh
 git clone https://github.com/nstrike2/defi-api.git
 cd defi-api
-git checkout client --
+git checkout staking
 yarn install
 cd client
 yarn install

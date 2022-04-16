@@ -41,6 +41,13 @@
 	background-color: #211F2D;
 }
 
+.Search-img-container {
+	display: flex;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+}
+
 .Search-img {
 	max-width: 36px;
 	max-height: 36px;
