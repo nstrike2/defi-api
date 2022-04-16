@@ -1,9 +1,9 @@
 {
-	"name": "axon-api",
+	"name": "defi-api",
 	"version": "1.0.0",
 	"main": "index.js",
-	"repository": "git@github.com:rohansanjay/axon-api.git",
-	"author": "Rohan Sanjay <rohanpsanjay@gmail.com>",
+	"repository": "git@github.com:nstrike2/defi-api.git",
+	"author": "Neetish Sharma <neetishsharma2001@gmail.com>",
 	"license": "MIT",
 	"dependencies": {
 		"axios": "^0.26.1",
