@@ -3,10 +3,10 @@ import APIOptions from "../utils/APIOptions.json";
 import APIForm from "./APIForm";
 import "./APISearchBox.css";
 
-import APIExchange from "./actions/APIExchange.js";
-import APILend from "./actions/APILend.js";
-import APIStake from "./actions/APIStake.js";
-import APIYield from "./actions/APIYield.js";
+import APIExchanging from "./actions/APIExchanging.js";
+import APILending from "./actions/APILending.js";
+import APIStaking from "./actions/APIStaking.js";
+import APIYielding from "./actions/APIYielding.js";
 
 class APISearchBox extends React.Component {
 	constructor(props) {
@@ -57,14 +57,14 @@ class APISearchBox extends React.Component {
 		const APIConfig = APIOptions[selectedId];
 		const action = APIConfig.action;
 		switch(action) {
-			case "Exchange":
-				return (<APIExchange exitAPIForm={this.exitAPIForm} id={selectedId}/>);
-			case "Lend":
-				return (<APILend     exitAPIForm={this.exitAPIForm} id={selectedId}/>);
-			case "Stake":
-				return (<APIStake    exitAPIForm={this.exitAPIForm} id={selectedId}/>);
-			case "Yield":
-				return (<APIYield    exitAPIForm={this.exitAPIForm} id={selectedId}/>);
+			case "Exchanging":
+				return (<APIExchanging exitAPIForm={this.exitAPIForm} id={selectedId}/>);
+			case "Lending":
+				return (<APILending     exitAPIForm={this.exitAPIForm} id={selectedId}/>);
+			case "Staking":
+				return (<APIStaking    exitAPIForm={this.exitAPIForm} id={selectedId}/>);
+			case "Yielding":
+				return (<APIYielding    exitAPIForm={this.exitAPIForm} id={selectedId}/>);
 			default:
 				throw new Error(`Action ${action} not implemented!`);
 		}

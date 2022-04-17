@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-router.use("/lend", require("./lend"));
-router.use("/stake", require("./stake"));
-router.use("/exchange", require("./exchange"));
+router.use("/lending", require("./lending"));
+router.use("/staking", require("./staking"));
+router.use("/exchanging", require("./exchanging"));
 module.exports = router;

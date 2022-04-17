@@ -7,9 +7,30 @@ import axios from "axios";
 import { ethers } from "ethers";
 import qs from "qs";
 
+function fetchJSON(URL) {
+	return new Promise((resolve, reject) => {
+		fetch(URL)
+			.then(response => {
+				console.log(response);
+				response.json()
+			})
+			.then(json => resolve(json));
+	});
+	// let res = await fetch(URL);
+	// console.log(res);
+	// let json = await res.json();
+	// return json;
+}
+
 class APIForm extends React.Component {
+	static rgx = /\/v\d+((\/[^]+)?)$/;
+	
 	constructor(props) {
 		super(props);
+		this.state = {
+			ethBalance: "test",
+			formTokenBalance: "test",
+		};
 		
 		this.loadImplementation();
 		
@@ -19,8 +40,9 @@ class APIForm extends React.Component {
 		this.changeAddress = this.changeAddress.bind(this);
 		this.getETHBalance = this.getETHBalance.bind(this);
 		this.getERC20TokenBalance = this.getERC20TokenBalance.bind(this);
+		this.getFormTokenBalance = this.getFormTokenBalance.bind(this);
 		
-		this.setWallet();
+		this.loadWallet();
 	}
 	
 	loadImplementation() {
@@ -42,7 +64,7 @@ class APIForm extends React.Component {
 	changeChain(chainId) {
 		this.currentChainId = chainId;
 		if(networks[chainId].isPrivateTestnet) {
-			console.log("Giving free money");
+			console.log("Giving free monet!!1!");
 			this.provider.send("hardhat_setBalance", [
 				this.ethereum.selectedAddress,
 				ethers.utils.parseEther("10").toHexString(),
@@ -50,7 +72,7 @@ class APIForm extends React.Component {
 		}
 	}
 	
-	setWallet() {
+	loadWallet() {
 		this.ethereum = window.ethereum;
 		this.provider = new ethers.providers.Web3Provider(this.ethereum, "any");
 		this.changeAddress(this.ethereum.selectedAddress);
@@ -60,7 +82,7 @@ class APIForm extends React.Component {
 	}
 
 	// Chain is used as state
-	async getETHBalance(walletAddress, chainId) {
+	async getETHBalance(walletAddress) {
 		const ethBalance = await this.provider.send("eth_getBalance",[
 			walletAddress,
 			"latest"
@@ -68,11 +90,19 @@ class APIForm extends React.Component {
 		return ethers.utils.formatEther(ethBalance);
 	}
 	
-	// Chain is used as state
-	async getERC20TokenBalance(walletAddress, chainId, tokenAddress, abi) {
+	async getERC20TokenBalance(walletAddress, token, network) {
+		const path = `../utils/tokens/${token}/${network}`;
+		const abi = await fetchJSON(path + "/abi.json");
+		console.log(abi);
+		const tokenAddress = await fetchJSON(path + "/address.json");
 		const contract = new ethers.Contract(tokenAddress, abi, this.provider);
 		const balance = await contract.balanceOf(walletAddress);
 		return ethers.utils.formatEther(balance);
+	}
+	
+	async getFormTokenBalance() {
+		const network = networks[this.currentChainId].network;
+		return await this.getERC20TokenBalance(this.address, this.state.formToken, network);
 	}
 
 	handleChange(event) {
@@ -143,6 +173,17 @@ class APIForm extends React.Component {
 	}
 
 	render() {
+		
+		// render ETH balance in UI whenever provider returns wallet's balance
+		this.getETHBalance(this.walletAddress).then(value => {
+			this.state.ethBalance = value;
+		});
+		
+		// render form's token balance in UI whenever provider returns wallet's balance
+		this.getFormTokenBalance().then(value => {
+			this.state.formTokenBalance = value;
+		});
+		
 		return (
 			<div className="menu-modal">
 				<div className="protocol">
@@ -191,7 +232,7 @@ class APIForm extends React.Component {
 							<Box
 								className="transaction-detail-form"
 								sx={{
-									width: "100%",
+									width: "50%",
 									marginTop: "7px",
 									height: "100%",
 									border: 1,
@@ -219,6 +260,32 @@ class APIForm extends React.Component {
 											<img className="gear-logo" src="gear.svg" alt="Ethereum logo" />
 										</div>
 										<div className="data">${58.08}</div>
+									</div>
+								</div>
+							</Box>
+							<Box 
+								className="transaction-detail-form"
+								sx={{
+									width: "50%",
+									marginTop: "7px",
+									height: "100%",
+									border: 1,
+									borderColor: "#464646",
+									borderRadius: 2,
+									input: {
+										textAlign: "center",
+										color: "#BDBDBD"
+									}
+								}}
+							>
+								<div className="transaction-details">
+									<div className="transaction-detail-cell">
+										<div className="label">Current ETH (fixed)</div>
+										<div className="data">{this.state.ethBalance}</div>
+									</div>
+									<div className="transaction-detail-cell">
+										<div className="label">Current {this.state.formToken} (variable)</div>
+										<div className="data">{this.state.formTokenBalance}</div>
 									</div>
 								</div>
 							</Box>
