@@ -4,11 +4,7 @@
 
 ```sh
 git clone https://github.com/nstrike2/defi-api.git
-cd defi-api
 yarn install
-cd client
-yarn install
-cd ..
 ```
 
 ## Development
@@ -23,7 +19,12 @@ yarn client
 yarn server
 ```
 
-**fe & be**
+**blockchain**
+```sh
+yarn axelnet-blockchain
+```
+
+**fe, be, & blockchain**
 ```sh
 yarn start
 ```
