@@ -21,8 +21,7 @@ export default class Adam {
 	static _configureWallet = async () => {
 		const provider = new ethers.providers.Web3Provider(window.ethereum);
 		const accounts = await provider.listAccounts();
-		const signer =
-			accounts.length > 0 ? await provider.getSigner(accounts[0]) : null;
+		const signer = accounts.length > 0 ? await provider.getSigner(accounts[0]) : null;
 		const network = await provider.getNetwork();
 		const signerAddress = signer != null ? await signer.getAddress() : null;
 
@@ -34,7 +33,7 @@ export default class Adam {
 	};
 
 	static _hasWallet = () => {
-		return typeof window.ethereum !== "undefined" && window.ethereum !== null;
+		return !!window.ethereum;
 	};
 
 	static isWalletConnected = () => {
@@ -44,8 +43,4 @@ export default class Adam {
 	static _connectToWallet = async () => {
 		await this.provider.send("eth_requestAccounts", []);
 	};
-
-	static lend = () => {
-			
-	}
 }
