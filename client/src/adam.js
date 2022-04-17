@@ -21,6 +21,37 @@ export default class Adam {
 	static _configureWallet = async () => {
 		const provider = new ethers.providers.Web3Provider(window.ethereum);
 		const accounts = await provider.listAccounts();
+
+		// TODO run init setbalance script here if chainID maps to AxelNet and wallet is connected
+		// if (accounts.length > 0 && window.ethereum.chainId === "AxelNet") {
+		// 	// use accounts[0] to get wallet address of client
+		// 	// Hardhat always runs the compile task when running scripts with its command
+		// 	// line interface.
+		// 	//
+		// 	// If this script is run directly using `node` you may want to call compile
+		// 	// manually to make sure everything is compiled
+		// 	// await hre.run('compile');
+
+		// 	// load the inputted wallet with ETH
+		// 	// const provider = ethers.providers.getDefaultProvider("http://localhost:8545");
+		// 	// await provider.send("hardhat_setBalance", [
+		// 	// 	"0xEc644B2e080F0653809e2B40B6C90773498dF07c",
+		// 	// 	ethers.utils.parseEther("10").toHexString(),
+		// 	// ]);
+		// 	// // get inputted ERC20 token balance
+		// 	// const contractAddress = "0x4Ddc2D193948926D02f9B1fE9e1daa0718270ED5";
+		// 	// const contract = new ethers.Contract(contractAddress, abi, ethersProvider);
+		// 	// const balance = await contract.balanceOf("0xEc644B2e080F0653809e2B40B6C90773498dF07c");
+		// 	// console.log(ethers.utils.formatEther(balance));
+
+		// 	// // get regular ETH balance
+		// 	// const ethBalance = await provider.send("eth_getBalance", [
+		// 	// 	"0xEc644B2e080F0653809e2B40B6C90773498dF07c",
+		// 	// 	"latest"
+		// 	// ]);
+		// 	// console.log(ethers.utils.formatEther(ethBalance));
+		// }
+
 		const signer =
 			accounts.length > 0 ? await provider.getSigner(accounts[0]) : null;
 		const network = await provider.getNetwork();
@@ -46,6 +77,6 @@ export default class Adam {
 	};
 
 	static lend = () => {
-			
+
 	}
 }
