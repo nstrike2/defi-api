@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ethers = require('ethers');
 const abi = require('./abi.json');
-const chain = require('../../kovan.json');
+const chain = require('../../ethereum.json');
 
 router.post('/supply', async (req, res) => {
 	try {
@@ -12,9 +12,9 @@ router.post('/supply', async (req, res) => {
 		const gasPriority = req.body.gasPriority;
 
 		if (token.toLowerCase() === 'eth') {
-			const wETHGatewayContract = "0xA61ca04DF33B72b235a8A28CfB535bb7A5271B70";
+			const wETHGatewayContract = "0xcc9a0B7c43DC2a5F023Bb9b738E45B0Ef6B06E04";
 			const contract = new ethers.Contract(wETHGatewayContract, abi)
-			const lendingPool = "0xE0fBa4Fc209b4948668006B2bE61711b7f465bAe";
+			const lendingPool = "0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9";
 			const data = await contract.populateTransaction.depositETH(lendingPool, walletAddress, 0);
 
 			data.walletAddress = walletAddress;

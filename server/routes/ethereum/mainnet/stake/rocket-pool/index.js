@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ethers = require('ethers');
 const abi = require('./abi.json');
-const chain = require('../../goerli.json');
+const chain = require('../../ethereum.json');
 
 router.post('/stake', async (req, res) => {
 	try {
@@ -10,11 +10,12 @@ router.post('/stake', async (req, res) => {
 		const amount = req.body.amount;
 		const gasPriority = req.body.gasPriority;
 
-		const proxyContractAddress = "0x1643E812aE58766192Cf7D2Cf9567dF2C37e9B7F";
-		const contract = new ethers.Contract(proxyContractAddress, abi);
-		const _referral = "0x0000000000000000000000000000000000000000";
-		const data = await contract.populateTransaction.submit(_referral);
-		
+		// TODO I'm not sure about this contract address
+		// the rocket-pool site was down so I just searched on google
+		const contractAddress = "0x4D05E3d48a938db4b7a9A59A802D5b45011BDe58";
+		const contract = new ethers.Contract(contractAddress, abi)
+		const data = await contract.populateTransaction.deposit();
+
 		data.walletAddress = walletAddress;
 		data.value = ethers.utils.parseUnits(amount, 'ether').toHexString();
 		data.gasPriority = gasPriority;

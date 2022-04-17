@@ -12,13 +12,14 @@
 		},
 		"blockExplorerUrls": [
 				"https://kovan.etherscan.io/"
-		]
+		],
+		"postURL": "http://localhost:4000/v1/ethereum/kovan"
 	},
 	"0x4": {
 		"chainId": "0x4",
 		"chainName": "Rinkeby",
 		"rpcUrls": [
-			"https://rinkeby.infura.io/v3/INSERT_API_KEY_HERE"
+			"https://rinkeby.infura.io/v3/"
 		],
 		"nativeCurrency": {
 			"name": "Rinkeby ETH",
@@ -27,7 +28,8 @@
 		},
 		"blockExplorerUrls": [
 			"https://rinkeby.etherscan.io"
-		]
+		],
+		"postURL": "http://localhost:4000/v1/ethereum/rinkeby"
 	},
 	"0x5": {
 		"chainId": "0x5",
@@ -42,6 +44,38 @@
 		},
 		"blockExplorerUrls": [
 			"https://goerli.etherscan.io/"
-		]
+		],
+		"postURL": "http://localhost:4000/v1/ethereum/goerli"
+	},
+	"0x1": {
+		"chainId": "0x1",
+		"chainName": "Ethereum",
+		"rpcUrls": [
+			"https://infura.io"
+		],
+		"nativeCurrency": {
+			"name": "ETH",
+			"symbol": "ETH",
+			"decimals": 18
+		},
+		"blockExplorerUrls": [
+			"https://etherscan.io/"
+		],
+		"postURL": "http://localhost:4000/v1/ethereum/mainnet"
+	},
+	"0x539": {
+		"chainId": "0x539",
+		"chainName": "AxelNet",
+		"rpcUrls": [
+			"http://localhost:8545/"
+		],
+		"nativeCurrency": {
+			"name": "XETH",
+			"symbol": "XETH",
+			"decimals": 18
+		},
+		"blockExplorerUrls": [
+		],
+		"postURL": "http://localhost:4000/v1/ethereum/axelnet"
 	}
 }

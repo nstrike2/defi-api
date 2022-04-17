@@ -3,6 +3,11 @@ import APIOptions from "../utils/APIOptions.json";
 import APIForm from "./APIForm";
 import "./APISearchBox.css";
 
+import APIExchange from "./actions/APIExchange.js";
+import APILend from "./actions/APILend.js";
+import APIStake from "./actions/APIStake.js";
+import APIYield from "./actions/APIYield.js";
+
 class APISearchBox extends React.Component {
 	constructor(props) {
 		super(props);
@@ -16,7 +21,7 @@ class APISearchBox extends React.Component {
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.optionClick = this.optionClick.bind(this);
-		this.apiAction = this.apiAction.bind(this);
+		this.makeAPIForm = this.makeAPIForm.bind(this);
 		this.exitAPIForm = this.exitAPIForm.bind(this);
 	}
 
@@ -48,8 +53,21 @@ class APISearchBox extends React.Component {
 		});
 	}
 
-	apiAction() {
-
+	makeAPIForm(selectedId) {
+		const APIConfig = APIOptions[selectedId];
+		const action = APIConfig.action;
+		switch(action) {
+			case "Exchange":
+				return (<APIExchange exitAPIForm={this.exitAPIForm} id={selectedId}/>);
+			case "Lend":
+				return (<APILend     exitAPIForm={this.exitAPIForm} id={selectedId}/>);
+			case "Stake":
+				return (<APIStake    exitAPIForm={this.exitAPIForm} id={selectedId}/>);
+			case "Yield":
+				return (<APIYield    exitAPIForm={this.exitAPIForm} id={selectedId}/>);
+			default:
+				throw new Error(`Action ${action} not implemented!`);
+		}
 	}
 
 	exitAPIForm() {
@@ -84,10 +102,7 @@ class APISearchBox extends React.Component {
 							<div className="Search-text">{item.text}</div>
 						</div>
 					))
-				)
-					: (
-						<APIForm exitAPIForm={this.exitAPIForm} id={this.state.selectedId} />
-					)}
+				) : this.makeAPIForm(this.state.selectedId) }
 			</div>
 		);
 	}
