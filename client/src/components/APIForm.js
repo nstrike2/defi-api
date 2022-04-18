@@ -6,30 +6,19 @@ import { Box } from "@mui/material";
 import axios from "axios";
 import { ethers } from "ethers";
 import qs from "qs";
-
-function fetchJSON(URL) {
-	return new Promise((resolve, reject) => {
-		fetch(URL)
-			.then(response => {
-				console.log(response);
-				response.json()
-			})
-			.then(json => resolve(json));
-	});
-	// let res = await fetch(URL);
-	// console.log(res);
-	// let json = await res.json();
-	// return json;
-}
+import tokensJSON from "../utils/tokens/_tokens.js";
 
 class APIForm extends React.Component {
 	static rgx = /\/v\d+((\/[^]+)?)$/;
 	
 	constructor(props) {
 		super(props);
+		this.tokensLoaded = false;
 		this.state = {
 			ethBalance: "test",
 			formTokenBalance: "test",
+			walletAddress: null,
+			chainId: -1,
 		};
 		
 		this.loadImplementation();
@@ -56,20 +45,23 @@ class APIForm extends React.Component {
 		}
 	}
 	
-	changeAddress(address) {
-		console.log("Address", address);
-		this.address = address;
+	changeAddress(walletAddress) {
+		console.log("Wallet Address", walletAddress);
+		this.state.walletAddress = walletAddress;
+		if(this.tokensLoaded) this.loadTokens();
 	}
 	
 	changeChain(chainId) {
+		console.log("Chain ID", chainId);
 		this.currentChainId = chainId;
 		if(networks[chainId].isPrivateTestnet) {
 			console.log("Giving free monet!!1!");
 			this.provider.send("hardhat_setBalance", [
-				this.ethereum.selectedAddress,
+				this.state.walletAddress,
 				ethers.utils.parseEther("10").toHexString(),
 			]);
 		}
+		if(this.tokensLoaded) this.loadTokens();
 	}
 	
 	loadWallet() {
@@ -83,26 +75,39 @@ class APIForm extends React.Component {
 
 	// Chain is used as state
 	async getETHBalance(walletAddress) {
-		const ethBalance = await this.provider.send("eth_getBalance",[
-			walletAddress,
-			"latest"
-		]);
+		const params = [walletAddress, "latest"];
+		console.log(params);
+		const ethBalance = await this.provider.send("eth_getBalance", params);
 		return ethers.utils.formatEther(ethBalance);
 	}
 	
 	async getERC20TokenBalance(walletAddress, token, network) {
-		const path = `../utils/tokens/${token}/${network}`;
-		const abi = await fetchJSON(path + "/abi.json");
-		console.log(abi);
-		const tokenAddress = await fetchJSON(path + "/address.json");
-		const contract = new ethers.Contract(tokenAddress, abi, this.provider);
-		const balance = await contract.balanceOf(walletAddress);
-		return ethers.utils.formatEther(balance);
+		console.log(token, network, tokensJSON, tokensJSON[token]);
+		const tokenObj = tokensJSON[token][network];
+		if(tokenObj) {
+			const abi = tokenObj.abijson;
+			const tokenAddress = tokenObj.addressjson;
+			const contract = new ethers.Contract(tokenAddress, abi, this.provider);
+			const balance = await contract.balanceOf(walletAddress);
+			return ethers.utils.formatEther(balance);
+		} else {
+			return "Not supported by network."
+		}
 	}
 	
 	async getFormTokenBalance() {
 		const network = networks[this.currentChainId].network;
-		return await this.getERC20TokenBalance(this.address, this.state.formToken, network);
+		return await this.getERC20TokenBalance(this.state.walletAddress, this.state.formToken, network);
+	}
+
+	async loadTokens() {
+		// render ETH balance in UI whenever provider returns wallet's balance
+		this.getETHBalance(this.state.walletAddress).then(ethBalance => this.setState({ethBalance}));
+			
+		// render form's token balance in UI whenever provider returns wallet's balance
+		this.getFormTokenBalance().then(formTokenBalance => this.setState({formTokenBalance}));
+
+		this.tokensLoaded = true;
 	}
 
 	handleChange(event) {
@@ -173,17 +178,9 @@ class APIForm extends React.Component {
 	}
 
 	render() {
-		
-		// render ETH balance in UI whenever provider returns wallet's balance
-		this.getETHBalance(this.walletAddress).then(value => {
-			this.state.ethBalance = value;
-		});
-		
-		// render form's token balance in UI whenever provider returns wallet's balance
-		this.getFormTokenBalance().then(value => {
-			this.state.formTokenBalance = value;
-		});
-		
+		if(!this.tokensLoaded) {
+			this.loadTokens()
+		}
 		return (
 			<div className="menu-modal">
 				<div className="protocol">

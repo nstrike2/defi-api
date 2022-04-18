@@ -105,3 +105,5 @@ dist
 
 # Mac is ass
 .DS_Store
+
+client/src/utils/tokens/_tokens.js
