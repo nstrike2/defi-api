@@ -3,17 +3,17 @@
 		"chainId": "0x2a",
 		"chainName": "Kovan",
 		"rpcUrls": [
-				"https://kovan.poa.network"
+			"https://kovan.poa.network"
 		],
 		"nativeCurrency": {
-				"name": "Kovan ETH",
-				"symbol": "KOV",
-				"decimals": 18
+			"name": "Kovan ETH",
+			"symbol": "KOV",
+			"decimals": 18
 		},
 		"blockExplorerUrls": [
-				"https://kovan.etherscan.io/"
+			"https://kovan.etherscan.io/"
 		],
-		"postURL": "http://localhost:4000/v1/ethereum/kovan"
+		"network": "kovan"
 	},
 	"0x4": {
 		"chainId": "0x4",
@@ -29,7 +29,7 @@
 		"blockExplorerUrls": [
 			"https://rinkeby.etherscan.io"
 		],
-		"postURL": "http://localhost:4000/v1/ethereum/rinkeby"
+		"network": "rinkeby"
 	},
 	"0x5": {
 		"chainId": "0x5",
@@ -45,7 +45,7 @@
 		"blockExplorerUrls": [
 			"https://goerli.etherscan.io/"
 		],
-		"postURL": "http://localhost:4000/v1/ethereum/goerli"
+		"network": "goerli"
 	},
 	"0x1": {
 		"chainId": "0x1",
@@ -61,7 +61,7 @@
 		"blockExplorerUrls": [
 			"https://etherscan.io/"
 		],
-		"postURL": "http://localhost:4000/v1/ethereum/mainnet"
+		"network": "mainnet"
 	},
 	"0x539": {
 		"chainId": "0x539",
@@ -76,6 +76,7 @@
 		},
 		"blockExplorerUrls": [
 		],
-		"postURL": "http://localhost:4000/v1/ethereum/axelnet"
+		"network": "axelnet",
+		"isPrivateTestnet": true
 	}
 }
