@@ -45,12 +45,21 @@ class APIYielding extends APIForm {
 
 	async getERC20TokenBalance() {
 		const APIConfig = APIOptions[this.props.id];
-		if(APIConfig.protocol == "Yearn") {
+		if(APIConfig.protocol === "Yearn") {
 			const walletAddress = this.state.walletAddress;
 			const tokenAddress = "0xa258C4606Ca8206D8aA700cE2143D7db854D168c";
 			const postURL = `https://api.zapper.fi/v2/apps/yearn/balances?addresses%5B%5D=${walletAddress}&network=ethereum`;
 			const response = await axios.get(postURL);
-			return response.data.balances[walletAddress].products.reduce((a, v) => a + v.assets.filter(w => w && w.address == tokenAddress).reduce((a,v) => a + v, 0), 0);
+			const products = response.data.balances[walletAddress].products;
+			let balance = 0;
+			for(let product of products) {
+				for(let asset of product.assets) {
+					if(asset.address.toLowerCase() === tokenAddress.toLowerCase()) {
+						balance += asset.balance;
+					}
+				}
+			}
+			return balance;
 		} else {
 			return "Yielding token not supported yet.";
 		}
