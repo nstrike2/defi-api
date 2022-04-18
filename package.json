@@ -20,6 +20,7 @@
         "client": "yarn --cwd client run start",
         "server": "yarn --cwd server nodemon index",
         "axelnet-blockchain": "yarn --cwd axelnet-blockchain run start",
+		"load-axelnet-wallet": "node axelnet-blockchain/scripts/loadWallet.js",
         "start": "concurrently \"yarn run axelnet-blockchain\" \"yarn run server\" \"yarn run client\""
     }
 }

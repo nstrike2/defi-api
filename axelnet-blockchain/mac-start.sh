@@ -1,5 +1,5 @@
 #!/bin/bash
 
-# A driver script for initializing the axelnet-blockchain
+# A script for a Mac machine to boot up our axelnet-blockchain
 export $(grep -v '^#' .env | xargs)
 npx hardhat node --fork ${API_URL}
