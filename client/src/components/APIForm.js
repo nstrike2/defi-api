@@ -100,17 +100,9 @@ class APIForm extends React.Component {
 			const abi = tokenObj.abijson;
 			const {decimals} = tokenObj.tokenjson;
 			const tokenAddress = tokenObj.tokenjson.address;
-			console.log(abi);
-			console.log("yo");
-			console.log(this.provider);
 			const contract = new ethers.Contract(tokenAddress, abi, this.provider);
-			console.log(walletAddress, tokenAddress);
-			console.log(contract.balanceOf);
-			console.log(contract);
-			// const balance = await contract.balanceOf(walletAddress);
-			console.log("eee");
-			// return APIForm.formatValue(balance, decimals);
-			return 0;
+			const balance = await contract.balanceOf(walletAddress);
+			return APIForm.formatValue(balance, decimals);
 		} else {
 			return "Not supported by network."
 		}
