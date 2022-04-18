@@ -1,4 +1,4 @@
 const express = require('express');
 const router = express.Router();
-router.use('/yield', require('./yield'));
+router.use('/yearn', require('./yearn'));
 module.exports = router;
