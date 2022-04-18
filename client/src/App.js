@@ -1,36 +1,43 @@
 import React from "react";
 import "./App.css";
 import APISearchBox from "./components/APISearchBox";
-import  Adam from "./adam"
+import Title from "./components/Title";
+import Adam from "./adam";
+
 
 class App extends React.Component {
 	constructor(props) {
 		super(props);
-		Adam.initialize();
+		this.state = {
+			isWalletConnected: false
+		};
+		this.connectToMetaMask = this.connectToMetaMask.bind(this);
 	}
 
-	isWalletConnected = () => {
-		return false;
-	}
-
-	connectToMetaMask = async () => {
+	async connectToMetaMask() {
 		// All it takes to connect to metamask
-		Adam.connect();
-	};
+		if(await Adam.connect()) {
+			this.setState({isWalletConnected: Adam.isWalletConnected()});
+		}
+	}
+
+	async componentDidMount() {
+		await Adam.initialize();
+		this.setState({isWalletConnected: Adam.isWalletConnected()});
+	}
 
 	render() {
 		return (
 		<div className="App">
 			<header className="App-header">
-				{console.log(this.isWalletConnected())}
-				<p className="Text-header">Axon</p>
-				{this.isWalletConnected()
-				? (<button className="Wallet-button">Wallet Connected</button>)
+				<p className="Text-header">Axel</p>
+				{this.state.isWalletConnected
+				? (<button className="Wallet-button Green-border">Wallet Connected</button>)
 				: (<button className="Wallet-button" onClick={this.connectToMetaMask}> Connect Wallet </button>)}
 			</header>
 
-			<div className="Main-container">
-				<div className="Text-title-big">Lend. Stake. Yield.</div>
+			<div className="Main-container" >
+				<Title text = "Lend. Stake. Yield."/>
 				<div className="Text-title-small">
 				Showcasing the world's most powerful universal DeFi API.
 				</div>

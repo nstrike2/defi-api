@@ -4,11 +4,7 @@
 
 ```sh
 git clone https://github.com/nstrike2/defi-api.git
-cd defi-api
 yarn install
-cd client
-yarn install
-cd ..
 ```
 
 ## Development
@@ -23,62 +19,17 @@ yarn client
 yarn server
 ```
 
-**fe & be**
+**blockchain**
+```sh
+yarn axelnet-blockchain
+```
+
+**fe, be, & blockchain**
 ```sh
 yarn start
 ```
 
-
-## Current Blueprint
+**load axelnet wallet**
 ```sh
-
-├── README.md
-├── client
-│   ├── README.md
-│   ├── public
-│   │   ├── close-icon.svg
-│   │   ├── ethereum-logo.png
-│   │   ├── favicon.ico
-│   │   ├── gear.svg
-│   │   ├── index.html
-│   │   ├── logo192.png
-│   │   ├── logo512.png
-│   │   ├── manifest.json
-│   │   └── robots.txt
-│   └── src
-│       ├── App.css
-│       ├── App.js
-│       ├── App.test.js
-│       ├── index.css
-│       ├── index.js
-│       ├── logo.svg
-│       ├── reportWebVitals.js
-│       └── setupTests.js
-├── index.js
-└── routes
-    ├── ethereum
-    │   ├── index.js
-    │   ├── kovan
-    │   │   ├── index.js
-    │   │   ├── kovan.json
-    │   │   ├── lend
-    │   │   │   ├── aave
-    │   │   │   │   ├── aave.json
-    │   │   │   │   └── index.js
-    │   │   │   └── index.js
-    │   │   ├── stake
-    │   │   └── yield
-    │   └── rinkeby
-    │       ├── index.js
-    │       ├── lend
-    │       │   ├── compound
-    │       │   │   ├── compound.json
-    │       │   │   └── index.js
-    │       │   └── index.js
-    │       ├── rinkeby.json
-    │       ├── stake
-    │       └── yield
-    └── index.js
-
+yarn load-axelnet-wallet
 ```
-

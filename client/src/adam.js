@@ -1,51 +1,55 @@
 import { ethers } from "ethers";
 
 export default class Adam {
+	static provider = null;
 	static async initialize() {
+		if (!this._hasWallet()) {
+			console.error("Wallet not found on browser.");
+			return false;
+		}
+		this.provider = new ethers.providers.Web3Provider(window.ethereum, "any");
 		await this._configureWallet();
+		return true;
 	}
-
 	static async connect() {
 		if (!this._hasWallet()) {
-			throw new Error("Wallet not found on browser.");
+			console.error("Wallet not found on browser.");
+			return false;
 		}
-		if (this.isWalletConnected()) {
-			// do stuff
-			console.log("Connected!");
-		} else {
+		if (!this.isWalletConnected()) {
 			await this._connectToWallet();
 			await this._configureWallet();
 		}
+		return this.isWalletConnected();
 	}
 
 	static _configureWallet = async () => {
-		const provider = new ethers.providers.Web3Provider(window.ethereum);
-		const accounts = await provider.listAccounts();
-		const signer =
-			accounts.length > 0 ? await provider.getSigner(accounts[0]) : null;
-		const network = await provider.getNetwork();
-		const signerAddress = signer != null ? await signer.getAddress() : null;
-
-		this.provider = provider;
-		this.accounts = accounts;
-		this.signer = signer;
-		this.network = network;
-		this.signerAddress = signerAddress;
+		this.accounts = await this.provider.listAccounts();
+		this.signer = this.accounts.length > 0 ? await this.provider.getSigner(this.accounts[0]) : null;
+		this.network = await this.provider.getNetwork();
+		this.signerAddress = this.signer != null ? await this.signer.getAddress() : null;
+		console.log("Configured:", this.isWalletConnected());
 	};
 
 	static _hasWallet = () => {
-		return typeof window.ethereum !== "undefined" && window.ethereum !== null;
+		return !!window.ethereum;
 	};
 
 	static isWalletConnected = () => {
 		return this.signer != null;
 	};
 
-	static _connectToWallet = async () => {
-		await this.provider.send("eth_requestAccounts", []);
+	static _connectToWallet() {
+		return new Promise((resolve, reject) => {
+			console.log("Connecting");
+			this.provider.send("eth_requestAccounts", [])
+				.then(() => {
+					console.log("Done connecting");
+					resolve();
+				}, () => {
+					console.log("Error")
+					reject()
+				});
+		});
 	};
-
-	static lend = () => {
-			
-	}
 }

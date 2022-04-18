@@ -1,7 +1,12 @@
 import React from "react";
 import APIOptions from "../utils/APIOptions.json";
-import APIForm from "./APIForm";
 import "./APISearchBox.css";
+
+import APIExchanging from "./actions/APIExchanging.js";
+import APILending from "./actions/APILending.js";
+import APIStaking from "./actions/APIStaking.js";
+import APIYielding from "./actions/APIYielding.js";
+import Adam from "../adam";
 
 class APISearchBox extends React.Component {
 	constructor(props) {
@@ -16,7 +21,7 @@ class APISearchBox extends React.Component {
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.optionClick = this.optionClick.bind(this);
-		this.apiAction = this.apiAction.bind(this);
+		this.makeAPIForm = this.makeAPIForm.bind(this);
 		this.exitAPIForm = this.exitAPIForm.bind(this);
 	}
 
@@ -42,14 +47,31 @@ class APISearchBox extends React.Component {
 	}
 
 	optionClick(id) {
-		this.setState({
-			isSearching: false,
-			selectedId: id,
-		});
+		if(Adam.isWalletConnected()) {
+			this.setState({
+				isSearching: false,
+				selectedId: id,
+			});
+		} else {
+			alert("Please connect your wallet.");
+		}
 	}
 
-	apiAction() {
-
+	makeAPIForm(selectedId) {
+		const APIConfig = APIOptions[selectedId];
+		const action = APIConfig.action;
+		switch(action) {
+			case "Exchanging":
+				return (<APIExchanging exitAPIForm={this.exitAPIForm} id={selectedId}/>);
+			case "Lending":
+				return (<APILending    exitAPIForm={this.exitAPIForm} id={selectedId}/>);
+			case "Staking":
+				return (<APIStaking    exitAPIForm={this.exitAPIForm} id={selectedId}/>);
+			case "Yielding":
+				return (<APIYielding   exitAPIForm={this.exitAPIForm} id={selectedId}/>);
+			default:
+				throw new Error(`Action ${action} not implemented!`);
+		}
 	}
 
 	exitAPIForm() {
@@ -84,10 +106,7 @@ class APISearchBox extends React.Component {
 							<div className="Search-text">{item.text}</div>
 						</div>
 					))
-				)
-					: (
-						<APIForm exitAPIForm={this.exitAPIForm} id={this.state.selectedId} />
-					)}
+				) : this.makeAPIForm(this.state.selectedId) }
 			</div>
 		);
 	}

@@ -2,37 +2,129 @@ import React from "react";
 import APIOptions from "../utils/APIOptions.json";
 import networks from "../utils/networks.json";
 import "./APIForm.css";
-import { Box } from "@mui/material";
+import { Box, cardMediaClasses } from "@mui/material";
 import axios from "axios";
 import { ethers } from "ethers";
+import tokensJSON from "../utils/tokens/_tokens.js";
 
 class APIForm extends React.Component {
+	static rgx = /\/v\d+((\/[^]+)?)$/;
+	static precision = 5;
+	static formatValue(value, decimals = 18) {
+		return (+ethers.utils.formatUnits(value, decimals)).toFixed(APIForm.precision);
+	}
+	
 	constructor(props) {
 		super(props);
 		this.state = {
-			amount: '',
-			tokens: {
-				"ethereum": {
-					"image": "ethereum-logo.png",
-					"text": "Ethereum",
-					"acronym": "ETH"
-				}
-			},
-			gasSetting: {
-				0: "Slow",
-				1: "Normal",
-				2: "Fast"
-			}
+			ethBalance: "Loading...",
+			formTokenBalance: "Loading...",
+			walletAddress: null,
+			chainId: -1,
 		};
-		this.actions = {
-			"Lend": this.lendAction.bind(this),
-			"Stake": this.stakeAction.bind(this),
-			"Exchange": this.exchangeAction.bind(this),
-			"Earn": this.earnAction.bind(this)
-		}
-		this.handleChange = this.handleChange.bind(this);
+		
+		this.loadTokensTimeout = null;
+		this.loadImplementation();
+		this.bindFunctions();
+	}
+
+	bindFunctions() {
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.revealProtocol = this.revealProtocol.bind(this);
+		this.setChain = this.setChain.bind(this);
+		this.setAddress = this.setWalletAddress.bind(this);
+		this.getETHBalance = this.getETHBalance.bind(this);
+		this.getWalletETHBalance = this.getWalletETHBalance.bind(this);
+		this.getERC20TokenBalance = this.getERC20TokenBalance.bind(this);
+		this.getFormTokenBalance = this.getFormTokenBalance.bind(this);
+		this.loadTokens = this.loadTokens.bind(this);
+		this.exitAPIForm = this.exitAPIForm.bind(this);
+	}
+	
+	loadImplementation() {
+		try {
+			this.getRequestJSON = this.getRequestJSON.bind(this);
+			this.buildTransaction = this.buildTransaction.bind(this);
+		} catch(e) {
+			// Not implemented error
+			throw e;
+		}
+	}
+	
+	setWalletAddress(walletAddress, loadflag = true) {
+		this.state.walletAddress = walletAddress;
+		if(loadflag) this.loadTokens();
+	}
+	
+	setChain(chainId, loadflag) {
+		this.state.chainId = chainId;
+		console.log(chainId);
+		if(networks[chainId].isPrivateTestnet) {
+			const walletAddress = this.state.walletAddress;
+			const RPC_URL = "http://localhost:8545";
+			const axelnet_provider = ethers.providers.getDefaultProvider(RPC_URL);
+			// log previous ETH balance
+			this.getETHBalance(axelnet_provider, walletAddress)
+				.then(balance => {
+					console.log(`Previous ETH Balance: ${balance}`);
+					return axelnet_provider.send("hardhat_setBalance", [
+						this.state.walletAddress,
+						ethers.utils.parseEther("10").toHexString(),
+					]);
+				})
+				.then(() => 
+					this.getETHBalance(axelnet_provider, walletAddress)
+				)
+				.then(balance => {
+					console.log(`Current ETH Balance: ${balance}`);
+					this.loadTokens();
+				});
+		}
+		if(loadflag) this.loadTokens();
+	}
+
+	async getETHBalance(provider, walletAddress) {
+		const params = [walletAddress, "latest"];
+		const ethBalance = await provider.send("eth_getBalance", params);
+		return APIForm.formatValue(ethBalance);
+	}
+
+	async getWalletETHBalance() {
+		const ethBalance = await this.getETHBalance(this.provider, this.state.walletAddress);
+		return ethBalance;
+	}
+	
+	async getERC20TokenBalance(walletAddress, token, network) {
+		const tokenObj = tokensJSON[token][network];
+		if(tokenObj) {
+			const abi = tokenObj.abijson;
+			const {decimals} = tokenObj.tokenjson;
+			const tokenAddress = tokenObj.tokenjson.address;
+			const contract = new ethers.Contract(tokenAddress, abi, this.provider);
+			const balance = await contract.balanceOf(walletAddress);
+			return APIForm.formatValue(balance, decimals);
+		} else {
+			return "Not supported by network."
+		}
+	}
+	
+	async getFormTokenBalance() {
+		const network = networks[this.state.chainId].network;
+		return await this.getERC20TokenBalance(this.state.walletAddress, this.state.formToken, network);
+	}
+
+	async loadTokens() {
+		// render ETH balance in UI whenever provider returns wallet's balance
+		this.getWalletETHBalance().then(ethBalance => this.setState({ethBalance}));
+		
+		// render form's token balance in UI whenever provider returns wallet's balance
+		this.getFormTokenBalance().then(formTokenBalance => this.setState({formTokenBalance}));
+		
+		if(this.loadTokensTimeout != null) {
+			clearInterval(this.loadTokensTimeout);
+			this.loadTokensTimeout = null;
+		}
+		this.loadTokensTimeout = setTimeout(this.loadTokens, 2000);
 	}
 
 	handleChange(event) {
@@ -40,7 +132,7 @@ class APIForm extends React.Component {
 	}
 
 	async requestNetworkChange(networkJSON) {
-		await window.ethereum.request({
+		await this.ethereum.request({
 			method: "wallet_addEthereumChain",
 			params: [{
 				...networkJSON
@@ -52,87 +144,69 @@ class APIForm extends React.Component {
 		const response = await axios.post(postURL, requestJSON);
 		return response.data;
 	}
-
-	async lendAction() {
-		const requestJSON = {
-			"walletAddress": window.ethereum.selectedAddress,
-			"amount": this.state.amount,
-			"token": "eth",
-			"gasPriority": "medium"
-		};
-		const APIConfig = APIOptions[this.props.id];
-		const postURL = APIConfig.postURL;
-		const data = await this.fetchData(postURL, requestJSON);
-
-		const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-		await provider.send("eth_requestAccounts", []);
-		const signer = provider.getSigner();
+	
+	async sendTransaction(transactionParams) {
+		await this.provider.send("eth_requestAccounts", []);
+		const signer = this.provider.getSigner();
 		const address = await signer.getAddress();
-		console.log("Account:", address);
-		// Acccounts now exposed
-		const params = [{
-			from: data.walletAddress,
-			to: data.to,
-			value: data.value,
-			data: data.data,
-		}];
-		console.log("Params:", params)
-
-		const transactionHash = await provider.send("eth_sendTransaction", params);
+		const transactionHash = await this.provider.send("eth_sendTransaction", [transactionParams]);
 		console.log('transactionHash is ' + transactionHash);
+		this.loadTokens();
 	}
 
-	async stakeAction() {
-		const requestJSON = {
-			"walletAddress": window.ethereum.selectedAddress,
-			"amount": this.state.amount,
-			"token": "eth",
-			"gasPriority": "medium"
-		};
+	async doAction() {
+		// Get the requestJSON from the action implementation
+		const requestJSON = this.getRequestJSON();
+		// Get configuration data from APIOptions.json
 		const APIConfig = APIOptions[this.props.id];
-		const postURL = APIConfig.postURL;
+		const postURL = "http://localhost:4000" + APIConfig.postURL + "?network=" + networks[this.state.chainId].network;
+		// Call the backend to get the data for the transaction
 		const data = await this.fetchData(postURL, requestJSON);
-
-		const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-		await provider.send("eth_requestAccounts", []);
-		const signer = provider.getSigner();
-		const address = await signer.getAddress();
-		console.log("Account:", address);
-		// Acccounts now exposed
-		const params = [{
-			from: data.walletAddress,
-			to: data.to,
-			value: data.value,
-			data: data.data,
-		}];
-		console.log("Params:", params)
-
-		const transactionHash = await provider.send("eth_sendTransaction", params);
-		console.log('transactionHash is ' + transactionHash);
+		// Build transaction parameters from data
+		const transactionParams = this.buildTransaction(data);
+		// Send the transaction
+		this.sendTransaction(transactionParams);
 	}
-
-	async exchangeAction() {
-		alert("User exchanged " + this.state.amount + " ETH!!");
-	}
-
-	async earnAction() {
-		alert("User submitted " + this.state.amount + " ETH to earn yield!!");
+	
+	checkChain() {
+		const APIConfig = APIOptions[this.props.id];
+		const possibleChainIds = APIConfig.chainIds;
+		if(!possibleChainIds.includes(this.state.chainId)) {
+			alert(`Please switch your wallet one of the following networks to perform this action: ${
+				possibleChainIds.map(chainId => networks[chainId].chainName).join(", ")}`)
+			return false;
+		}
+		return true;
 	}
 
 	async handleSubmit(event) {
 		event.preventDefault();
-		const APIConfig = APIOptions[this.props.id];
-		const possibleChainIds = APIConfig.chainIds;
-		const currentChainId = window.ethereum.chainId;
-		if (!possibleChainIds.includes(currentChainId)) {
-			alert(`Please switch your wallet one of the following networks to perform this action: ${possibleChainIds.map(chainId => networks[chainId].chainName).join(", ")}`)
-			return;
+		if(this.checkChain()) {
+			await this.doAction();
 		}
-		await this.actions[APIConfig.action](this.state);
 	}
 
 	revealProtocol(id) {
 		return APIOptions[id].protocol;
+	}
+
+	exitAPIForm() {
+		if(this.loadTokensTimeout != null) {
+			clearInterval(this.loadTokensTimeout);
+			this.loadTokensTimeout = null;
+		}
+		this.props.exitAPIForm();
+	}
+
+	componentDidMount() {
+		this.ethereum = window.ethereum;
+		this.provider = new ethers.providers.Web3Provider(this.ethereum, "any");
+		this.setWalletAddress(this.ethereum.selectedAddress, false);
+		console.log(this.ethereum.chainId);
+		this.setChain(this.ethereum.chainId, false);
+		this.ethereum.on('accountChanged', this.setWalletAddress);
+		this.ethereum.on('chainChanged', this.setChain);
+		this.loadTokens();
 	}
 
 	render() {
@@ -148,9 +222,9 @@ class APIForm extends React.Component {
 					<div>
 
 					</div>
-					<img className="close-icon" src="close-icon.svg" alt="Close icon" onClick={this.props.exitAPIForm} />
+					<img className="close-icon" src="close-icon.svg" alt="Close icon" onClick={this.exitAPIForm} />
 				</div>
-
+				
 				<form className="input-api-form" onSubmit={this.handleSubmit} autoComplete="off">
 					<label>
 						<div className="description">Amount</div>
@@ -184,7 +258,7 @@ class APIForm extends React.Component {
 							<Box
 								className="transaction-detail-form"
 								sx={{
-									width: "100%",
+									width: "50%",
 									marginTop: "7px",
 									height: "100%",
 									border: 1,
@@ -215,6 +289,32 @@ class APIForm extends React.Component {
 									</div>
 								</div>
 							</Box>
+							<Box 
+								className="transaction-detail-form"
+								sx={{
+									width: "50%",
+									marginTop: "7px",
+									height: "100%",
+									border: 1,
+									borderColor: "#464646",
+									borderRadius: 2,
+									input: {
+										textAlign: "center",
+										color: "#BDBDBD"
+									}
+								}}
+							>
+								<div className="transaction-details">
+									<div className="transaction-detail-cell">
+										<div className="label">Current ETH (fixed)</div>
+										<div className="data">{this.state.ethBalance}</div>
+									</div>
+									<div className="transaction-detail-cell">
+										<div className="label">Current {this.state.formToken} (variable)</div>
+										<div className="data">{this.state.formTokenBalance}</div>
+									</div>
+								</div>
+							</Box>
 						</div>
 					</label>
 					<input className="supply-button" type="submit" value={"Supply " + this.state.tokens["ethereum"]["acronym"]} />
@@ -222,8 +322,11 @@ class APIForm extends React.Component {
 			</div>
 		);
 	}
+	
+	// This can be overridden by the Implementation
+	buildTransaction(data) {
+		return Object.assign({from: data.walletAddress}, data);
+	}
 }
 
 export default APIForm;
-
-/* <TextField id="outlined-basic" type="number" sx={{ input: { color: 'red' }, width: "50%", color: "warning" } } focused /> */
