@@ -21,10 +21,6 @@ class APIStaking extends APIForm {
 			formToken: APIOptions[this.props.id].token,
 		});
 	}
-
-	handleChange(event) {
-		this.setState({ amount: event.target.value });
-	}
 	
 	getRequestJSON() {
 		return {

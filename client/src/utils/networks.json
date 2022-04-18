@@ -47,6 +47,22 @@
 		],
 		"network": "goerli"
 	},
+	"0x3": {
+		"chainId": "0x3",
+		"chainName": "Ropsten",
+		"rpcUrls": [
+			"https://ropsten.infura.io/v3"
+		],
+		"nativeCurrency": {
+			"name": "Ropsten ETH",
+			"symbol": "ETH",
+			"decimals": 18
+		},
+		"blockExplorerUrls": [
+			"https://ropsten.etherscan.io/"
+		],
+		"network": "ropsten"
+	},
 	"0x1": {
 		"chainId": "0x1",
 		"chainName": "Ethereum",

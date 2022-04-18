@@ -43,7 +43,6 @@ class APIForm extends React.Component {
 	
 	loadImplementation() {
 		try {
-			this.handleChange = this.handleChange.bind(this);
 			this.getRequestJSON = this.getRequestJSON.bind(this);
 			this.buildTransaction = this.buildTransaction.bind(this);
 		} catch(e) {
@@ -101,9 +100,17 @@ class APIForm extends React.Component {
 			const abi = tokenObj.abijson;
 			const {decimals} = tokenObj.tokenjson;
 			const tokenAddress = tokenObj.tokenjson.address;
+			console.log(abi);
+			console.log("yo");
+			console.log(this.provider);
 			const contract = new ethers.Contract(tokenAddress, abi, this.provider);
-			const balance = await contract.balanceOf(walletAddress);
-			return APIForm.formatValue(balance, decimals);
+			console.log(walletAddress, tokenAddress);
+			console.log(contract.balanceOf);
+			console.log(contract);
+			// const balance = await contract.balanceOf(walletAddress);
+			console.log("eee");
+			// return APIForm.formatValue(balance, decimals);
+			return 0;
 		} else {
 			return "Not supported by network."
 		}
@@ -115,16 +122,16 @@ class APIForm extends React.Component {
 	}
 
 	async loadTokens() {
+		// render ETH balance in UI whenever provider returns wallet's balance
+		this.getWalletETHBalance().then(ethBalance => this.setState({ethBalance}));
+		
+		// render form's token balance in UI whenever provider returns wallet's balance
+		this.getFormTokenBalance().then(formTokenBalance => this.setState({formTokenBalance}));
+		
 		if(this.loadTokensTimeout != null) {
 			clearInterval(this.loadTokensTimeout);
 			this.loadTokensTimeout = null;
 		}
-		// render ETH balance in UI whenever provider returns wallet's balance
-		this.getWalletETHBalance().then(ethBalance => this.setState({ethBalance}));
-			
-		// render form's token balance in UI whenever provider returns wallet's balance
-		this.getFormTokenBalance().then(formTokenBalance => this.setState({formTokenBalance}));
-
 		this.loadTokensTimeout = setTimeout(this.loadTokens, 2000);
 	}
 
