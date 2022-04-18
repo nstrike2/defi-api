@@ -60,11 +60,11 @@ class APISearchBox extends React.Component {
 			case "Exchanging":
 				return (<APIExchanging exitAPIForm={this.exitAPIForm} id={selectedId}/>);
 			case "Lending":
-				return (<APILending     exitAPIForm={this.exitAPIForm} id={selectedId}/>);
+				return (<APILending    exitAPIForm={this.exitAPIForm} id={selectedId}/>);
 			case "Staking":
 				return (<APIStaking    exitAPIForm={this.exitAPIForm} id={selectedId}/>);
 			case "Yielding":
-				return (<APIYielding    exitAPIForm={this.exitAPIForm} id={selectedId}/>);
+				return (<APIYielding   exitAPIForm={this.exitAPIForm} id={selectedId}/>);
 			default:
 				throw new Error(`Action ${action} not implemented!`);
 		}

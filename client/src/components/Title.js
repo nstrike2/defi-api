@@ -7,6 +7,7 @@ class Title extends React.Component {
 	static minorTypeDelay = 100;
 	static spaceTypeDelay = 20;
 	static majorTypeDelay = 400;
+	static deleteDelay = 50;
 	static initDelay = 3000;
 
 	constructor(props) {
@@ -47,7 +48,7 @@ class Title extends React.Component {
 						text: this.state.text.slice(0, -1),
 						index: this.state.index - 1,
 					});
-					this.type(char == " " ? Title.spaceTypeDelay : Title.minorTypeDelay);
+					this.type(char == " " ? Title.spaceTypeDelay : Title.deleteDelay);
 				}
 			}
 		}, time);

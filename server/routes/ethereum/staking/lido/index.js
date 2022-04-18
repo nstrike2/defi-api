@@ -13,13 +13,8 @@ router.post('/stake', async (req, res) => {
 		const amount = req.body.amount;
 		const gasPriority = req.body.gasPriority;
 
-<<<<<<< HEAD:server/routes/ethereum/goerli/stake/lido/index.js
-		const proxyContractAddress = "0x1643E812aE58766192Cf7D2Cf9567dF2C37e9B7F";
-		const contract = new ethers.Contract(proxyContractAddress, abi);
-=======
 		const proxyContractAddress = tokenJSON.gatewayAddress;
 		const contract = new ethers.Contract(proxyContractAddress, abi)
->>>>>>> client:server/routes/ethereum/staking/lido/index.js
 		const _referral = "0x0000000000000000000000000000000000000000";
 		const data = await contract.populateTransaction.submit(_referral);
 		
