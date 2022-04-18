@@ -28,3 +28,8 @@ yarn axelnet-blockchain
 ```sh
 yarn start
 ```
+
+**load axelnet wallet**
+```sh
+yarn load-axelnet-wallet
+```
