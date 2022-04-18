@@ -3,49 +3,53 @@
 		"id": 0,
 		"text": "Lend on Compound",
 		"protocol": "Compound",
-		"action": "Lend",
-		"chainIds": ["0x4"],
+		"token": "cETH",
+		"action": "Lending",
+		"chainIds": ["0x1", "0x539", "0x4"],
 		"img": "https://cryptologos.cc/logos/compound-comp-logo.png?v=022",
-		"postURL": "/lend/compound/supply"
+		"postURL": "/v1/ethereum/lending/compound/supply"
 	},{
 		"id": 1,
 		"text": "Lend on Aave",
 		"protocol": "Aave",
-		"action": "Lend",
-		"chainIds": ["0x2a"],
+		"token": "aWETH",
+		"action": "Lending",
+		"chainIds": ["0x1", "0x539", "0x2a"],
 		"img": "https://cryptologos.cc/logos/aave-aave-logo.png?v=022",
-		"postURL": "/lend/aave/supply"
+		"postURL": "/v1/ethereum/lending/aave/supply"
 	},{
 		"id": 2,
 		"text": "Exchange on Uniswap",
 		"protocol": "Uniswap",
-		"action": "Exchange",
-		"chainIds": ["0x1"],
+		"action": "Exchanging",
+		"chainIds": ["0x1", "0x539"],
 		"img": "https://cryptologos.cc/logos/uniswap-uni-logo.png",
-		"postURL": "/exchange/uniswap/swap"
+		"postURL": "/v1/ethereum/exchanging/uniswap/swap"
 	},{
 		"id": 3,
 		"text": "Exchange on Sushiswap",
 		"protocol": "Sushiswap",
-		"action": "Exchange",
-		"chainIds": ["0x1"],
+		"action": "Exchanging",
+		"chainIds": ["0x1", "0x539"],
 		"img": "https://cryptologos.cc/logos/sushiswap-sushi-logo.png?v=022",
-		"postURL": "/exchange/sushiswap/swap"
+		"postURL": "/v1/ethereum/exchanging/sushiswap/swap"
 	},{
 		"id": 4,
 		"text": "Stake on Rocket Pool",
 		"protocol": "Rocket Pool",
-		"action": "Stake",
-		"chainIds": ["0x5"],
+		"token": "rETH",
+		"action": "Staking",
+		"chainIds": ["0x1", "0x539", "0x5"],
 		"img": "https://docs.rocketpool.net/images/logo.png",
-		"postURL": "/stake/rocket-pool/stake"
+		"postURL": "/v1/ethereum/staking/rocket-pool/stake"
 	},{
 		"id": 5,
 		"text": "Stake on Lido",
 		"protocol": "Lido",
-		"action": "Stake",
-		"chainIds": ["0x5"],
+		"token": "stETH",
+		"action": "Staking",
+		"chainIds": ["0x1", "0x539", "0x5"],
 		"img": "https://lido.fi/static/images/%D1%81omingSoon/logo-color.svg",
-		"postURL": "/stake/lido/stake"
+		"postURL": "/v1/ethereum/staking/lido/stake"
 	}
 ]
