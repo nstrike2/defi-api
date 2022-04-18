@@ -6,21 +6,19 @@ const ethers = require('ethers');
 
 router.post('/earn', async (req, res) => {
 	try {
-		const { walletAddress, amount, buyToken, sellToken, gasPriority } = req.body;
+		const { walletAddress, amount, sellToken } = req.body;
 		
-		if (sellToken.toLowerCase() === "eth") {
-			const walletAddress = req.body.walletAddress;
-			const amount = req.body.amount;
-			const gasPriority = req.body.gasPriority;
+		if (!sellToken || sellToken.toLowerCase() === "eth") {
+         let network = (req.query && req.query.network) || "mainnet";
+         const folderPath = "./" + network;
+         const {affiliateAddress, poolAddress, api_key} = require(folderPath + "/token.json");
+
 			const queryParams = {
-				affiliateAddress: "0xFEB4acf3df3cDEA7399794D0869ef76A6EfAff52",
+				affiliateAddress, poolAddress, api_key,
 				slippagePercentage: "0.01",
-				poolAddress: "0xa258C4606Ca8206D8aA700cE2143D7db854D168c",
 				sellTokenAddress: "0x0000000000000000000000000000000000000000",
 				sellAmount: ethers.utils.parseEther(amount).toString(),
 				ownerAddress: walletAddress,
-				api_key:"96e0cc51-a62e-42ca-acee-910ea7d2a241"
-				
 			};
 
 			try {

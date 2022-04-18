@@ -51,5 +51,14 @@
 		"chainIds": ["0x1", "0x539", "0x5"],
 		"img": "https://lido.fi/static/images/%D1%81omingSoon/logo-color.svg",
 		"postURL": "/v1/ethereum/staking/lido/stake"
+	},{
+		"id": 6,
+		"text": "Earn on Yearn",
+		"protocol": "Yearn",
+		"token": "yvWETH",
+		"action": "Yielding",
+		"chainIds": ["0x1", "0x539"],
+		"img": "https://cryptologos.cc/logos/yearn-finance-yfi-logo.svg?v=022",
+		"postURL": "/v1/ethereum/yielding/yearn/earn"
 	}
 ]

@@ -2,7 +2,7 @@ import React from "react";
 import APIOptions from "../utils/APIOptions.json";
 import networks from "../utils/networks.json";
 import "./APIForm.css";
-import { Box } from "@mui/material";
+import { Box, cardMediaClasses } from "@mui/material";
 import axios from "axios";
 import { ethers } from "ethers";
 import tokensJSON from "../utils/tokens/_tokens.js";
@@ -59,6 +59,7 @@ class APIForm extends React.Component {
 	
 	setChain(chainId, loadflag) {
 		this.state.chainId = chainId;
+		console.log(chainId);
 		if(networks[chainId].isPrivateTestnet) {
 			const walletAddress = this.state.walletAddress;
 			const RPC_URL = "http://localhost:8545";
@@ -202,6 +203,7 @@ class APIForm extends React.Component {
 		this.ethereum = window.ethereum;
 		this.provider = new ethers.providers.Web3Provider(this.ethereum, "any");
 		this.setWalletAddress(this.ethereum.selectedAddress, false);
+		console.log(this.ethereum.chainId);
 		this.setChain(this.ethereum.chainId, false);
 		this.ethereum.on('accountChanged', this.setWalletAddress);
 		this.ethereum.on('chainChanged', this.setChain);

@@ -8,28 +8,31 @@ import Adam from "./adam";
 class App extends React.Component {
 	constructor(props) {
 		super(props);
-		Adam.initialize();
-		this.isWalletConnected = this.isWalletConnected.bind(this);
+		this.state = {
+			isWalletConnected: false
+		};
 		this.connectToMetaMask = this.connectToMetaMask.bind(this);
 	}
 
-	isWalletConnected = () => {
-		return Adam.isWalletConnected();
+	async connectToMetaMask() {
+		// All it takes to connect to metamask
+		if(await Adam.connect()) {
+			this.setState({isWalletConnected: Adam.isWalletConnected()});
+		}
 	}
 
-	connectToMetaMask = async () => {
-		// All it takes to connect to metamask
-		Adam.connect();
-	};
+	async componentDidMount() {
+		await Adam.initialize();
+		this.setState({isWalletConnected: Adam.isWalletConnected()});
+	}
 
 	render() {
 		return (
 		<div className="App">
 			<header className="App-header">
-				{console.log(this.isWalletConnected())}
 				<p className="Text-header">Axel</p>
-				{this.isWalletConnected()
-				? (<button className="Wallet-button">Wallet Connected</button>)
+				{this.state.isWalletConnected
+				? (<button className="Wallet-button Green-border">Wallet Connected</button>)
 				: (<button className="Wallet-button" onClick={this.connectToMetaMask}> Connect Wallet </button>)}
 			</header>
 

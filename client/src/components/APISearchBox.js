@@ -1,12 +1,12 @@
 import React from "react";
 import APIOptions from "../utils/APIOptions.json";
-import APIForm from "./APIForm";
 import "./APISearchBox.css";
 
 import APIExchanging from "./actions/APIExchanging.js";
 import APILending from "./actions/APILending.js";
 import APIStaking from "./actions/APIStaking.js";
 import APIYielding from "./actions/APIYielding.js";
+import Adam from "../adam";
 
 class APISearchBox extends React.Component {
 	constructor(props) {
@@ -47,10 +47,14 @@ class APISearchBox extends React.Component {
 	}
 
 	optionClick(id) {
-		this.setState({
-			isSearching: false,
-			selectedId: id,
-		});
+		if(Adam.isWalletConnected()) {
+			this.setState({
+				isSearching: false,
+				selectedId: id,
+			});
+		} else {
+			alert("Please connect your wallet.");
+		}
 	}
 
 	makeAPIForm(selectedId) {
