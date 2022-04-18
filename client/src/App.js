@@ -1,7 +1,9 @@
 import React from "react";
 import "./App.css";
 import APISearchBox from "./components/APISearchBox";
-import  Adam from "./adam"
+import Title from "./components/Title";
+import Adam from "./adam";
+
 
 class App extends React.Component {
 	constructor(props) {
@@ -31,8 +33,8 @@ class App extends React.Component {
 				: (<button className="Wallet-button" onClick={this.connectToMetaMask}> Connect Wallet </button>)}
 			</header>
 
-			<div className="Main-container">
-				<div className="Text-title-big">Lend. Stake. Yield.</div>
+			<div className="Main-container" >
+				<Title text = "Lend. Stake. Yield."/>
 				<div className="Text-title-small">
 				Showcasing the world's most powerful universal DeFi API.
 				</div>
