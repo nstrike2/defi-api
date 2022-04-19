@@ -59,8 +59,8 @@ class APISearchBox extends React.Component {
 
 	makeAPIForm(selectedId) {
 		const APIConfig = APIOptions[selectedId];
-		const action = APIConfig.action;
-		switch(action) {
+		const actionType = APIConfig.actionType;
+		switch(actionType) {
 			case "Exchanging":
 				return (<APIExchanging exitAPIForm={this.exitAPIForm} id={selectedId}/>);
 			case "Lending":
@@ -70,7 +70,7 @@ class APISearchBox extends React.Component {
 			case "Yielding":
 				return (<APIYielding   exitAPIForm={this.exitAPIForm} id={selectedId}/>);
 			default:
-				throw new Error(`Action ${action} not implemented!`);
+				throw new Error(`Action ${actionType} not implemented!`);
 		}
 	}
 

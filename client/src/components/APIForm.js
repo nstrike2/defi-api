@@ -16,6 +16,7 @@ class APIForm extends React.Component {
 	
 	constructor(props) {
 		super(props);
+		this.mounted = null;
 		this.state = {
 			ethBalance: "Loading...",
 			formTokenBalance: "Loading...",
@@ -26,19 +27,6 @@ class APIForm extends React.Component {
 		this.loadTokensTimeout = null;
 		this.loadImplementation();
 		this.bindFunctions();
-	}
-
-	bindFunctions() {
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.revealProtocol = this.revealProtocol.bind(this);
-		this.setChain = this.setChain.bind(this);
-		this.setAddress = this.setWalletAddress.bind(this);
-		this.getETHBalance = this.getETHBalance.bind(this);
-		this.getWalletETHBalance = this.getWalletETHBalance.bind(this);
-		this.getERC20TokenBalance = this.getERC20TokenBalance.bind(this);
-		this.getFormTokenBalance = this.getFormTokenBalance.bind(this);
-		this.loadTokens = this.loadTokens.bind(this);
-		this.exitAPIForm = this.exitAPIForm.bind(this);
 	}
 	
 	loadImplementation() {
@@ -51,6 +39,30 @@ class APIForm extends React.Component {
 		}
 	}
 	
+	bindFunctions() {
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.revealProtocol = this.revealProtocol.bind(this);
+		this.setChain = this.setChain.bind(this);
+		this.setAddress = this.setWalletAddress.bind(this);
+		this.loadTokens = this.loadTokens.bind(this);
+		this.handleChange = this.handleChange.bind(this);
+		
+		this.componentDidMount = this.componentDidMount.bind(this);
+		this.componentWillUnmount = this.componentWillUnmount.bind(this);
+	}
+	
+	componentDidMount() {
+		this.mounted = true;
+		this.ethereum = window.ethereum;
+		window.ethers = ethers;
+		this.provider = new ethers.providers.Web3Provider(this.ethereum, "any");
+		this.setWalletAddress(this.ethereum.selectedAddress, false);
+		this.setChain(this.ethereum.chainId, false);
+		this.ethereum.on('accountChanged', this.setWalletAddress);
+		this.ethereum.on('chainChanged', this.setChain);
+		this.loadTokens();
+	}
+	
 	setWalletAddress(walletAddress, loadflag = true) {
 		this.state.walletAddress = walletAddress;
 		if(loadflag) this.loadTokens();
@@ -58,7 +70,6 @@ class APIForm extends React.Component {
 	
 	setChain(chainId, loadflag) {
 		this.state.chainId = chainId;
-		console.log(chainId);
 		if(networks[chainId].isPrivateTestnet) {
 			const walletAddress = this.state.walletAddress;
 			const RPC_URL = "http://localhost:8545";
@@ -66,7 +77,7 @@ class APIForm extends React.Component {
 			// log previous ETH balance
 			this.getETHBalance(axelnet_provider, walletAddress)
 				.then(balance => {
-					console.log(`Previous ETH Balance: ${balance}`);
+					// console.log(`Previous ETH Balance: ${balance}`);
 					return axelnet_provider.send("hardhat_setBalance", [
 						this.state.walletAddress,
 						ethers.utils.parseEther("10").toHexString(),
@@ -76,7 +87,7 @@ class APIForm extends React.Component {
 					this.getETHBalance(axelnet_provider, walletAddress)
 				)
 				.then(balance => {
-					console.log(`Current ETH Balance: ${balance}`);
+					// console.log(`Current ETH Balance: ${balance}`);
 					this.loadTokens();
 				});
 		}
@@ -115,10 +126,10 @@ class APIForm extends React.Component {
 
 	async loadTokens() {
 		// render ETH balance in UI whenever provider returns wallet's balance
-		this.getWalletETHBalance().then(ethBalance => this.setState({ethBalance}));
+		this.getWalletETHBalance().then(ethBalance => this.mounted && this.setState({ethBalance}));
 		
 		// render form's token balance in UI whenever provider returns wallet's balance
-		this.getFormTokenBalance().then(formTokenBalance => this.setState({formTokenBalance}));
+		this.getFormTokenBalance().then(formTokenBalance => this.mounted && this.setState({formTokenBalance}));
 		
 		if(this.loadTokensTimeout != null) {
 			clearInterval(this.loadTokensTimeout);
@@ -128,7 +139,7 @@ class APIForm extends React.Component {
 	}
 
 	handleChange(event) {
-		this.setState({ amount: event.target.value });
+		this.mounted && this.setState({ amount: event.target.value });
 	}
 
 	async requestNetworkChange(networkJSON) {
@@ -165,7 +176,7 @@ class APIForm extends React.Component {
 		// Build transaction parameters from data
 		const transactionParams = this.buildTransaction(data);
 		// Send the transaction
-		this.sendTransaction(transactionParams);
+		await this.sendTransaction(transactionParams);
 	}
 	
 	checkChain() {
@@ -184,31 +195,23 @@ class APIForm extends React.Component {
 		if(this.checkChain()) {
 			await this.doAction();
 		}
+		this.props.exitAPIForm();
 	}
 
 	revealProtocol(id) {
 		return APIOptions[id].protocol;
 	}
-
-	exitAPIForm() {
+	
+	componentWillUnmount() {
+		this.mounted = false;
 		if(this.loadTokensTimeout != null) {
 			clearInterval(this.loadTokensTimeout);
 			this.loadTokensTimeout = null;
 		}
-		this.props.exitAPIForm();
+		this.ethereum.on('accountChanged', () => {});
+		this.ethereum.on('chainChanged', () => {});
 	}
-
-	componentDidMount() {
-		this.ethereum = window.ethereum;
-		this.provider = new ethers.providers.Web3Provider(this.ethereum, "any");
-		this.setWalletAddress(this.ethereum.selectedAddress, false);
-		console.log(this.ethereum.chainId);
-		this.setChain(this.ethereum.chainId, false);
-		this.ethereum.on('accountChanged', this.setWalletAddress);
-		this.ethereum.on('chainChanged', this.setChain);
-		this.loadTokens();
-	}
-
+	
 	render() {
 		return (
 			<div className="menu-modal">
@@ -222,7 +225,7 @@ class APIForm extends React.Component {
 					<div>
 
 					</div>
-					<img className="close-icon" src="close-icon.svg" alt="Close icon" onClick={this.exitAPIForm} />
+					<img className="close-icon" src="close-icon.svg" alt="Close icon" onClick={this.props.exitAPIForm} />
 				</div>
 				
 				<form className="input-api-form" onSubmit={this.handleSubmit} autoComplete="off">
@@ -317,7 +320,7 @@ class APIForm extends React.Component {
 							</Box>
 						</div>
 					</label>
-					<input className="supply-button" type="submit" value={"Supply " + this.state.tokens["ethereum"]["acronym"]} />
+					<input className="supply-button" type="submit" value={APIOptions[this.props.id].actionDisplay + " " + this.state.tokens["ethereum"]["acronym"]} />
 				</form>
 			</div>
 		);
@@ -325,7 +328,7 @@ class APIForm extends React.Component {
 	
 	// This can be overridden by the Implementation
 	buildTransaction(data) {
-		return Object.assign({from: data.walletAddress}, data);
+		return Object.assign({from: this.state.walletAddress}, data);
 	}
 }
 

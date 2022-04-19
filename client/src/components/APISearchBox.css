@@ -6,7 +6,7 @@
 	justify-content: flex-start;
 	min-width: 30vw;
 	min-height: 396.477px;
-	padding: 16px 0px 0px 0px;
+	padding: 4px 0px 10px 0px;
 	margin-top: 10vh;
 }
 
@@ -20,6 +20,8 @@
 .Input {
 	background-color: transparent;
 	margin-left: 18.48px;
+	margin-top: 4px;
+	margin-bottom: 4px;
 	color: whitesmoke;
 	border: 0;
 	outline-color: whitesmoke;

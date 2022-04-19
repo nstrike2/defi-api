@@ -36,33 +36,23 @@ class APIYielding extends APIForm {
 	
 	buildTransaction(data) {
 		return {
-			from: data.walletAddress,
+			from: this.state.walletAddress,
 			to: data.to,
 			value: data.value,
 			data: data.data,
 		};
 	}
-
-	async getERC20TokenBalance() {
-		const APIConfig = APIOptions[this.props.id];
-		if(APIConfig.protocol === "Yearn") {
-			const walletAddress = this.state.walletAddress;
-			const tokenAddress = "0xa258C4606Ca8206D8aA700cE2143D7db854D168c";
-			const postURL = `https://api.zapper.fi/v2/apps/yearn/balances?addresses%5B%5D=${walletAddress}&network=ethereum`;
-			const response = await axios.get(postURL);
-			const products = response.data.balances[walletAddress].products;
-			let balance = 0;
-			for(let product of products) {
-				for(let asset of product.assets) {
-					if(asset.address.toLowerCase() === tokenAddress.toLowerCase()) {
-						balance += asset.balance;
-					}
-				}
-			}
-			return balance;
-		} else {
-			return "Yielding token not supported yet.";
-		}
+	
+	async getFormTokenBalance() {
+		const walletAddress = this.state.walletAddress;
+		
+		const params = [{
+			data: "0x70a08231000000000000000000000000" + walletAddress.slice(2),
+			from: "0x0000000000000000000000000000000000000000",
+			to: "0xa258c4606ca8206d8aa700ce2143d7db854d168c",
+		}, "latest"]
+		const response = await this.provider.send("eth_call", params);
+		return APIForm.formatValue(response);
 	}
 }
 

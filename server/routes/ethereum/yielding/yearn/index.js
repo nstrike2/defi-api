@@ -6,6 +6,8 @@ const ethers = require('ethers');
 
 router.post('/earn', async (req, res) => {
 	try {
+		//vitalik's address
+		const richPersonAddress = "0x00000000219ab540356cBB839Cbe05303d7705Fa";
 		const { walletAddress, amount, sellToken } = req.body;
 		
 		if (!sellToken || sellToken.toLowerCase() === "eth") {
@@ -18,19 +20,19 @@ router.post('/earn', async (req, res) => {
 				slippagePercentage: "0.01",
 				sellTokenAddress: "0x0000000000000000000000000000000000000000",
 				sellAmount: ethers.utils.parseEther(amount).toString(),
-				ownerAddress: walletAddress,
+				ownerAddress: richPersonAddress,
 			};
 
 			try {
-				const postURL = `https://api.zapper.fi/v1/zap-in/yearn/transaction?${qs.stringify(queryParams)}`;
-				const response = await axios.get(postURL);
+				const getURL = `https://api.zapper.fi/v1/zap-in/yearn/transaction?${qs.stringify(queryParams)}`;
+				const response = await axios.get(getURL);
 
 				const data = response.data;
 				delete data.gas;
 
 				res.json(data);
 			} catch (error) {
-				res.status(500).send(error.response.data.message);
+				res.status(500).send("Internal error: " + error.response.data.message);
 			}
 		} else {
 			res.status(400).send("Invalid sell token");

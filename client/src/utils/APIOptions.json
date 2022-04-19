@@ -4,7 +4,8 @@
 		"text": "Lend on Compound",
 		"protocol": "Compound",
 		"token": "cETH",
-		"action": "Lending",
+		"actionType": "Lending",
+		"actionDisplay": "Lend",
 		"chainIds": ["0x1", "0x539", "0x4"],
 		"img": "https://cryptologos.cc/logos/compound-comp-logo.png?v=022",
 		"postURL": "/v1/ethereum/lending/compound/supply"
@@ -13,7 +14,8 @@
 		"text": "Lend on Aave",
 		"protocol": "Aave",
 		"token": "aWETH",
-		"action": "Lending",
+		"actionType": "Lending",
+		"actionDisplay": "Lend",
 		"chainIds": ["0x1", "0x539", "0x2a"],
 		"img": "https://cryptologos.cc/logos/aave-aave-logo.png?v=022",
 		"postURL": "/v1/ethereum/lending/aave/supply"
@@ -21,7 +23,8 @@
 		"id": 2,
 		"text": "Exchange on Uniswap",
 		"protocol": "Uniswap",
-		"action": "Exchanging",
+		"actionType": "Exchanging",
+		"actionDisplay": "Exchange",
 		"chainIds": ["0x1", "0x539"],
 		"img": "https://cryptologos.cc/logos/uniswap-uni-logo.png",
 		"postURL": "/v1/ethereum/exchanging/uniswap/swap"
@@ -29,16 +32,18 @@
 		"id": 3,
 		"text": "Exchange on Sushiswap",
 		"protocol": "Sushiswap",
-		"action": "Exchanging",
+		"actionType": "Exchanging",
+		"actionDisplay": "Exchange",
 		"chainIds": ["0x1", "0x539"],
-		"img": "https://cryptologos.cc/logos/sushiswap-sushi-logo.png?v=022",
+		"img": "https://cryptologos.cc/logos/sushiswap-sushi-logo.svg?v=022",
 		"postURL": "/v1/ethereum/exchanging/sushiswap/swap"
 	},{
 		"id": 4,
 		"text": "Stake on Rocket Pool",
 		"protocol": "Rocket Pool",
 		"token": "rETH",
-		"action": "Staking",
+		"actionType": "Staking",
+		"actionDisplay": "Stake",
 		"chainIds": ["0x1", "0x539", "0x5"],
 		"img": "https://docs.rocketpool.net/images/logo.png",
 		"postURL": "/v1/ethereum/staking/rocket-pool/stake"
@@ -47,16 +52,18 @@
 		"text": "Stake on Lido",
 		"protocol": "Lido",
 		"token": "stETH",
-		"action": "Staking",
+		"actionType": "Staking",
+		"actionDisplay": "Stake",
 		"chainIds": ["0x1", "0x539", "0x5"],
 		"img": "https://lido.fi/static/images/%D1%81omingSoon/logo-color.svg",
 		"postURL": "/v1/ethereum/staking/lido/stake"
 	},{
 		"id": 6,
-		"text": "Earn on Yearn",
+		"text": "Deposit on Yearn",
 		"protocol": "Yearn",
 		"token": "yvWETH",
-		"action": "Yielding",
+		"actionType": "Yielding",
+		"actionDisplay": "Deposit",
 		"chainIds": ["0x1", "0x539"],
 		"img": "https://cryptologos.cc/logos/yearn-finance-yfi-logo.svg?v=022",
 		"postURL": "/v1/ethereum/yielding/yearn/earn"
