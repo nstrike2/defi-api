@@ -30,23 +30,32 @@ class App extends React.Component {
 
 	render() {
 		return (
-		<div className="App">
-			<header className="App-header">
-				<p className="Text-header">Axel</p>
-				{this.state.isWalletConnected
-				? (<button className="Wallet-button Green-border">Wallet Connected</button>)
-				: (<button className="Wallet-button" onClick={this.connectToMetaMask}> Connect Wallet </button>)}
-			</header>
-			
-			<div className="Main-container" >
-				<Title text = "Lend. Stake. Yield."/>
-				<div className="Text-title-small">
-					Showcasing the world's most powerful universal DeFi API.
+			<div className="App">
+				<header className="navbar">
+					<span id="navbar-items">
+						<img
+							className="navbar-item Title-img"
+							src="axel-logo.svg"
+							alt="Axel Logo"
+						/>
+						<div className="navbar-item Text-header">axel</div>
+					</span>
+					<li id="wallet-button" className="navbar-item">
+						{this.state.isWalletConnected
+							? (<button className="Wallet-button Green-border">Wallet Connected</button>)
+							: (<button className="Wallet-button" onClick={this.connectToMetaMask}> Connect Wallet </button>)}
+					</li>
+				</header>
+
+				<div className="Main-container" >
+					<Title text="Lend. Stake. Yield. Exchange." />
+					<div className="Text-title-small">
+						Showcasing the world's most powerful, composable, and universal DeFi developer platform.
+					</div>
+
+					<APISearchBox axel = {this.axel}/>
 				</div>
-				
-				<APISearchBox axel = {this.axel}/>
 			</div>
-		</div>
 		);
 	}
 }

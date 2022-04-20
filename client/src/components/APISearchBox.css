@@ -6,7 +6,7 @@
 	justify-content: flex-start;
 	min-width: 30vw;
 	min-height: 396.477px;
-	padding: 4px 0px 10px 0px;
+	padding: 4px 0px 0px 0px;
 	margin-top: 10vh;
 }
 
@@ -34,8 +34,9 @@
 .Search-cell {
 	display: flex;
 	flex-direction: row;
-	padding: 6px 18.48px;
-	margin-top: 10px;
+	padding: 6px 18.48px 6px 18.48px;
+	margin-top: 0px;
+	margin-bottom: 10px;
 	cursor: pointer;
 }
 
@@ -68,4 +69,10 @@
 	display: none;
 	overflow: hidden;
 	color: #fff;
+}
+
+.Search-buffer {
+	height: 10px;
+	padding: 0px;
+	margin: 0px;
 }

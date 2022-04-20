@@ -80,8 +80,9 @@ class APISearchBox extends React.Component {
 					</label>
 				</form>
 				<hr className="line-break"></hr>
-				{this.state.isSearching ? (
-					this.state.filteredData.map((item) => (
+				{this.state.isSearching ? [
+					(<div className="Search-buffer"></div>),
+					...this.state.filteredData.map((item) => (
 						<div key={item.id} className="Search-cell" onClick={this.optionClick.bind(this, item.id)}>
 							<div className="Search-img-container">
 								<img src={item.img} className="Search-img" alt="Protocol Logo" />
@@ -89,7 +90,7 @@ class APISearchBox extends React.Component {
 							<div className="Search-text">{item.text}</div>
 						</div>
 					))
-				) : this.makeAPIForm(this.state.selectedId) }
+				] : this.makeAPIForm(this.state.selectedId) }
 			</div>
 		);
 	}

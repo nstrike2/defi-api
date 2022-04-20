@@ -3,7 +3,30 @@
 	min-height: 100vh;
 }
 
-.App-header {
+#navbar-items {
+	display: flex;
+    justify-content: flex-start;
+}
+
+#wallet-button {
+	float: left;
+}
+
+.Title-img {
+	max-width: 36px;
+	max-height: 36px;
+	margin-right: 10px;
+}
+
+.navbar-item {
+	display: flex;
+    justify-content: flex-end;
+    padding-top: 10px;
+    padding-bottom: 0px;
+}
+
+.navbar {
+    list-style-type: none;
 	display: flex;
 	flex-direction: row;
 	padding: 2vh 16vw;
@@ -21,8 +44,9 @@
 .Wallet-button {
 	font-family: sans-serif;
 	color: #fff;
-	border:  2px solid #fff;
-	border-radius: 8%;
+	box-shadow: 0px 0px 12px 5px white;
+	border-radius: 3px;
+	border:  2px solid white;
 	background: transparent;
 	display: inline-block;
 	font-size: 14px;
