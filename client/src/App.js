@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import APISearchBox from "./components/APISearchBox";
 import Title from "./components/Title";
-import Adam from "./adam";
+import Axel from "./Axel";
 
 
 class App extends React.Component {
@@ -12,18 +12,20 @@ class App extends React.Component {
 			isWalletConnected: false
 		};
 		this.connectToMetaMask = this.connectToMetaMask.bind(this);
+		
+		this.axel = Axel.make("http://localhost:4000");
+		window.axel = this.axel;
 	}
-
+	
+	componentDidMount() {
+		this.axel.on("walletConnect", () => {this.setState({isWalletConnected: true})});
+		this.axel.on("walletDisconnect", () => {this.setState({isWalletConnected: false})});
+		this.axel.start();
+	}
+	
 	async connectToMetaMask() {
 		// All it takes to connect to metamask
-		if(await Adam.connect()) {
-			this.setState({isWalletConnected: Adam.isWalletConnected()});
-		}
-	}
-
-	async componentDidMount() {
-		await Adam.initialize();
-		this.setState({isWalletConnected: Adam.isWalletConnected()});
+		await this.axel.connect();
 	}
 
 	render() {
@@ -35,14 +37,14 @@ class App extends React.Component {
 				? (<button className="Wallet-button Green-border">Wallet Connected</button>)
 				: (<button className="Wallet-button" onClick={this.connectToMetaMask}> Connect Wallet </button>)}
 			</header>
-
+			
 			<div className="Main-container" >
 				<Title text = "Lend. Stake. Yield."/>
 				<div className="Text-title-small">
-				Showcasing the world's most powerful universal DeFi API.
+					Showcasing the world's most powerful universal DeFi API.
 				</div>
-
-			<APISearchBox/>
+				
+				<APISearchBox axel = {this.axel}/>
 			</div>
 		</div>
 		);

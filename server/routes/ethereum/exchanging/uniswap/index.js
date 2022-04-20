@@ -10,7 +10,7 @@ function toHex(data, props) {
 	}
 }
 
-router.post("/swap", async (req, res) => {
+router.post("/exchange", async (req, res) => {
 	try {
 		const { walletAddress, amount, buyToken, sellToken, gasPriority } = req.body;
 		
@@ -28,6 +28,7 @@ router.post("/swap", async (req, res) => {
 			for(let prop of toHexProps) {
 				data[prop] = "0x" + parseInt(data[prop]).toString(16);
 			}
+			data.from = walletAddress;
 			res.json(data);
 		} else {
 			res.status(400).send("Invalid sell token");

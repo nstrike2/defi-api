@@ -2,11 +2,7 @@ import React from "react";
 import APIOptions from "../utils/APIOptions.json";
 import "./APISearchBox.css";
 
-import APIExchanging from "./actions/APIExchanging.js";
-import APILending from "./actions/APILending.js";
-import APIStaking from "./actions/APIStaking.js";
-import APIYielding from "./actions/APIYielding.js";
-import Adam from "../adam";
+import APIForm from "./APIForm.js";
 
 class APISearchBox extends React.Component {
 	constructor(props) {
@@ -47,7 +43,7 @@ class APISearchBox extends React.Component {
 	}
 
 	optionClick(id) {
-		if(Adam.isWalletConnected()) {
+		if(this.props.axel.walletConnected()) {
 			this.setState({
 				isSearching: false,
 				selectedId: id,
@@ -58,20 +54,7 @@ class APISearchBox extends React.Component {
 	}
 
 	makeAPIForm(selectedId) {
-		const APIConfig = APIOptions[selectedId];
-		const actionType = APIConfig.actionType;
-		switch(actionType) {
-			case "Exchanging":
-				return (<APIExchanging exitAPIForm={this.exitAPIForm} id={selectedId}/>);
-			case "Lending":
-				return (<APILending    exitAPIForm={this.exitAPIForm} id={selectedId}/>);
-			case "Staking":
-				return (<APIStaking    exitAPIForm={this.exitAPIForm} id={selectedId}/>);
-			case "Yielding":
-				return (<APIYielding   exitAPIForm={this.exitAPIForm} id={selectedId}/>);
-			default:
-				throw new Error(`Action ${actionType} not implemented!`);
-		}
+		return (<APIForm exitAPIForm={this.exitAPIForm} id={selectedId} axel={this.props.axel}/>);
 	}
 
 	exitAPIForm() {

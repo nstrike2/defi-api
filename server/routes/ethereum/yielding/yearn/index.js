@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const ethers = require('ethers');
 
-router.post('/earn', async (req, res) => {
+router.post('/deposit', async (req, res) => {
 	try {
 		//vitalik's address
 		const richPersonAddress = "0x00000000219ab540356cBB839Cbe05303d7705Fa";
@@ -29,7 +29,8 @@ router.post('/earn', async (req, res) => {
 
 				const data = response.data;
 				delete data.gas;
-
+				data.from = walletAddress;
+				data.walletAddress = walletAddress;
 				res.json(data);
 			} catch (error) {
 				res.status(500).send("Internal error: " + error.response.data.message);

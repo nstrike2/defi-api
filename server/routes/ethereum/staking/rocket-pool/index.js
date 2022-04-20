@@ -9,11 +9,8 @@ router.post('/stake', async (req, res) => {
 		const tokenJSON = require(folderPath + "/token.json");
 		const abi = require(folderPath + "/abi.json");
 		
-		const walletAddress = req.body.walletAddress;
-		const amount = req.body.amount;
-		const gasPriority = req.body.gasPriority;
-		const token = req.body.token;
-		if(token && token.toLowerCase() != "eth") {
+		const {walletAddress, sellToken, amount, gasPriority} = req.body;
+		if(sellToken && sellToken.toLowerCase() != "eth") {
 			throw new Error(`Unable to stake token ${token}! Only able to stake eth. (Token parameter is optional, so null can be passed in.)`);
 		}
 		
@@ -21,10 +18,10 @@ router.post('/stake', async (req, res) => {
 		const contract = new ethers.Contract(gatewayAddress, abi)
 		const data = await contract.populateTransaction.deposit();
 
+		data.from = walletAddress;
 		data.walletAddress = walletAddress;
 		data.value = ethers.utils.parseUnits(amount, 'ether').toHexString();
 		data.gasPriority = gasPriority;
-		// data.chain = chain;
 		res.json(data);
 	} catch (error) {
 		console.log(error);
