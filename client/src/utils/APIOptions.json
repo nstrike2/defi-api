@@ -6,6 +6,7 @@
 		"token": "cETH",
 		"actionType": "Lending",
 		"actionDisplay": "Lend",
+		"actionAPYPhrase": "Supply APY",
 		"chainIds": ["0x1", "0x539", "0x4"],
 		"img": "https://cryptologos.cc/logos/compound-comp-logo.png?v=022",
 		"postURL": "/v1/ethereum/lending/compound/supply"
@@ -16,54 +17,71 @@
 		"token": "aWETH",
 		"actionType": "Lending",
 		"actionDisplay": "Lend",
+		"actionAPYPhrase": "Supply APY",
 		"chainIds": ["0x1", "0x539", "0x2a"],
 		"img": "https://cryptologos.cc/logos/aave-aave-logo.png?v=022",
 		"postURL": "/v1/ethereum/lending/aave/supply"
 	},{
 		"id": 2,
+		"text": "Lend on Rari",
+		"protocol": "Rari",
+		"token": "REPT",
+		"actionType": "Lending",
+		"actionDisplay": "Lend",
+		"actionAPYPhrase": "Supply APY",
+		"chainIds": ["0x1", "0x539"],
+		"img": "https://rari.capital/images/finallsmall.png",
+		"postURL": "/v1/ethereum/lending"
+	},{
+		"id": 3,
 		"text": "Exchange on Uniswap",
 		"protocol": "Uniswap",
 		"actionType": "Exchanging",
 		"actionDisplay": "Exchange",
+		"actionAPYPhrase": "Slippage",
 		"chainIds": ["0x1", "0x539"],
 		"img": "https://cryptologos.cc/logos/uniswap-uni-logo.png",
 		"postURL": "/v1/ethereum/exchanging/uniswap/swap"
 	},{
-		"id": 3,
+		"id": 4,
 		"text": "Exchange on Sushiswap",
 		"protocol": "Sushiswap",
 		"actionType": "Exchanging",
 		"actionDisplay": "Exchange",
+		"actionAPYPhrase": "Slippage",
 		"chainIds": ["0x1", "0x539"],
 		"img": "https://cryptologos.cc/logos/sushiswap-sushi-logo.svg?v=022",
 		"postURL": "/v1/ethereum/exchanging/sushiswap/swap"
 	},{
-		"id": 4,
+		"id": 5,
 		"text": "Stake on Rocket Pool",
 		"protocol": "Rocket Pool",
 		"token": "rETH",
 		"actionType": "Staking",
 		"actionDisplay": "Stake",
+		"actionAPYPhrase": "Staking APY",
 		"chainIds": ["0x1", "0x539", "0x5"],
 		"img": "https://docs.rocketpool.net/images/logo.png",
 		"postURL": "/v1/ethereum/staking/rocket-pool/stake"
 	},{
-		"id": 5,
+		"id": 6,
 		"text": "Stake on Lido",
 		"protocol": "Lido",
 		"token": "stETH",
 		"actionType": "Staking",
 		"actionDisplay": "Stake",
+		"actionAPYPhrase": "Staking APY",
 		"chainIds": ["0x1", "0x539", "0x5"],
 		"img": "https://lido.fi/static/images/%D1%81omingSoon/logo-color.svg",
 		"postURL": "/v1/ethereum/staking/lido/stake"
 	},{
-		"id": 6,
+		"id": 7,
 		"text": "Deposit on Yearn",
 		"protocol": "Yearn",
 		"token": "yvWETH",
 		"actionType": "Yielding",
 		"actionDisplay": "Deposit",
+		"actionAPYPhrase": "Yield APY",
 		"chainIds": ["0x1", "0x539"],
 		"img": "https://cryptologos.cc/logos/yearn-finance-yfi-logo.svg?v=022",
 		"postURL": "/v1/ethereum/yielding/yearn/earn"
