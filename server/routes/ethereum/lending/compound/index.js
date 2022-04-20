@@ -15,7 +15,8 @@ router.post('/lend', async (req, res) => {
 			const wETHGatewayContract = tokenJSON.gatewayAddress;
 			const contract = new ethers.Contract(wETHGatewayContract, abi);
 			const data = await contract.populateTransaction.mint();
-
+			
+			console.log(data);
 			data.walletAddress = walletAddress;
 			data.from = walletAddress;
 			data.value = ethers.utils.parseUnits(amount, 'ether').toHexString();

@@ -282,6 +282,24 @@ class AxelObj {
 		return protocol.toLowerCase().replace(/\W+/g,"-");
 	}
 	
+	async estimateReturn(protocol, action, requestData, network = null) {
+		network = network || this.network;
+		if(this.protocolSupportsNetwork(protocol, network)
+		&& this.protocolSupportsAction(protocol, action)) {
+			const actionType = config.actionTypes[action];
+			const formattedProtocol = this._formatProtocol(protocol);
+			const postURL = `${this.apiKey}/v1/ethereum/${actionType}/${formattedProtocol}/${action}?network=${network}`;
+			const requestJSON = this._formatRequestJSON(requestData);
+			// Call the backend to get the transaction payload
+			const transactionResponse = await axios.post(postURL, requestJSON);
+			const transactionParams = transactionResponse.data;
+			const estimatedReturn = transactionParams;
+			return estimatedReturn;
+		} else {
+			return null;
+		}
+	}
+	
 	async send(protocol, action, requestData, network = null) {
 		network = network || this.network;
 		if(this.protocolSupportsNetwork(protocol, network)

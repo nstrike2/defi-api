@@ -122,13 +122,6 @@ class APIForm extends React.Component {
 
 						<div className="description">Amount &#38; Token To Receive</div>
 						<div className="menu-form">
-							{/* <input
-								className="amount"
-								type="number"
-								placeholder="0"
-								value={this.state.amount}
-								onChange={this.handleChange}
-							/> */}
 							<div className="receive-amount">0</div>
 							<Box
 								className="token-modal"
@@ -166,7 +159,7 @@ class APIForm extends React.Component {
 							>
 								<div className="transaction-details">
 									<div className="transaction-detail-cell">
-										<div className="label">{APIOptions[this.props.id].actionAPYPhrase}</div>
+										<div className="label">{APIOptions[this.props.id].actionPhrase}</div>
 										<div className="data">{0.39}%</div>
 									</div>
 									<div className="transaction-detail-cell">

@@ -7,7 +7,7 @@
 		"actionType": "Lending",
 		"actionDisplay": "Lend",
 		"action": "lend",
-		"actionAPYPhrase": "Supply APY",
+		"actionPhrase": "Supply APY",
 		"chainIds": ["0x1", "0x539", "0x4"],
 		"img": "https://cryptologos.cc/logos/compound-comp-logo.png?v=022",
 		"postURL": "/v1/ethereum/lending/compound/supply"
@@ -19,7 +19,7 @@
 		"actionType": "Lending",
 		"actionDisplay": "Lend",
 		"action": "lend",
-		"actionAPYPhrase": "Supply APY",
+		"actionPhrase": "Supply APY",
 		"chainIds": ["0x1", "0x539", "0x2a"],
 		"img": "https://cryptologos.cc/logos/aave-aave-logo.png?v=022",
 		"postURL": "/v1/ethereum/lending/aave/supply"
@@ -30,7 +30,7 @@
 		"token": "REPT",
 		"actionType": "Lending",
 		"actionDisplay": "Lend",
-		"actionAPYPhrase": "Supply APY",
+		"actionPhrase": "Supply APY",
 		"chainIds": ["0x1", "0x539"],
 		"img": "https://rari.capital/images/finallsmall.png",
 		"postURL": "/v1/ethereum/lending"
@@ -42,7 +42,7 @@
 		"actionType": "Exchanging",
 		"actionDisplay": "Exchange",
 		"action": "exchange",
-		"actionAPYPhrase": "Slippage",
+		"actionPhrase": "Slippage",
 		"chainIds": ["0x1", "0x539"],
 		"img": "https://cryptologos.cc/logos/uniswap-uni-logo.png",
 		"postURL": "/v1/ethereum/exchanging/uniswap/swap",
@@ -57,7 +57,7 @@
 		"actionType": "Exchanging",
 		"actionDisplay": "Exchange",
 		"action": "exchange",
-		"actionAPYPhrase": "Slippage",
+		"actionPhrase": "Slippage",
 		"chainIds": ["0x1", "0x539"],
 		"img": "https://cryptologos.cc/logos/sushiswap-sushi-logo.svg?v=022",
 		"postURL": "/v1/ethereum/exchanging/sushiswap/swap",
@@ -72,7 +72,7 @@
 		"actionType": "Staking",
 		"actionDisplay": "Stake",
 		"action": "stake",
-		"actionAPYPhrase": "Staking APY",
+		"actionPhrase": "Staking APY",
 		"chainIds": ["0x1", "0x539", "0x5"],
 		"img": "https://docs.rocketpool.net/images/logo.png",
 		"postURL": "/v1/ethereum/staking/rocket-pool/stake"
@@ -84,7 +84,7 @@
 		"actionType": "Staking",
 		"actionDisplay": "Stake",
 		"action": "stake",
-		"actionAPYPhrase": "Staking APY",
+		"actionPhrase": "Staking APY",
 		"chainIds": ["0x1", "0x539", "0x5"],
 		"img": "https://lido.fi/static/images/%D1%81omingSoon/logo-color.svg",
 		"postURL": "/v1/ethereum/staking/lido/stake"
@@ -96,7 +96,7 @@
 		"actionType": "Yielding",
 		"actionDisplay": "Deposit",
 		"action": "deposit",
-		"actionAPYPhrase": "Yield APY",
+		"actionPhrase": "Yield APY",
 		"chainIds": ["0x1", "0x539"],
 		"img": "https://cryptologos.cc/logos/yearn-finance-yfi-logo.svg?v=022",
 		"postURL": "/v1/ethereum/yielding/yearn/earn"
