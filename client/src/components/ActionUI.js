@@ -1,20 +1,21 @@
 import React from "react";
 import APIOptions from "../utils/APIOptions.json";
-import "./APIForm.css";
+import "./ActionUI.css";
 import { Box } from "@mui/material";
 
-class APIForm extends React.Component {
+class ActionUI extends React.Component {
 	constructor(props) {
 		super(props);
 		this.mounted = null;
-		this.specialRequestParams = null;
-		this.defaultToken = APIOptions[this.props.id].defaultToken;
+		this.defaultToken = APIOptions[this.props.protocol].defaultToken;
+		this.actionFn = this.props.actionFn;
 		this.state = {
 			ethBalance: "Loading...",
 			formTokenBalance: "Loading...",
 			walletAddress: null,
 			chainId: -1,
 			amount: "",
+			estimate: 0,
 			tokens: {
 				"ethereum": {
 					"image": "ethereum-logo.png",
@@ -43,24 +44,29 @@ class APIForm extends React.Component {
 	componentDidMount() {
 		this.mounted = true;
 		this.axel = this.props.axel;
+		this.axel.verbose = true;
 		this.axel.on("walletChange", walletAddress => this._setState({walletAddress}));
 		this.axel.on("chainChange", chainId => this._setState({chainId}));
 		this.axel.on("balanceChange", ethBalance => this._setState({ethBalance}));
-		this.axel.onTokenChange(APIOptions[this.props.id].defaultToken, formTokenBalance => this._setState({formTokenBalance}));
+		this.axel.onTokenChange(this.defaultToken, formTokenBalance => this._setState({formTokenBalance}));
 	}
 	
-	handleChange(event) {
-		this._setState({ amount: event.target.value });
+	async handleChange(event) {
+		const amount = event.target.value;
+		let estimate = 0;
+		if(!isNaN(amount) && amount > 0) {
+			const exchangeRate = await this.axel.estimateTokenPerETH(this.defaultToken);
+			estimate = (exchangeRate * amount).toFixed(this.axel.precision);
+		}
+		this._setState({ amount, estimate });
 	}
 	
 	async handleSubmit(event) {
 		event.preventDefault();
 		// If specialRequestParams is not implemented, it defaults to undefined and adds no properties
-		const {action, protocol, specialRequestParams} = APIOptions[this.props.id];
+		const {protocol} = this.props;
 		if(this.axel.protocolSupportsNetwork(protocol)) {
-			const transactionHash = await this.axel.send(protocol, action, Object.assign({
-				amount: this.state.amount,
-			}, specialRequestParams));
+			const transactionHash = await this.actionFn(this.state.amount);
 			if(transactionHash == null) {
 				console.warn("Transaction failed.");
 			}
@@ -68,7 +74,7 @@ class APIForm extends React.Component {
 			const supportedNetworks = this.axel.getNetworksSupportedByProtocol(protocol);
 			alert(`Please switch your wallet one of the following networks to perform this action: ${supportedNetworks}`)
 		}
-		this.props.exitAPIForm();
+		this.props.exitUI();
 	}
 	
 	componentWillUnmount() {
@@ -81,20 +87,20 @@ class APIForm extends React.Component {
 			<div className="menu-modal">
 				<div className="protocol">
 					<img
-						src={APIOptions[this.props.id].img}
+						src={APIOptions[this.props.protocol].img}
 						className="Search-img"
 						alt=""
 					/>
-					<div className="Search-text">{APIOptions[this.props.id].protocol}</div>
+					<div className="Search-text">{this.props.protocol}</div>
 					<div>
 
 					</div>
-					<img className="close-icon" src="close-icon.svg" alt="Close icon" onClick={this.props.exitAPIForm} />
+					<img className="close-icon" src="close-icon.svg" alt="Close icon" onClick={this.props.exitUI} />
 				</div>
 				
 				<form className="input-api-form" onSubmit={this.handleSubmit} autoComplete="off">
 					<label>
-						<div className="description">Amount &#38; Token To { APIOptions[this.props.id].actionDisplay }</div>
+						<div className="description">Amount &#38; Token To { APIOptions[this.props.protocol].actionDisplay }</div>
 						<div className="menu-form">
 							<input
 								className="send-amount"
@@ -122,7 +128,7 @@ class APIForm extends React.Component {
 
 						<div className="description">Amount &#38; Token To Receive</div>
 						<div className="menu-form">
-							<div className="receive-amount">0</div>
+							<div className="receive-amount">{this.state.estimate}</div>
 							<Box
 								className="token-modal"
 								sx={{
@@ -135,7 +141,7 @@ class APIForm extends React.Component {
 									borderRadius: 2
 								}}
 							>
-								<img className="token-logo" src={APIOptions[this.props.id].img} alt="Ethereum logo" />
+								<img className="token-logo" src={APIOptions[this.props.protocol].img} alt={this.defaultToken} />
 								<div className="token-text">{this.defaultToken}</div>
 							</Box>
 						</div>
@@ -159,7 +165,7 @@ class APIForm extends React.Component {
 							>
 								<div className="transaction-details">
 									<div className="transaction-detail-cell">
-										<div className="label">{APIOptions[this.props.id].actionPhrase}</div>
+										<div className="label">{APIOptions[this.props.protocol].actionPhrase}</div>
 										<div className="data">{0.39}%</div>
 									</div>
 									<div className="transaction-detail-cell">
@@ -200,7 +206,7 @@ class APIForm extends React.Component {
 							</Box>
 						</div>
 					</label>
-					<input className="supply-button" type="submit" value={APIOptions[this.props.id].actionDisplay + " " + this.state.tokens["ethereum"]["acronym"]} />
+					<input className="supply-button" type="submit" value={APIOptions[this.props.protocol].actionDisplay + " " + this.state.tokens["ethereum"]["acronym"]} />
 				</form>
 			</div>
 		);
@@ -212,4 +218,4 @@ class APIForm extends React.Component {
 	}
 }
 
-export default APIForm;
+export default ActionUI;

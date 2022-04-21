@@ -25,9 +25,15 @@ router.post("/exchange", async (req, res) => {
 			);
 			const data = Object.assign({walletAddress}, response.data);
 			const toHexProps = ["sellAmount", "buyAmount", "estimatedGas", "gas", "gasPrice", "value"];
-			for(let prop of toHexProps) {
+			toHexProps.forEach(prop => {
 				data[prop] = "0x" + parseInt(data[prop]).toString(16);
-			}
+			})
+			const toHexPropsOrders = ["makerAmount", "takerAmount"];
+			data.orders.map(order => 
+				toHexPropsOrders.forEach(prop => {
+					order[prop] = "0x" + parseInt(order[prop]).toString(16);
+				})
+			)
 			data.from = walletAddress;
 			res.json(data);
 		} else {

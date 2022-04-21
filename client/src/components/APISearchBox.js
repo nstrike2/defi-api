@@ -2,7 +2,8 @@ import React from "react";
 import APIOptions from "../utils/APIOptions.json";
 import "./APISearchBox.css";
 
-import APIForm from "./APIForm.js";
+import ActionUI from "./ActionUI";
+import ActionOption from "./ActionOption";
 
 class APISearchBox extends React.Component {
 	constructor(props) {
@@ -14,83 +15,44 @@ class APISearchBox extends React.Component {
 			selectedId: -1,
 		};
 
-		this.handleChange = this.handleChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.optionClick = this.optionClick.bind(this);
-		this.makeAPIForm = this.makeAPIForm.bind(this);
-		this.exitAPIForm = this.exitAPIForm.bind(this);
+		this.chooseOption = this.chooseOption.bind(this);
+		this.exitUI = this.exitUI.bind(this);
 	}
 
-	handleChange(event) {
-		const query = event.target.value;
+	exitUI() {
 		this.setState({
-			searchText: query,
-			filteredData: APIOptions.filter((el) => {
-				//if no input the return the original
-				if (this.state === undefined || query === "") {
-					return true;
-				}
-				//return the item which contains the user input
-				else {
-					return el.text.toLowerCase().includes(query.toLowerCase().trim());
-				}
-			}),
+			isSearching: true,
 		});
 	}
 
-	handleSubmit(event) {
-		event.preventDefault();
-	}
-
-	optionClick(id) {
+	chooseOption(component) {
 		if(this.props.axel.walletConnected()) {
 			this.setState({
 				isSearching: false,
-				selectedId: id,
+				actionFn: component.props.actionFn,
+				protocol: component.props.protocol,
 			});
 		} else {
 			alert("Please connect your wallet.");
 		}
 	}
 
-	makeAPIForm(selectedId) {
-		return (<APIForm exitAPIForm={this.exitAPIForm} id={selectedId} axel={this.props.axel}/>);
-	}
-
-	exitAPIForm() {
-		this.setState({
-			isSearching: true,
-			selectedId: -1,
-		});
-	}
-
 	render() {
+		const axel = this.props.axel;
 		return (
 			<div className="Search-container">
-				<form onSubmit={this.handleSubmit} autoComplete="off">
-					<label>
-						<input
-							type="text"
-							name="apiSearchText"
-							className="Input"
-							value={this.state.searchText}
-							placeholder="What do you want to do?"
-							onChange={this.handleChange}
-						/>
-					</label>
-				</form>
-				<hr className="line-break"></hr>
-				{this.state.isSearching ? [
-					(<div className="Search-buffer"></div>),
-					...this.state.filteredData.map((item) => (
-						<div key={item.id} className="Search-cell" onClick={this.optionClick.bind(this, item.id)}>
-							<div className="Search-img-container">
-								<img src={item.img} className="Search-img" alt="Protocol Logo" />
-							</div>
-							<div className="Search-text">{item.text}</div>
-						</div>
-					))
-				] : this.makeAPIForm(this.state.selectedId) }
+				{this.state.isSearching ? (
+					<div>
+						<div className="Search-buffer"></div>
+						<ActionOption onClick={this.chooseOption} protocol="Aave"      actionFn={amount => axel.lend(         "Aave", {amount})} />
+						<ActionOption onClick={this.chooseOption} protocol="Compound"  actionFn={amount => axel.lend(     "Compound", {amount})} />
+						<ActionOption onClick={this.chooseOption} protocol="Uniswap"   actionFn={amount => axel.exchange(  "Uniswap", {amount, "buyToken": "DAI"})} />
+						<ActionOption onClick={this.chooseOption} protocol="Sushiswap" actionFn={amount => axel.exchange("Sushiswap", {amount, "buyToken": "DAI"})} />
+						<ActionOption onClick={this.chooseOption} protocol="Lido"      actionFn={amount => axel.stake(        "Lido", {amount})} />
+						<ActionOption onClick={this.chooseOption} protocol="Yearn"     actionFn={amount => axel.deposit(     "Yearn", {amount})} />
+						<ActionOption onClick={this.chooseOption} protocol="Rari"      actionFn={amount => axel.lend(         "Rari", {amount})} />
+					</div>
+				) : (<ActionUI axel={axel} protocol={this.state.protocol} actionFn={this.state.actionFn} exitUI={this.exitUI} />)}
 			</div>
 		);
 	}

@@ -1,5 +1,5 @@
-[
-	{
+{
+	"Compound": {
 		"id": 0,
 		"text": "Lend on Compound",
 		"protocol": "Compound",
@@ -10,7 +10,8 @@
 		"actionPhrase": "Supply APY",
 		"chainIds": ["0x1", "0x539", "0x4"],
 		"img": "https://cryptologos.cc/logos/compound-comp-logo.png?v=022"
-	},{
+	},
+	"Aave": {
 		"id": 1,
 		"text": "Lend on Aave",
 		"protocol": "Aave",
@@ -21,7 +22,8 @@
 		"actionPhrase": "Supply APY",
 		"chainIds": ["0x1", "0x539", "0x2a"],
 		"img": "https://cryptologos.cc/logos/aave-aave-logo.png?v=022"
-	},{
+	},
+	"Rari": {
 		"id": 2,
 		"text": "Lend on Rari",
 		"protocol": "Rari",
@@ -31,7 +33,8 @@
 		"actionPhrase": "Supply APY",
 		"chainIds": ["0x1", "0x539"],
 		"img": "https://rari.capital/images/finallsmall.png"
-	},{
+	},
+	"Uniswap": {
 		"id": 3,
 		"text": "Exchange on Uniswap",
 		"protocol": "Uniswap",
@@ -45,7 +48,8 @@
 		"specialRequestParams": {
 			"buyToken": "DAI"
 		}
-	},{
+	},
+	"Sushiswap": {
 		"id": 4,
 		"text": "Exchange on Sushiswap",
 		"protocol": "Sushiswap",
@@ -59,7 +63,8 @@
 		"specialRequestParams": {
 			"buyToken": "DAI"
 		}
-	},{
+	},
+	"Rocket Pool": {
 		"id": 5,
 		"text": "Stake on Rocket Pool",
 		"protocol": "Rocket Pool",
@@ -70,7 +75,8 @@
 		"actionPhrase": "Staking APY",
 		"chainIds": ["0x1", "0x539", "0x5"],
 		"img": "https://docs.rocketpool.net/images/logo.png"
-	},{
+	},
+	"Lido": {
 		"id": 6,
 		"text": "Stake on Lido",
 		"protocol": "Lido",
@@ -81,7 +87,8 @@
 		"actionPhrase": "Staking APY",
 		"chainIds": ["0x1", "0x539", "0x5"],
 		"img": "https://lido.fi/static/images/%D1%81omingSoon/logo-color.svg"
-	},{
+	},
+	"Yearn": {
 		"id": 7,
 		"text": "Deposit on Yearn",
 		"protocol": "Yearn",
@@ -93,4 +100,4 @@
 		"chainIds": ["0x1", "0x539"],
 		"img": "https://cryptologos.cc/logos/yearn-finance-yfi-logo.svg?v=022"
 	}
-]
+}

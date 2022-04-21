@@ -6,7 +6,7 @@ import config from "./Axel_config.json";
 class AxelObj {
 	constructor(apiKey) {
 		this.verbose = false;
-		this.precision = 5;
+		this.precision = 3;
 		
 		this.ethereum = null;
 		this.provider = null;
@@ -280,23 +280,16 @@ class AxelObj {
 	_formatProtocol(protocol) {
 		return protocol.toLowerCase().replace(/\W+/g,"-");
 	}
-	
-	async estimateReturn(protocol, action, requestData, network = null) {
-		network = network || this.network;
-		if(this.protocolSupportsNetwork(protocol, network)
-		&& this.protocolSupportsAction(protocol, action)) {
-			const actionType = config.actionTypes[action];
-			const formattedProtocol = this._formatProtocol(protocol);
-			const postURL = `${this.apiKey}/v1/ethereum/${actionType}/${formattedProtocol}/${action}?network=${network}`;
-			const requestJSON = this._formatRequestJSON(requestData);
-			// Call the backend to get the transaction payload
-			const transactionResponse = await axios.post(postURL, requestJSON);
-			const transactionParams = transactionResponse.data;
-			const estimatedReturn = transactionParams;
-			return estimatedReturn;
-		} else {
-			return null;
-		}
+
+	async estimateTokenPerETH(token) {
+		const estimates = {
+			"aWETH": 1,
+			"cETH": 49.8445,
+			"stETH": 1,
+			"yvWETH": 0.988,
+			"DAI": 3154.996,
+		};
+		return estimates[token];
 	}
 	
 	async send(protocol, action, requestData, network = null) {
@@ -308,12 +301,17 @@ class AxelObj {
 			const postURL = `${this.apiKey}/v1/ethereum/${actionType}/${formattedProtocol}/${action}?network=${network}`;
 			const requestJSON = this._formatRequestJSON(requestData);
 			// Call the backend to get the transaction payload
-			const transactionResponse = await axios.post(postURL, requestJSON);
-			const transactionParams = transactionResponse.data;
-			if(this.verbose) console.log("Transacting:", transactionParams);
-			// Build transaction parameters from data
-			const transactionHash = await this.provider.send("eth_sendTransaction", [transactionParams]);
-			return transactionHash;
+			try {
+				const transactionResponse = await axios.post(postURL, requestJSON);
+				const transactionParams = transactionResponse.data;
+				if(this.verbose) console.log("Transacting:", transactionParams);
+				// Build transaction parameters from data
+				const transactionHash = await this.provider.send("eth_sendTransaction", [transactionParams]);
+				return transactionHash;
+			} catch(e) {
+				console.error(e);
+				return null;
+			}
 		} else {
 			return null;
 		}

@@ -19,7 +19,7 @@ router.post('/lend', async (req, res) => {
 
 			data.from = walletAddress;
 			data.walletAddress = walletAddress;
-			data.value = ethers.utils.parseUnits(amount, 'ether').toHexString();
+			data.value = ethers.utils.hexStripZeros(ethers.utils.parseUnits(amount, 'ether').toHexString());
 			data.gasPriority = gasPriority;
 			res.json(data);
 		} else {
