@@ -4,7 +4,6 @@ import axios from "axios";
 import config from "./Axel_config.json";
 
 class AxelObj {
-	// TODO use apiKey
 	constructor(apiKey) {
 		this.verbose = false;
 		this.precision = 5;

@@ -16,11 +16,11 @@
 		"web3": "^1.7.3"
 	},
 	"scripts": {
-        "preinstall": "cd client && yarn install && cd .. && cd server && yarn install && cd .. && cd axelnet-blockchain && yarn install && cd ..",
-        "client": "yarn --cwd client run start",
-        "server": "yarn --cwd server nodemon index",
-        "axelnet-blockchain": "yarn --cwd axelnet-blockchain run start",
+		"preinstall": "cd client && yarn install && cd .. && cd server && yarn install && cd .. && cd axelnet-blockchain && yarn install && cd ..",
+		"client": "yarn --cwd client run start",
+		"server": "yarn --cwd server nodemon index",
+		"axelnet-blockchain": "yarn --cwd axelnet-blockchain run start",
 		"load-axelnet-wallet": "node axelnet-blockchain/scripts/loadWallet.js",
-        "start": "concurrently \"yarn run axelnet-blockchain\" \"yarn run server\" \"yarn run client\""
-    }
+		"start": "concurrently \"yarn run axelnet-blockchain\" \"yarn run server\" \"yarn run client\""
+	}
 }
