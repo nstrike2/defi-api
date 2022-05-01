@@ -11,9 +11,9 @@ router.post('/deposit', async (req, res) => {
 		const { walletAddress, amount, sellToken } = req.body;
 		
 		if (!sellToken || sellToken.toLowerCase() === "eth") {
-         let network = (req.query && req.query.network) || "mainnet";
-         const folderPath = "./" + network;
-         const {affiliateAddress, poolAddress, api_key} = require(folderPath + "/token.json");
+			let network = (req.query && req.query.network) || "mainnet";
+			const folderPath = "./" + network;
+			const {affiliateAddress, poolAddress, api_key} = require(folderPath + "/token.json");
 
 			const queryParams = {
 				affiliateAddress, poolAddress, api_key,

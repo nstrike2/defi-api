@@ -67,7 +67,9 @@ class AxelObj {
 		
 		// Fuck you metamask make your event listeners work
 		setInterval(this.updateVariables, 1000);
-		await this.updateVariables();
+		
+		// We don't want to block on updating the variables, that may take some time.
+		this.updateVariables();
 	}
 	
 	async setPrecision(precision) {
