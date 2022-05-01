@@ -18,14 +18,17 @@ type exchangeRate = number;
 type growthRate = number;
 type callback = function;
 type confirmation = txHash;
-type staticRequest = {buyToken?, sellToken?, walletAddress?, gasPriority?, slippage?, transactionTime?};
-type basicRequest = {amount, walletAddress?, gasPriority?, slippage?, transactionTime?};
+type gasPriority = number; // 0 = Low, 1 = Medium, 2 = High
+type amounts = {amount} | {buyAmount} | {sellAmount};
+type tokens = {token} | {buyToken?, sellToken?}
+type basicRequest = {walletAddress?, gasPriority?, slippage?, transactionTime?};
+type staticRequest = tokens & basicRequest;
 // Sell token is assumed to be ETH, buy token is usually filled by protocol
-type request = {buyToken?, sellToken?} & basicRequest;
+type request = amounts & tokens & basicRequest;
 // buyToken and sellToken are simply added to the tokens array
 // bounds is an object that carries information about any bound information
 	// the user may want to impose on their pool
-type poolRequest = {tokens[]?, buyToken?, sellToken?, bounds{}?} & basicRequest;
+type poolRequest = {tokens[]?, buyToken?, sellToken?, bounds{}?} & amounts & basicRequest;
 
 type chainId = number | string;
 type chainName = string;
@@ -197,10 +200,10 @@ axel.call(jsonRPC) => callData;
 		"data": "0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675"
 	}, "latest"])
 
+
 /* #########################
 	Write endpoints
 	######################### */
-
 
 axel.sendTransaction(jsonRPC) => txHash;
 	await axel.sendTransaction([{
@@ -215,24 +218,172 @@ axel.sendTransaction(jsonRPC) => txHash;
 axel.send(protocol, action, request) => confirmation;
 	await axel.send("Compound", "lend", {amount: 0.01});
 
+// This is equivalent to axel.supply
 axel.lend(protocol, request) => confirmation;
-	await axel.lend("Compound", {amount: 0.01, sellToken: "DAI"});
+	await axel.lend(axel.protocols.Compound, {amount: 0.01}); // Sell token is assumed to be ETH
+	await axel.lend("Compound", {
+		amount: 25,
+		sellToken: "DAI"
+	});
+	await axel.lend("Compound", {
+		amount: 25,
+		token: axel.tokens.DAI,
+		gasPriority: 0, // Low priority
+		transactionTime: 30, // 30 minutes
+	});
+	await axel.lend("Compound", {
+		amount: 25,
+		sellToken: axel.tokens.DAI,
+		gasPriority: 1, // Medium priority
+		transactionTime: 30, // 30 minutes
+	});
+	await axel.lend("Compound", { // client can specify the amount of buy token they want to receive
+		amount: 0.01,
+		buyToken: axel.tokens.cDAI,
+		gasPriority: 2, // Low priority
+		transactionTime: 30, // 30 minutes
+	});
+
+// This is equivalent to axel.lend
+axel.supply(protocol, request) => confirmation;
+	await axel.supply(axel.protocols.Compound, {amount: 0.01}); // Sell token is assumed to be ETH
+	await axel.supply("Compound", {
+		amount: 25,
+		sellToken: "DAI"
+	});
+	await axel.supply("Compound", {
+		amount: 25,
+		token: axel.tokens.DAI,
+		gasPriority: 0, // Low priority
+		transactionTime: 30, // 30 minutes
+	});
+	await axel.supply("Compound", {
+		amount: 25,
+		sellToken: axel.tokens.DAI,
+		gasPriority: 1, // Medium priority
+		transactionTime: 30, // 30 minutes
+	});
+	await axel.supply("Compound", { // client can specify the amount of buy token they want to receive
+		amount: 0.01,
+		buyToken: axel.tokens.cDAI,
+		gasPriority: 2, // Low priority
+		transactionTime: 30, // 30 minutes
+	});
+
 axel.borrow(protocol, request) => confirmation;
-	await axel.borrow("Compound", {amount: 0.01}); // Sell token is assumed to be ETH
+	await axel.borrow(axel.protocols.Compound, {amount: 0.01}); // Buy (borrow) token is assumed to be ETH
+	await axel.borrow("Compound", {
+		amount: 25,
+		buyToken: axel.tokens.DAI,
+		gasPriority: 2, // High priority
+		transactionTime: 30, // 30 minutes
+	});
+	await axel.borrow("Compound", {
+		amount: 25,
+		token: "DAI",
+		gasPriority: 0, // Low priority
+		transactionTime: 30, // 30 minutes
+	});
+
 axel.repay(protocol, request) => confirmation;
-	await axel.repay("Compound", {amount: 0.01}); // Sell token is assumed to be ETH
+	await axel.repay(axel.protocols.Compound, {amount: 0.01}); // Sell (repay) token is assumed to be ETH
+	await axel.repay("Compound", {
+		amount: 25,
+		sellToken: axel.tokens.DAI,
+		gasPriority: 2, // High priority
+		transactionTime: 30, // 30 minutes
+	});
+	await axel.repay("Compound", {
+		amount: 25,
+		token: "DAI",
+		gasPriority: 0, // Low priority
+		transactionTime: 30, // 30 minutes
+	});
+
 axel.stake(protocol, request) => confirmation;
-	await axel.stake("Lido", {amount: 0.01, sellToken: "DAI"});
+	await axel.stake(axel.protocols.Lido, {amount: 0.01}); // Sell token is assumed to be native staking token of the protocol, which in this case, is ETH
+	await axel.stake("Lido", { // Client can specify buy token if they want a certain amount returned
+		amount: 0.01,
+		buyToken: "stETH", // if buy token is not the native return token of the protocol (in this case, stETH), Axel will error
+		gasPriority: 0, // Low priority
+		transactionTime: 30, // 30 minutes
+	});
+	await axel.stake("Lido", { // Client can specify sell token
+		amount: 0.01,
+		sellToken: axel.tokens.ETH, // if sell token is not the native staking token of the protocol (in this case, ETH), Axel will error
+		gasPriority: 1, // Medium priority
+		transactionTime: 30, // 30 minutes
+	});
+	await axel.stake("Lido", { // Client can specify sell token
+		amount: 0.01,
+		token: axel.tokens.ETH, // if sell token is not the native staking token of the protocol (in this case, ETH), Axel will error
+		gasPriority: 2, // High priority
+		transactionTime: 30, // 30 minutes
+	});
+
 axel.unstake(protocol, request) => confirmation;
-	await axel.unstake("Lido", {amount: 0.01}); // Sell token is assumed to be ETH
+	await axel.unstake("Lido", {amount: 0.01}); // Sell token, which you will be returned here, is assumed to be the native staking token of the protocol, which in this case, is ETH
+	await axel.unstake(axel.protocols.Lido, {amount: 0.01});
+	await axel.unstake("Lido", { // Client can specify buy token if they want to redeem a certain amount
+		amount: 0.01,
+		buyToken: "stETH", // if buy token is not the native return token of the protocol (in this case, stETH), Axel will error
+		gasPriority: 0, // Low priority
+		transactionTime: 30, // 30 minutes
+	});
+	await axel.unstake(axel.protocols.Lido, { // Client can specify buy token if they want to redeem a certain amount
+		amount: 0.01,
+		buyToken: axel.tokens.stETH, // if buy token is not the native return token of the protocol (in this case, stETH), Axel will error
+		gasPriority: 0, // Low priority
+		transactionTime: 30, // 30 minutes
+	});
+
 axel.deposit(protocol, request) => confirmation;
-	await axel.deposit("Yearn", {amount: 0.01, sellToken: "DAI"});
+	await axel.deposit("Yearn", {amount: 0.01}); // sellToken is the token you deposit, assumed to be ETH here
+	await axel.deposit(axel.protocols.Yearn, {amount: 0.01, sellToken: "WBTC"}); // specifying the sell token here
+	await axel.deposit("Yearn", { // Client can specify buy token if they want a certain amount returned
+		amount: 0.01,
+		buyToken: "yvWBTC", // if buy token is not a token that can be returned by a vault on the protocol (in this case, yvWBTC), Axel will error
+		gasPriority: 0, // Low priority
+		transactionTime: 30, // 30 minutes
+	});
+	await axel.deposit(axel.protocols.Yearn, { // Client can specify buy token if they want a certain amount returned
+		amount: 0.01,
+		sellToken: axel.tokens.WBTC,
+		buyToken: axel.tokens.yvWBTC, // if buy token is not the native return token of the protocol (in this case, stETH), axel will error
+		gasPriority: 0, // Low priority
+		transactionTime: 30, // 30 minutes
+	});
+
 axel.withdraw(protocol, request) => confirmation;
-	await axel.withdraw("Lido", {amount: 0.01}); // Sell token is assumed to be ETH
+	await axel.withdraw("Yearn", {amount: 0.01});// Sell token, which you will be returned here, is assumed to be ETH
+	await axel.withdraw(axel.protocols.Yearn, {amount: 0.01, sellToken: "WBTC"}); // specifying the sell token, which you will be returned here
+	await axel.withdraw("Yearn", { // Client can specify buy token if they want a certain amount returned
+		amount: 0.01,
+		sellToken: "WBTC",
+		buyToken: "yvWBTC", // if buy token is not a token that can be returned by a vault on the protocol (in this case, yvWBTC), Axel will error
+		gasPriority: 0, // Low priority
+		transactionTime: 30, // 30 minutes
+	});
+	await axel.withdraw(axel.protocols.Yearn, { // Client can specify buy token if they want a certain amount returned
+		amount: 0.01,
+		sellToken: axel.tokens.WBTC,
+		buyToken: axel.tokens.yvWBTC, // if buy token is not the native return token of the protocol (in this case, stETH), axel will error
+		gasPriority: 0, // Low priority
+		transactionTime: 30, // 30 minutes
+	});
 // Buy token is required
 axel.exchange(protocol, request) => confirmation;
-	await axel.exchange("Uniswap", {amount: 0.01, buyToken: "USDC", sellToken: "DAI"});
-	await axel.exchange(axel.protocols.Sushiswap, {amount: 0.01, buyToken: "USDC"}); // Sell token is assumed to be ETH
+	await axel.exchange("Uniswap", {
+		amount: 0.01,
+		buyToken: "USDC",
+		sellToken: "DAI"
+	});
+	await axel.exchange(axel.protocols.Sushiswap, {
+		amount: 0.01,
+		buyToken: "USDC",
+		// Sell token is assumed to be ETH
+		slippage: 0.01, // 0.01% percent slippage allowed
+	});
 
 // TODO Add soon
 // axel.createPool(protocol, poolRequest) => confirmation;
@@ -257,10 +408,12 @@ axel.getBalance(token?, walletAddress?, provider?) => amount;
 	await axel.getBalance(); // 0.03 ETH
 	await axel.getBalance(axel.tokens.aWETH); // 0.01 aWETH
 	await axel.getBalance("aWETH", "0x1c87Ba20aB980f0c4C26AFEf9502967f6C4fD502"); // 0.01 aWETH
+
 // otherwise, routes to axel.getERC20Balance
 axel.getETHBalance(walletAddress?, provider?) => amount;
 	await axel.getETHBalance(); // 0.03 ETH
 	await axel.getETHBalance("0x1c87Ba20aB980f0c4C26AFEf9502967f6C4fD502", some_alchemy_bs); // 0.03 ETH
+	
 axel.getERC20Balance(token, walletAddress?, provider?) => amount;
 	await axel.getERC20Balance("aWETH"); // 0.01 aWETH
 	await axel.getERC20Balance(axel.tokens.aWETH, "0x1c87Ba20aB980f0c4C26AFEf9502967f6C4fD502"); // 0.01 aWETH
@@ -268,12 +421,16 @@ axel.getERC20Balance(token, walletAddress?, provider?) => amount;
 // Used for many protocols
 axel.estimateLendingAPY(protocol, staticRequest?, chain?) => growthRate;
 	axel.estimateLendingAPY("Aave"); // Returns lending APY for ETH -> aWETH
+	
 axel.estimateBorrowingAPY(protocol, staticRequest?, chain?) => growthRate;
 	axel.estimateLendingAPY("Aave"); // Returns borrowing APY for ETH -> aWETH
+	
 axel.estimateRewardsAPY(protocol, staticRequest?, chain?) => growthRate;
 	axel.estimateRewardsAPY("Lido"); // Returns rewards/staking APY for ETH -> stETH
+	
 axel.estimateYieldAPY(protocol, staticRequest?, chain?) => growthRate;
 	axel.estimateYieldAPY("Yearn"); // Returns yield earning APY for ETH -> yvWETH
+	
 axel.estimateAPY(protocol, staticRequest?, chain?) => growthRate;
 	axel.estimateAPY("Aave") // Returns lending APY for ETH -> aWETH
 	axel.estimateAPY("Compound", { // Returns lending APY for DAI -> cDAI
@@ -283,6 +440,7 @@ axel.estimateAPY(protocol, staticRequest?, chain?) => growthRate;
 		buyToken: "USDC"
 	})
 	axel.estimateAPY("Lido"); // Returns the rewards APY for ETH
+	
 axel.estimateExchangeRate(sellToken, buyToken) => exchangeRate;
 	axel.estimateExchangeRate("ETH", "USDC"); // 2768.94
 
