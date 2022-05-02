@@ -122,7 +122,7 @@ axel.setPreferences(basicRequest) => void;
 		transactionTime: 23, // 23 minutes
 	});
 
-axel.on(listenerName, callback) => void;
+axel.on(listenerName, callback, options) => void;
 	axel.on("walletConnect", (event) => {
 		console.log(event);
 	});
@@ -537,3 +537,8 @@ await sim.lend("Aave", {amount: 1});
 await delay(10000);
 const newBalance = sim.getERC20Balance("aWETH");
 console.assert(newBalance - priorBalance === 1);
+
+
+
+axel.lend("Aave", {amount: 0.01, walletAddress: "marcus"});
+axel.on("walletConnect", {}, callback);
