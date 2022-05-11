@@ -1,6 +1,6 @@
 # defi-api
 
-## Getting Started 
+## Getting Started!
 
 ```sh
 git clone https://github.com/nstrike2/defi-api.git
