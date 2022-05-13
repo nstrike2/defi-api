@@ -376,7 +376,9 @@ axel.deposit(protocol, request) => confirmation;
 // Can be used for withdrawing from lend protocols and yield vaults
 axel.withdraw(protocol, request) => confirmation;
 	/// Examples of withdrawing from lend protocols
-	await axel.withdraw(axel.protocols.Compound, {amount: 0.01}); // Buy token is assumed to be ETH
+	await axel.withdraw(axel.protocols.Compound, {
+		amount: 0.01
+	}); // Buy token is assumed to be ETH
 	await axel.withdraw("Compound", {
 		amount: 25,
 		buyToken: "DAI"
@@ -387,8 +389,8 @@ axel.withdraw(protocol, request) => confirmation;
 		gasPriority: 0, // Low priority
 		transactionTime: 30, // 30 minutes
 	});
-	await axel.withdraw("Compound", { // client can specify the amount of buy token they want to receive
-		amount: 0.01,
+	await axel.withdraw("Compound", {
+		amount: 0.01, // This is the amount of cDAI the user will receive
 		sellToken: axel.tokens.cDAI,
 		gasPriority: 2, // Low priority
 		transactionTime: 30, // 30 minutes
@@ -406,7 +408,7 @@ axel.withdraw(protocol, request) => confirmation;
 		gasPriority: 0, // Low priority
 		transactionTime: 30, // 30 minutes
 	});
-	await axel.withdraw(axel.protocols.Yearn, { // Client can specify sell token if they want to return a specific amount of the redemption token
+	await axel.withdraw(axel.protocols.Yearn, {
 		amount: 0.01, // This will return enough yvWBTC to return 0.01 WBTC
 		sellToken: axel.tokens.yvWBTC,
 		gasPriority: 2, // High priority

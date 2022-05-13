@@ -27,7 +27,7 @@ class AxelObj {
 		this._getWalletInterface = this._getWalletInterface.bind(this);
 		this.walletInterfaceExists = this.walletInterfaceExists.bind(this);
 		this.start = this.start.bind(this);
-		this.configureWalletInterface = this.configureWalletInterface.bind(this);
+		this.setWalletInterface = this.setWalletInterface.bind(this);
 		this._clearInternalListeners = this._clearInternalListeners.bind(this);
 		this._configureInternalListeners = this._configureInternalListeners.bind(this);
 		this.on = this.on.bind(this);
@@ -60,7 +60,7 @@ class AxelObj {
 	
 	async start() {
 		if (this.walletInterfaceExists()) {
-			await this.configureWalletInterface(this._getWalletInterface());
+			await this.setWalletInterface(this._getWalletInterface());
 		} else {
 			throw new Error("No wallet found. Use walletInterfaceExists to handle this case.");
 		}
@@ -80,7 +80,7 @@ class AxelObj {
 		return (+ethers.utils.formatUnits(value, decimals)).toFixed(this.precision);
 	}
 	
-	async configureWalletInterface(ethereum) {
+	setWalletInterface(ethereum) {
 		this._clearInternalListeners();
 		this.ethereum = ethereum;
 		if(ethereum) {

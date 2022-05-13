@@ -1,0 +1,11 @@
+Nano
+UI Dev for Alchemix
+self-paying loans
+Potentially speed up the process of integrating new lending systems
+
+Write smart contracts + adapters
+Regular yield farming
+At least one extra smart contract to interact with Axel
+JS or Sol?
+Main contract (the alchemist), handles all tokens -> every vault is its own contract, has its own contract
+Axel is the bridge from the user to the smart contract
