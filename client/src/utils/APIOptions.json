@@ -42,7 +42,7 @@
 		"actionType": "Exchanging",
 		"actionDisplay": "Exchange",
 		"action": "exchange",
-		"actionPhrase": "Slippage",
+		"actionPhrase": "Exchange Rate",
 		"chainIds": ["0x1", "0x539"],
 		"img": "https://cryptologos.cc/logos/uniswap-uni-logo.png",
 		"specialRequestParams": {
@@ -57,7 +57,7 @@
 		"actionType": "Exchanging",
 		"actionDisplay": "Exchange",
 		"action": "exchange",
-		"actionPhrase": "Slippage",
+		"actionPhrase": "Exchange Rate",
 		"chainIds": ["0x1", "0x539"],
 		"img": "https://cryptologos.cc/logos/sushiswap-sushi-logo.svg?v=022",
 		"specialRequestParams": {

@@ -1,5 +1,7 @@
 .Search-container {
-	box-shadow: 0px 0px 12px 5px rgb(101, 209, 124);
+	/* box-shadow: 0px 0px 12px 5px rgb(0, 0, 0); */
+	border-radius: 3px;
+	border:  1px solid rgb(0, 0, 0);
 	border-radius: 3%;
 	display: flex;
 	flex-direction: column;
@@ -41,7 +43,7 @@
 }
 
 .Search-cell:hover {
-	background-color: #211F2D;
+	background-color: rgb(245, 255, 120);
 }
 
 .Search-img-container {
@@ -58,7 +60,7 @@
 
 .Search-text {
 	font-family: sans-serif;
-	color: #fff;
+	color: rgb(0, 0, 0);
 	font-size: 14px;
 	font-weight: 400;
 	padding: 12px;

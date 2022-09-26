@@ -44,13 +44,17 @@ class APISearchBox extends React.Component {
 				{this.state.isSearching ? (
 					<div>
 						<div className="Search-buffer"></div>
-						<ActionOption onClick={this.chooseOption} protocol="Aave"      actionFn={amount => axel.lend(         "Aave", {amount})} />
-						<ActionOption onClick={this.chooseOption} protocol="Compound"  actionFn={amount => axel.lend(     "Compound", {amount})} />
-						<ActionOption onClick={this.chooseOption} protocol="Uniswap"   actionFn={amount => axel.exchange(  "Uniswap", {amount, "buyToken": "DAI"})} />
+						{/* what I want it to look like */}
+						{/* <ActionOption protocol="Aave" onClick={axel.lend(....)} /> */}
+
+
+						<ActionOption onClick={this.chooseOption} protocol="Aave" actionFn={amount => axel.lend("Aave", {amount})} />
+						<ActionOption onClick={this.chooseOption} protocol="Compound" actionFn={amount => axel.lend("Compound", {amount})} />
+						<ActionOption onClick={this.chooseOption} protocol="Uniswap" actionFn={amount => axel.exchange("Uniswap", {amount, "buyToken": "DAI"})} />
 						<ActionOption onClick={this.chooseOption} protocol="Sushiswap" actionFn={amount => axel.exchange("Sushiswap", {amount, "buyToken": "DAI"})} />
-						<ActionOption onClick={this.chooseOption} protocol="Lido"      actionFn={amount => axel.stake(        "Lido", {amount})} />
-						<ActionOption onClick={this.chooseOption} protocol="Yearn"     actionFn={amount => axel.deposit(     "Yearn", {amount})} />
-						<ActionOption onClick={this.chooseOption} protocol="Rari"      actionFn={amount => axel.lend(         "Rari", {amount})} />
+						<ActionOption onClick={this.chooseOption} protocol="Lido" actionFn={amount => axel.stake("Lido", {amount})} />
+						<ActionOption onClick={this.chooseOption} protocol="Yearn" actionFn={amount => axel.deposit("Yearn", {amount})} />
+						<ActionOption onClick={this.chooseOption} protocol="Rocket Pool" actionFn={amount => axel.stake("Rocket Pool", {amount})} />
 					</div>
 				) : (<ActionUI axel={axel} protocol={this.state.protocol} actionFn={this.state.actionFn} exitUI={this.exitUI} />)}
 			</div>

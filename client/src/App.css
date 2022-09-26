@@ -1,5 +1,5 @@
 .App {
-	background-color: #12111C;
+	background-color: #FFFFFF;
 	min-height: 100vh;
 }
 
@@ -13,9 +13,9 @@
 }
 
 .Title-img {
-	max-width: 36px;
-	max-height: 36px;
-	margin-right: 10px;
+	max-width: 100px;
+	max-height: 100px;
+	margin-right: 100px;
 }
 
 .navbar-item {
@@ -42,11 +42,12 @@
 }
 
 .Wallet-button {
+	position: relative;
 	font-family: sans-serif;
-	color: #fff;
-	box-shadow: 0px 0px 12px 5px white;
+	color: rgb(0, 0, 0);
+	/* box-shadow: 0px 0px 12px 5px rgb(245, 255, 120); */
 	border-radius: 3px;
-	border:  2px solid white;
+	border:  1px solid rgb(0, 0, 0);
 	background: transparent;
 	display: inline-block;
 	font-size: 14px;
@@ -56,16 +57,20 @@
 
 }
 
+.Wallet-button span {
+	padding-left: 20px;
+}
+
 .Text-title-big {
 	font-family: sans-serif;
-	color: #fff;
+	color: rgb(0, 0, 0);
 	font-size: 48px;
 	font-weight: 800;
 }
 
 .Text-title-small {
 	font-family: sans-serif;
-	color: #fff;
+	color: rgb(0, 0, 0);
 	font-size: 14px;
 	font-weight: 600;
 	margin-top: 2vh;
@@ -80,8 +85,21 @@
 	padding: 5vh 0;
 }
 
-.Green-border {
-	box-shadow: 0px 0px 12px 5px rgb(101, 209, 124);
+.button-border {
+	/* box-shadow: 0px 0px 12px 5px rgb(0, 0, 0); */
 	border-radius: 3px;
-	border:  2px solid rgb(101, 209, 124);
+	border:  1px solid rgb(0, 0, 0);
+}
+
+.wallet-checkmark {
+	position: absolute;
+	float: left;
+	left: 19px;
+    top: 30%;
+	max-width: 15px;
+	padding-right: 10px;
+}
+
+.connected-wallet-info span {
+	padding-left: 25px;
 }

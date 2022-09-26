@@ -166,7 +166,7 @@ class ActionUI extends React.Component {
 								<div className="transaction-details">
 									<div className="transaction-detail-cell">
 										<div className="label">{APIOptions[this.props.protocol].actionPhrase}</div>
-										<div className="data">{0.39}%</div>
+										<div className="data">{"TODO"}%</div>
 									</div>
 									<div className="transaction-detail-cell">
 										{/* TODO: Logic for choosing the index within gasSetting mapping */}

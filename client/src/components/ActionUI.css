@@ -1,8 +1,10 @@
 .menu-modal {
-	background-color: #211F2D;
+	background-color: #FFFFFF;
 	border-bottom-left-radius: 3%;
 	border-bottom-right-radius: 3%;
-	color: #BDBDBD;
+	border-top-left-radius: 3%;
+	border-top-right-radius: 3%;
+	color: rgb(0, 0, 0);
 	padding-left: 18.48px;
 	padding-right: 18.48px;
 }
@@ -37,18 +39,18 @@
 }
 
 .token-text {
-	color: #fff;
+	color: black;
 }
 
 .send-amount {
 	background-color: transparent;
-	color: white;
+	color: black;
 	text-align: center;
 	font-size: 18px;
 	width: 60%;
 	margin-top: 7px;
 	height: 48.5px;
-	border: 1px solid #464646;
+	border: 1px solid black;
 	border-radius: 8px;
 }
   
@@ -56,22 +58,22 @@
 	outline: none;
 }
 
-.send-amount:focus-within {
+/* .send-amount:focus-within {
 	border: 2px solid #BDBDBD;
-}
+} */
 
 .receive-amount {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	background-color: transparent;
-	color: white;
+	color: black;
 	text-align: center;
 	font-size: 18px;
 	width: 60%;
 	margin-top: 7px;
 	height: 48.5px;
-	border: 1px solid #464646;
+	border: 1px solid black;
 	border-radius: 8px;
 }
 
@@ -103,7 +105,7 @@ input[type=number] {
 }
 
 .gas-setting {
-	color: rgb(101, 209, 124);
+	color: #63DAFF;
 }
 
 .label {
@@ -118,7 +120,7 @@ input[type=number] {
 }
 
 .data {
-	color: white;
+	color: black;
 	float: right;
 }
 
@@ -129,20 +131,22 @@ input[type=number] {
 
 .supply-button {
 	cursor: pointer;
-	background-color: rgb(101, 209, 124);
+	background-color: rgb(245, 255, 120);
 	height: 39px;
 	margin-top: 14px;
 	margin-bottom: 26px;
-	color: white;
+	color: black;
 	font-style: normal;
 	font-weight: 590;
 	font-size: 16px;
-	border: 1px solid #464646;
+	border: 1px solid transparent;
 	box-sizing: border-box;
 	border-radius: 5px;
 	width: 100%;
 }
 
 .supply-button:hover {
-	background-color: #60C582;
+	background-color: rgb(245, 255, 120);
+	border: 1px solid black;
+	border-radius: 5px;
 }
