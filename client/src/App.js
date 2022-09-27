@@ -68,7 +68,7 @@ class App extends React.Component {
         </header>
 
         <div className="Main-container">
-          <Title text="Lend. Stake. Yield. Exchange." />
+          <Title text="Lend. Stake. Yield. Swap." />
           <div className="Text-title-small">
             Showcasing the world's most powerful, composable, and universal DeFi
             developer platform.

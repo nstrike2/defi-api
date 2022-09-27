@@ -36,7 +36,7 @@
 	},
 	"Uniswap": {
 		"id": 3,
-		"text": "Exchange on Uniswap",
+		"text": "Swap on Uniswap",
 		"protocol": "Uniswap",
 		"defaultToken": "DAI",
 		"actionType": "Exchanging",
@@ -51,7 +51,7 @@
 	},
 	"Sushiswap": {
 		"id": 4,
-		"text": "Exchange on Sushiswap",
+		"text": "Swap on Sushiswap",
 		"protocol": "Sushiswap",
 		"defaultToken": "DAI",
 		"actionType": "Exchanging",
