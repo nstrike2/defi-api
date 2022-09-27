@@ -1,0 +1,152 @@
+.menu-modal {
+	background-color: #FFFFFF;
+	border-bottom-left-radius: 3%;
+	border-bottom-right-radius: 3%;
+	border-top-left-radius: 3%;
+	border-top-right-radius: 3%;
+	color: rgb(0, 0, 0);
+	padding-left: 18.48px;
+	padding-right: 18.48px;
+}
+
+.menu-form {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.description {
+	font-size: 12px;
+	margin-top: 14px;
+}
+
+.token-modal {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	justify-content: center;
+}
+
+.eth-logo.token-logo {
+	margin-right: 25px;
+}
+
+.token-logo {
+	max-width: 100%;
+	height: 70%;
+	margin-right: 15px;
+}
+
+.token-text {
+	color: black;
+}
+
+.send-amount {
+	background-color: transparent;
+	color: black;
+	text-align: center;
+	font-size: 18px;
+	width: 60%;
+	margin-top: 7px;
+	height: 48.5px;
+	border: 1px solid black;
+	border-radius: 8px;
+}
+  
+.send-amount:focus {
+	outline: none;
+}
+
+/* .send-amount:focus-within {
+	border: 2px solid #BDBDBD;
+} */
+
+.receive-amount {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: transparent;
+	color: black;
+	text-align: center;
+	font-size: 18px;
+	width: 60%;
+	margin-top: 7px;
+	height: 48.5px;
+	border: 1px solid black;
+	border-radius: 8px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+	-moz-appearance: textfield;
+}
+
+.protocol {
+	display: flex;
+	flex-direction: row;
+	margin-top: 18.48px;
+	padding-left: 0px;
+}
+
+.transaction-detail-cell {
+	height: 45px;
+	font-size: 14px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.gas-setting {
+	color: #63DAFF;
+}
+
+.label {
+	margin-left: 12px;
+	margin-right: 12px;
+	width: 50%;
+	display: inline-block;
+}
+
+.gear-logo {
+	margin-left: 0.7vh;
+}
+
+.data {
+	color: black;
+	float: right;
+}
+
+.close-icon {
+	cursor: pointer;
+	margin-left: auto;
+}
+
+.supply-button {
+	cursor: pointer;
+	background-color: rgb(245, 255, 120);
+	height: 39px;
+	margin-top: 14px;
+	margin-bottom: 26px;
+	color: black;
+	font-style: normal;
+	font-weight: 590;
+	font-size: 16px;
+	border: 1px solid transparent;
+	box-sizing: border-box;
+	border-radius: 5px;
+	width: 100%;
+}
+
+.supply-button:hover {
+	background-color: rgb(245, 255, 120);
+	border: 1px solid black;
+	border-radius: 5px;
+}

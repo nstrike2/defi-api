@@ -1,0 +1,186 @@
+{
+	"networks": {
+		"0x2a": {
+			"chainId": "0x2a",
+			"chainName": "Kovan",
+			"rpcUrls": [
+				"https://kovan.poa.network"
+			],
+			"nativeCurrency": {
+				"name": "Kovan ETH",
+				"symbol": "KOV",
+				"decimals": 18
+			},
+			"blockExplorerUrls": [
+				"https://kovan.etherscan.io/"
+			],
+			"network": "kovan"
+		},
+		"0x4": {
+			"chainId": "0x4",
+			"chainName": "Rinkeby",
+			"rpcUrls": [
+				"https://rinkeby.infura.io/v3/"
+			],
+			"nativeCurrency": {
+				"name": "Rinkeby ETH",
+				"symbol": "RIN",
+				"decimals": 18
+			},
+			"blockExplorerUrls": [
+				"https://rinkeby.etherscan.io"
+			],
+			"network": "rinkeby"
+		},
+		"0x5": {
+			"chainId": "0x5",
+			"chainName": "Goerli",
+			"rpcUrls": [
+				"https://goerli.infura.io"
+			],
+			"nativeCurrency": {
+				"name": "Goerli ETH",
+				"symbol": "GOR",
+				"decimals": 18
+			},
+			"blockExplorerUrls": [
+				"https://goerli.etherscan.io/"
+			],
+			"network": "goerli"
+		},
+		"0x3": {
+			"chainId": "0x3",
+			"chainName": "Ropsten",
+			"rpcUrls": [
+				"https://ropsten.infura.io/v3"
+			],
+			"nativeCurrency": {
+				"name": "Ropsten ETH",
+				"symbol": "ETH",
+				"decimals": 18
+			},
+			"blockExplorerUrls": [
+				"https://ropsten.etherscan.io/"
+			],
+			"network": "ropsten"
+		},
+		"0x1": {
+			"chainId": "0x1",
+			"chainName": "Ethereum",
+			"rpcUrls": [
+				"https://infura.io"
+			],
+			"nativeCurrency": {
+				"name": "ETH",
+				"symbol": "ETH",
+				"decimals": 18
+			},
+			"blockExplorerUrls": [
+				"https://etherscan.io/"
+			],
+			"network": "mainnet"
+		},
+		"0x539": {
+			"chainId": "0x539",
+			"chainName": "AxelNet",
+			"rpcUrls": [
+				"http://localhost:8545/"
+			],
+			"nativeCurrency": {
+				"name": "XETH",
+				"symbol": "XETH",
+				"decimals": 18
+			},
+			"blockExplorerUrls": [],
+			"network": "axelnet",
+			"isPrivateTestnet": true
+		}
+	},
+	"actionTypes": {
+		"lend": "lending",
+		"stake": "staking",
+		"exchange": "exchanging",
+		"deposit": "yielding"
+	},
+	"protocols": {
+		"Compound": {
+			"token": "cETH",
+			"actions": [
+				"lend"
+			],
+			"chainIds": [
+				"0x1",
+				"0x539",
+				"0x4"
+			],
+			"img": "https://cryptologos.cc/logos/compound-comp-logo.png?v=022"
+		},
+		"Aave": {
+			"token": "aWETH",
+			"actions": [
+				"lend"
+			],
+			"chainIds": [
+				"0x1",
+				"0x539",
+				"0x2a"
+			],
+			"img": "https://cryptologos.cc/logos/aave-aave-logo.png?v=022"
+		},
+		"Uniswap": {
+			"actions": [
+				"exchange"
+			],
+			"chainIds": [
+				"0x1",
+				"0x539"
+			],
+			"img": "https://cryptologos.cc/logos/uniswap-uni-logo.png"
+		},
+		"Sushiswap": {
+			"actions": [
+				"exchange"
+			],
+			"chainIds": [
+				"0x1",
+				"0x539"
+			],
+			"img": "https://cryptologos.cc/logos/sushiswap-sushi-logo.svg?v=022"
+		},
+		"Rocket Pool": {
+			"token": "rETH",
+			"actions": [
+				"stake"
+			],
+			"chainIds": [
+				"0x1",
+				"0x539",
+				"0x5"
+			],
+			"img": "https://docs.rocketpool.net/images/logo.png"
+		},
+		"Lido": {
+			"token": "stETH",
+			"actions": [
+				"stake"
+			],
+			"chainIds": [
+				"0x1",
+				"0x539",
+				"0x5"
+			],
+			"img": "https://lido.fi/static/images/%D1%81omingSoon/logo-color.svg"
+		},
+		"Yearn": {
+			"token": "yvWETH",
+			"actions": [
+				"deposit"
+			],
+			"chainIds": [
+				"0x1",
+				"0x539"
+			],
+			"img": "https://cryptologos.cc/logos/yearn-finance-yfi-logo.svg?v=022"
+		}
+	}
+}
