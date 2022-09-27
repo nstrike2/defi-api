@@ -62,16 +62,16 @@
 }
 
 .Text-title-big {
-	font-family: sans-serif;
+	font-family: DeregularSemiBold;
 	color: rgb(0, 0, 0);
 	font-size: 48px;
 	font-weight: 800;
 }
 
 .Text-title-small {
-	font-family: sans-serif;
+	font-family: DeregularSemiBold;
 	color: rgb(0, 0, 0);
-	font-size: 20px;
+	font-size: 25px;
 	font-weight: 600;
 	margin-top: 2vh;
 }
@@ -102,4 +102,9 @@
 
 .connected-wallet-info span {
 	padding-left: 25px;
+}
+
+@font-face {
+	font-family: 'DeregularSemiBold';
+	src: local('DeregularSemiBold'), url(./fonts/degular-semibold.otf) format('opentype');
 }
