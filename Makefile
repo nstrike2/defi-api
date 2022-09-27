@@ -4,6 +4,14 @@ else
 	PATH := $(PATH):./node_modules/.bin
 endif
 
+os:
+	echo $(OS)
+.PHONY: os
+
+path:
+	echo $(PATH)
+.PHONY: path
+
 start:
 	react-scripts start
 .PHONY: start
