@@ -1,69 +1,37 @@
 import React from "react";
-import APIOptions from "../utils/APIOptions.json";
-import "./ActionUI.css";
+import "../components/ActionUI.css";
 import {Box} from "@mui/material";
 import {axel} from "../axel_inst";
+import {logos} from "../logos";
 
-export class ActionUI extends React.Component {
+export class AaveActionComponent extends React.Component {
 	constructor(props) {
 		super(props);
-		this.mounted = null;
-		this.defaultToken = APIOptions[this.props.protocol].defaultToken;
-		this.actionFn = this.props.actionFn;
+		this.mounted = false;
 		this.state = {
 			ethBalance: "Loading...",
 			formTokenBalance: "Loading...",
-			walletAddress: null,
-			chainId: -1,
 			amount: "",
 			estimate: 0,
-			tokens: {
-				"ethereum": {
-					"image": "ethereum-logo.png",
-					"text": "Ethereum",
-					"acronym": "ETH"
-				}
-			},
 			gasSetting: {
 				0: "Slow",
 				1: "Normal",
 				2: "Fast"
 			},
 		};
-		this.bindFunctions();
 	}
 	
 	_setState(obj) {
 		if(this.mounted) this.setState(obj);
 	}
 	
-	bindFunctions() {
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleChange = this.handleChange.bind(this);
-		this.on_accounts_update = this.on_accounts_update.bind(this);
-		this.on_chain_update = this.on_chain_update.bind(this);
-	}
-	
-	on_accounts_update(accounts_update) {
-		if (accounts_update.status === "error") {
-			console.error(accounts_update.error);
-			return;
-		}
-		this._setState({account: accounts_update.accounts[0]});
-	}
-	
-	on_chain_update(chain_update) {
-		if (chain_update.status === "error") {
-			console.error(chain_update.error);
-			return;
-		}
-		this._setState({chain_id: chain_update.chain_id});
-	}
-	
 	componentDidMount() {
 		this.mounted = true;
-		axel.on("accounts_update", this.on_accounts_update);
-		axel.on("chain_update", this.on_chain_update);
+		// TODO: add token balance listeners to sdk and then here
+	}
+	componentWillUnmount() {
+		this.mounted = false;
+		// TODO: remove whatever token balance listeners are added above
 	}
 	
 	async handleChange(event) {
@@ -71,7 +39,8 @@ export class ActionUI extends React.Component {
 		let estimate = 0;
 		if(!isNaN(amount) && amount > 0) {
 			const exchangeRate = 1;
-			// const exchangeRate = await axel.swap_rate({sell_token: "ETH", buy_token: this.defaultToken});
+			// TODO: get the sdk swap_rate working
+			// const exchangeRate = await axel.swap_rate({sell_token: "ETH", buy_token: "aWETH"});
 			estimate = (exchangeRate * amount).toFixed(2);
 		}
 		this._setState({ amount, estimate });
@@ -79,44 +48,35 @@ export class ActionUI extends React.Component {
 	
 	async handleSubmit(event) {
 		event.preventDefault();
-		// If specialRequestParams is not implemented, it defaults to undefined and adds no properties
-		const {protocol} = this.props;
-		await this.actionFn(Number(this.state.amount));
+		
+		await axel.lend({
+			protocol: "aave",
+			token: "ETH",
+			amount: Number(this.state.amount),
+		});
+		
 		this.props.exitUI();
-	}
-	
-	componentWillUnmount() {
-		this.mounted = false;
-		axel.off("accounts_update", this.on_accounts_update);
-		axel.off("chain_update", this.on_chain_update);
 	}
 	
 	render() {
 		return (
 			<div className="menu-modal">
 				<div className="protocol">
-					<img
-						src={APIOptions[this.props.protocol].img}
-						className="Search-img"
-						alt=""
-					/>
-					<div className="Search-text">{this.props.protocol}</div>
-					<div>
-
-					</div>
-					<img className="close-icon" src="close-icon.svg" alt="Close icon" onClick={this.props.exitUI}/>
+					<img src={logos.aWETH} className="Search-img" alt="" />
+					<div className="Search-text">Aave</div>
+					<img className="close-icon" src="close-icon.svg" alt="Close icon" onClick={this.props.exitUI} />
 				</div>
 				
-				<form className="input-api-form" onSubmit={this.handleSubmit} autoComplete="off">
+				<form className="input-api-form" onSubmit={this.handleSubmit.bind(this)} autoComplete="off">
 					<label>
-						<div className="description">Amount &#38; Token To { APIOptions[this.props.protocol].actionDisplay }</div>
+						<div className="description">Amount &#38; Token To Lend</div>
 						<div className="menu-form">
 							<input
 								className="send-amount"
 								type="number"
 								placeholder="0"
 								value={this.state.amount}
-								onChange={this.handleChange}
+								onChange={this.handleChange.bind(this)}
 							/>
 							<Box
 								className="token-modal"
@@ -130,8 +90,8 @@ export class ActionUI extends React.Component {
 									borderRadius: 2
 								}}
 							>
-								<img className="eth-logo token-logo" src={this.state.tokens["ethereum"]["image"]} alt="Ethereum logo"/>
-								<div className="token-text">{this.state.tokens["ethereum"]["acronym"]}</div>
+								<img className="eth-logo token-logo" src={logos.ETH} alt="Ethereum logo" />
+								<div className="token-text">ETH</div>
 							</Box>
 						</div>
 
@@ -150,8 +110,8 @@ export class ActionUI extends React.Component {
 									borderRadius: 2
 								}}
 							>
-								<img className="token-logo" src={APIOptions[this.props.protocol].img} alt={this.defaultToken}/>
-								<div className="token-text">{this.defaultToken}</div>
+								<img className="token-logo" src={logos.aWETH} alt="aWETH" />
+								<div className="token-text">aWETH</div>
 							</Box>
 						</div>
 
@@ -174,14 +134,14 @@ export class ActionUI extends React.Component {
 							>
 								<div className="transaction-details">
 									<div className="transaction-detail-cell">
-										<div className="label">{APIOptions[this.props.protocol].actionPhrase}</div>
+										<div className="label">Lend APY</div>
 										<div className="data">{"TODO"}%</div>
 									</div>
 									<div className="transaction-detail-cell">
 										{/* TODO: Logic for choosing the index within gasSetting mapping */}
 										<div className="label">
 											Gas | <span className="gas-setting">{this.state.gasSetting[1]}</span>
-											<img className="gear-logo" src="gear.svg" alt="Gear logo"/>
+											<img className="gear-logo" src="gear.svg" alt="Gear logo" />
 										</div>
 										<div className="data">${8.08}</div>
 									</div>
@@ -208,21 +168,16 @@ export class ActionUI extends React.Component {
 										<div className="data">{this.state.ethBalance}</div>
 									</div>
 									<div className="transaction-detail-cell">
-										<div className="label">{this.defaultToken}:</div>
+										<div className="label">aWETH:</div>
 										<div className="data">{this.state.formTokenBalance}</div>
 									</div>
 								</div>
 							</Box>
 						</div>
 					</label>
-					<input className="supply-button" type="submit" value={APIOptions[this.props.protocol].actionDisplay + " " + this.state.tokens["ethereum"]["acronym"]}/>
+					<input className="supply-button" type="submit" value="Lend ETH" />
 				</form>
 			</div>
 		);
-	}
-	
-	// This can be overridden by the Implementation
-	buildTransaction(data) {
-		return Object.assign({from: this.state.walletAddress}, data);
 	}
 }

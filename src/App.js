@@ -21,20 +21,20 @@ class App extends React.Component {
               className="navbar-item Title-img"
               src="axel-logo.svg"
               alt="Axel Logo"
-            />
+           />
             {/* <div className="navbar-item Text-header">axel</div> */}
           </span>
-          <WalletConnectButton />
+          <WalletConnectButton/>
         </header>
 
         <div className="Main-container">
-          <Title text="Lend. Stake. Yield. Swap." />
+          <Title text="Lend. Stake. Yield. Swap."/>
           <div className="Text-title-small">
             Showcasing the world's most powerful, composable, and universal DeFi
             developer platform.
           </div>
 
-          <APISearchBox />
+          <APISearchBox/>
         </div>
       </div>
     );

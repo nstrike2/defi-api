@@ -38,7 +38,7 @@ export class WalletConnectButton extends React.Component {
         ) : (
           <button
             className="Wallet-button"
-            onClick={async e => {console.log(e); await axel.connect()}}
+            onClick={axel.connect}
           >
             {" "}
             Connect Wallet{" "}
