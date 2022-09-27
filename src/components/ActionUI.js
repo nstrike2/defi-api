@@ -81,6 +81,7 @@ export class ActionUI extends React.Component {
 		event.preventDefault();
 		// If specialRequestParams is not implemented, it defaults to undefined and adds no properties
 		const {protocol} = this.props;
+		await this.actionFn(Number(this.state.amount));
 		this.props.exitUI();
 	}
 	

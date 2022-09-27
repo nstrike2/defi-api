@@ -90,7 +90,7 @@
 	},
 	"Yearn": {
 		"id": 7,
-		"text": "Deposit on Yearn",
+		"text": "Earn Yield on Yearn",
 		"protocol": "Yearn",
 		"defaultToken": "yvWETH",
 		"actionType": "Yielding",
