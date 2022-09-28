@@ -91,7 +91,7 @@ export class AaveActionComponent extends React.Component {
 				<form className="input-api-form" onSubmit={this.handleSubmit.bind(this)} autoComplete="off">
 					<label>
 						<div className="description">Amount &#38; Token To Lend</div>
-						<InputTokenComponent amount={this.state.amount} handleChange={this.handleChange.bind(this)} logo={logos.ETH} tokenName="ETH"/>
+						<InputTokenComponent amount={this.state.amount} handleChange={this.handleChange.bind(this)} logo={logos.ETH} logoAlt="Ethereum logo" tokenName="ETH"/>
 
 						<div className="description">Amount &#38; Token To Receive</div>
 						{/* TODO Replace estimate with swap rate SDK call */}
