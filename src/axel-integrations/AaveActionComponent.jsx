@@ -3,6 +3,8 @@ import "../components/ActionUI.css";
 import {Box} from "@mui/material";
 import {axel} from "../axel_inst";
 import {logos} from "../logos";
+import {lookers} from "@axelapi/sdk";
+import {ActionComponentCloser} from "../components/ActionComponentCloser";
 
 export class AaveActionComponent extends React.Component {
 	constructor(props) {
@@ -27,20 +29,30 @@ export class AaveActionComponent extends React.Component {
 	
 	componentDidMount() {
 		this.mounted = true;
-		// TODO: add token balance listeners to sdk and then here
+		this.eth_looker = lookers.make_balance_looker(axel, {
+			token: "ETH",
+			chain: null,
+		}, function callback () {
+			
+		});
+		this.aWETH_looker = lookers.make_balance_looker(axel, {
+			token: "aWETH",
+			chain: null,
+		}, function callback () {
+			
+		});
 	}
 	componentWillUnmount() {
 		this.mounted = false;
-		// TODO: remove whatever token balance listeners are added above
+		this.eth_looker.stop();
+		this.aWETH_looker.stop();
 	}
 	
 	async handleChange(event) {
 		const amount = event.target.value;
 		let estimate = 0;
 		if(!isNaN(amount) && amount > 0) {
-			const exchangeRate = 1;
-			// TODO: get the sdk swap_rate working
-			// const exchangeRate = await axel.swap_rate({sell_token: "ETH", buy_token: "aWETH"});
+			const exchangeRate = await axel.swap_rate({sell_token: "ETH", buy_token: "ETH"});
 			estimate = (exchangeRate * amount).toFixed(2);
 		}
 		this._setState({ amount, estimate });
@@ -61,12 +73,7 @@ export class AaveActionComponent extends React.Component {
 	render() {
 		return (
 			<div className="menu-modal">
-				<div className="protocol">
-					<img src={logos.aWETH} className="Search-img" alt="" />
-					<div className="Search-text">Aave</div>
-					<img className="close-icon" src="close-icon.svg" alt="Close icon" onClick={this.props.exitUI} />
-				</div>
-				
+				<ActionComponentCloser logo={logos.aWETH} token="Aave" onClick={this.props.exitUI}/>
 				<form className="input-api-form" onSubmit={this.handleSubmit.bind(this)} autoComplete="off">
 					<label>
 						<div className="description">Amount &#38; Token To Lend</div>
