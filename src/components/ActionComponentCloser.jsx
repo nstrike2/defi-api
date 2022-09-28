@@ -1,4 +1,5 @@
 import React from "react";
+
 export class ActionComponentCloser extends React.Component {
 	render() {
 		return (

@@ -1,7 +1,7 @@
 ifeq ($(OS), Windows_NT)
 	PATH := $(PATH);.\node_modules\.bin
 else
-	PATH := $(PATH):./node_modules/.bin
+	PATH := $(PATH):/Users/neetishsharma/Desktop/defi-api/node_modules/.bin
 endif
 
 os:
