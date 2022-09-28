@@ -11,6 +11,7 @@ export class AaveActionComponent extends React.Component {
 		super(props);
 		this.mounted = false;
 		this.state = {
+			swap_rate: undefined,
 			ETH_balance: "Loading...",
 			aWETH_balance: "Loading...",
 			amount: "",
@@ -61,9 +62,12 @@ export class AaveActionComponent extends React.Component {
 		const amount = event.target.value;
 		let estimate = 0;
 		if(!isNaN(amount) && amount > 0) {
-			const exchangeRate = 1;
-			// const exchangeRate = await axel.swap_rate({sell_token: "ETH", buy_token: "ETH"});
-			estimate = (exchangeRate * amount).toFixed(3);
+			let swap_rate = this.state.swap_rate;
+			if (swap_rate === undefined) {
+				swap_rate = await axel.get_swap_rate({sell_token: "ETH", buy_token: "ETH"});
+				this._setState({swap_rate});
+			}
+			estimate = (swap_rate * amount).toFixed(3);
 		}
 		this._setState({ amount, estimate });
 	}
