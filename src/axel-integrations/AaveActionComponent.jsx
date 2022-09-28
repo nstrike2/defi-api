@@ -5,6 +5,8 @@ import {axel} from "../axel_inst";
 import {logos} from "../logos";
 import {lookers} from "@axelapi/sdk";
 import {ActionComponentCloser} from "../components/ActionComponentCloser";
+import {InputTokenComponent} from "../components/InputTokenComponent";
+import {ReceiptTokenComponent} from "../components/ReceiptTokenComponent";
 
 export class AaveActionComponent extends React.Component {
 	constructor(props) {
@@ -89,50 +91,11 @@ export class AaveActionComponent extends React.Component {
 				<form className="input-api-form" onSubmit={this.handleSubmit.bind(this)} autoComplete="off">
 					<label>
 						<div className="description">Amount &#38; Token To Lend</div>
-						<div className="menu-form">
-							<input
-								className="send-amount"
-								type="number"
-								placeholder="0"
-								value={this.state.amount}
-								onChange={this.handleChange.bind(this)}
-							/>
-							<Box
-								className="token-modal"
-								sx={{
-									width: "40%",
-									marginTop: "7px",
-									marginLeft: "14px",
-									height: "50px",
-									border: 1,
-									borderColor: "#464646",
-									borderRadius: 2
-								}}
-							>
-								<img className="eth-logo token-logo" src={logos.ETH} alt="Ethereum logo" />
-								<div className="token-text">ETH</div>
-							</Box>
-						</div>
+						<InputTokenComponent amount={this.state.amount} handleChange={this.handleChange.bind(this)} logo={logos.ETH} tokenName="ETH"/>
 
 						<div className="description">Amount &#38; Token To Receive</div>
-						<div className="menu-form">
-							<div className="receive-amount">{this.state.estimate}</div>
-							<Box
-								className="token-modal"
-								sx={{
-									width: "40%",
-									marginTop: "7px",
-									marginLeft: "14px",
-									height: "50px",
-									border: 1,
-									borderColor: "#464646",
-									borderRadius: 2
-								}}
-							>
-								<img className="token-logo" src={logos.aWETH} alt="aWETH" />
-								<div className="token-text">aWETH</div>
-							</Box>
-						</div>
+						{/* TODO Replace estimate with swap rate SDK call */}
+						<ReceiptTokenComponent estimate={this.state.estimate} logo={logos.aWETH} tokenName="aWETH"/>
 
 						<div className="description">Transaction Details</div>
 						<div className="menu-form">
