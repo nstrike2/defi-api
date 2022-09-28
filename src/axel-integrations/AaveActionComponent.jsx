@@ -16,6 +16,7 @@ export class AaveActionComponent extends React.Component {
 			swap_rate: undefined,
 			ETH_balance: "Loading...",
 			aWETH_balance: "Loading...",
+			apy: "???",
 			amount: "",
 			estimate: 0,
 			gasSetting: {
@@ -30,7 +31,7 @@ export class AaveActionComponent extends React.Component {
 		if(this.mounted) this.setState(obj);
 	}
 	
-	componentDidMount() {
+	async componentDidMount() {
 		this.mounted = true;
 		this.ETH_looker = lookers.make_balance_looker(axel, {
 			token: "ETH",
@@ -52,6 +53,12 @@ export class AaveActionComponent extends React.Component {
 			} else {
 				this._setState({ aWETH_balance: "error" });
 			}
+		});
+		this._setState({
+			apy: (await axel.get_apy("lend", {
+				protocol: "aave",
+				token: "ETH",
+			})).toFixed(2),
 		});
 	}
 	componentWillUnmount() {
@@ -117,7 +124,7 @@ export class AaveActionComponent extends React.Component {
 								<div className="transaction-details">
 									<div className="transaction-detail-cell">
 										<div className="label">Lend APY</div>
-										<div className="data">{"TODO"}%</div>
+										<div className="data">{this.state.apy}%</div>
 									</div>
 									<div className="transaction-detail-cell">
 										{/* TODO: Logic for choosing the index within gasSetting mapping */}
@@ -125,7 +132,6 @@ export class AaveActionComponent extends React.Component {
 											Gas | <span className="gas-setting">{this.state.gasSetting[1]}</span>
 											<img className="gear-logo" src="gear.svg" alt="Gear logo" />
 										</div>
-										<div className="data">${8.08}</div>
 									</div>
 								</div>
 							</Box>
