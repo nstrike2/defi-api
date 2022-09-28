@@ -72,7 +72,7 @@ export class ActionUI extends React.Component {
 		if(!isNaN(amount) && amount > 0) {
 			const exchangeRate = 1;
 			// const exchangeRate = await axel.swap_rate({sell_token: "ETH", buy_token: this.defaultToken});
-			estimate = (exchangeRate * amount).toFixed(2);
+			estimate = (exchangeRate * amount).toFixed(3);
 		}
 		this._setState({ amount, estimate });
 	}

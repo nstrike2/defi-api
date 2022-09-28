@@ -11,8 +11,8 @@ export class AaveActionComponent extends React.Component {
 		super(props);
 		this.mounted = false;
 		this.state = {
-			ethBalance: "Loading...",
-			formTokenBalance: "Loading...",
+			ETH_balance: "Loading...",
+			aWETH_balance: "Loading...",
 			amount: "",
 			estimate: 0,
 			gasSetting: {
@@ -29,22 +29,31 @@ export class AaveActionComponent extends React.Component {
 	
 	componentDidMount() {
 		this.mounted = true;
-		this.eth_looker = lookers.make_balance_looker(axel, {
+		this.ETH_looker = lookers.make_balance_looker(axel, {
 			token: "ETH",
 			chain: null,
-		}, function callback () {
-			
+		}, (evt: lookers.balance_looker_update) => {
+			if (evt.status === "ok") {
+				this._setState({ ETH_balance: evt.balance.toFixed(3) });
+			} else {
+				this._setState({ ETH_balance: "error" });
+			}
 		});
 		this.aWETH_looker = lookers.make_balance_looker(axel, {
 			token: "aWETH",
 			chain: null,
-		}, function callback () {
-			
+		}, (evt: lookers.balance_looker_update) => {
+			if (evt.status === "ok") {
+				console.log("balance", evt.balance);
+				this._setState({ aWETH_balance: evt.balance.toFixed(3) });
+			} else {
+				this._setState({ aWETH_balance: "error" });
+			}
 		});
 	}
 	componentWillUnmount() {
 		this.mounted = false;
-		this.eth_looker.stop();
+		this.ETH_looker.stop();
 		this.aWETH_looker.stop();
 	}
 	
@@ -52,8 +61,9 @@ export class AaveActionComponent extends React.Component {
 		const amount = event.target.value;
 		let estimate = 0;
 		if(!isNaN(amount) && amount > 0) {
-			const exchangeRate = await axel.swap_rate({sell_token: "ETH", buy_token: "ETH"});
-			estimate = (exchangeRate * amount).toFixed(2);
+			const exchangeRate = 1;
+			// const exchangeRate = await axel.swap_rate({sell_token: "ETH", buy_token: "ETH"});
+			estimate = (exchangeRate * amount).toFixed(3);
 		}
 		this._setState({ amount, estimate });
 	}
@@ -66,8 +76,6 @@ export class AaveActionComponent extends React.Component {
 			token: "ETH",
 			amount: Number(this.state.amount),
 		});
-		
-		this.props.exitUI();
 	}
 	
 	render() {
@@ -172,11 +180,11 @@ export class AaveActionComponent extends React.Component {
 								<div className="transaction-details">
 									<div className="transaction-detail-cell">
 										<div className="label">ETH:</div>
-										<div className="data">{this.state.ethBalance}</div>
+										<div className="data">{this.state.ETH_balance}</div>
 									</div>
 									<div className="transaction-detail-cell">
 										<div className="label">aWETH:</div>
-										<div className="data">{this.state.formTokenBalance}</div>
+										<div className="data">{this.state.aWETH_balance}</div>
 									</div>
 								</div>
 							</Box>
