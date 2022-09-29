@@ -1,16 +1,15 @@
 import React from "react";
-import "../components/ActionUI.css";
-import {axel} from "../axel_inst";
-import {logos} from "../logos";
+import {axel} from "../../axel_inst";
+import {logos} from "../../logos";
 import {lookers} from "@axelapi/sdk";
-import {ActionComponentCloser} from "../components/ActionComponentCloser";
-import {InputTokenComponent} from "../components/InputTokenComponent";
-import {ReceiptTokenComponent} from "../components/ReceiptTokenComponent";
-import {GasSetting} from "../components/GasSetting";
-import {TransactionDetail} from "../components/TransactionDetail";
-import {TransactionDetails} from "../components/TransactionDetails";
+import {ActionComponentCloser} from "../../components/ActionComponentCloser";
+import {InputTokenComponent} from "../../components/InputTokenComponent";
+import {ReceiptTokenComponent} from "../../components/ReceiptTokenComponent";
+import {GasSetting} from "../../components/GasSetting";
+import {TransactionDetail} from "../../components/TransactionDetail";
+import {TransactionDetails} from "../../components/TransactionDetails";
 
-export class AaveActionComponent extends React.Component {
+export class AaveActionUI extends React.Component {
 	constructor(props) {
 		super(props);
 		this.mounted = false;
@@ -96,7 +95,7 @@ export class AaveActionComponent extends React.Component {
 	render() {
 		return (
 			<div className="menu-modal">
-				<ActionComponentCloser logo={logos.aWETH} token="Aave" onClick={this.props.exitUI}/>
+				<ActionComponentCloser logo={logos.aWETH} token="Aave" onClick={this.props.exit}/>
 				<form className="input-api-form" onSubmit={this.handleSubmit.bind(this)} autoComplete="off">
 					<label>
 						<div className="description">Amount &#38; Token To Lend</div>

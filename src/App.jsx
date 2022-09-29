@@ -1,17 +1,10 @@
-import {Wallet} from "ethers";
 import React from "react";
 import "./App.css";
-import {APISearchBox} from "./components/APISearchBox";
+import {AxelUI} from "./axel-integrations";
 import {Title} from "./components/Title";
 import {WalletConnectButton} from "./axel-integrations/WalletConnectButton";
 
-import {axel} from "./axel_inst";
-
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div className="App">
@@ -34,7 +27,7 @@ class App extends React.Component {
             developer platform.
           </div>
 
-          <APISearchBox/>
+          <AxelUI/>
         </div>
       </div>
     );

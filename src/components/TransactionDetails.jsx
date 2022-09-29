@@ -2,6 +2,10 @@ import {Box} from "@mui/material";
 import React from "react";
 
 export class TransactionDetails extends React.Component {
+	constructor(props) {
+		super(props);
+		console.log(props);
+	}
 	render() {
 		return (
 			<Box

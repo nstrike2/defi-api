@@ -1,7 +1,6 @@
 import React from "react";
 import {Box} from "@mui/material";
 
-
 // I take these props:
 // * amount: the value in the input element
 // * handleChange: what to do when the input changes
