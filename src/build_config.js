@@ -10,21 +10,21 @@ function searchForType(path, type, callback, names = []) {
 				const name = dirent.name;
 				const newpath = path + "/" + name;
 				const newnames = [...names, name];
-				if(dirent.isDirectory()) {
+				if (dirent.isDirectory()) {
 					searchForType(newpath, type, callback, newnames).then(() => {
 						completed[i] = true;
-						if(completed.every(v => v)) {
+						if (completed.every(v => v)) {
 							resolve();
 						}
 					});
 				} else {
 					completed[i] = true;
-					if(!!name.match("\\." + type)) {
+					if (name.match("\\." + type)) {
 						callback(newnames);
 					}
 				}
 			});
-			if(completed.every(v => v)) {
+			if (completed.every(v => v)) {
 				resolve();
 			}
 		})
@@ -41,11 +41,13 @@ searchForType("./utils/tokens/", "json", names => {
 	const path = `./utils/tokens/${names.join("/")}`;
 	const json = require(path);
 	names.reduce((obj, name) => {
-		if(sanitizer.test(name)) {
+		if (sanitizer.test(name)) {
 			// If name is a .json
 			obj[sanitize(name)] = json;
 		} else {
-			if(!obj[name])obj[name] = {};
+			if (!obj[name]) {
+				obj[name] = {};
+			}
 			return obj[name];
 		}
 	}, config.tokens);

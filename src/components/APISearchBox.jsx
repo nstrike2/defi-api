@@ -5,7 +5,7 @@ import "./APISearchBox.css";
 import {ActionUI} from "./ActionUI";
 import {ActionOption} from "./ActionOption";
 import {axel} from "../axel_inst";
-import { AaveActionComponent } from "../axel-integrations/AaveActionComponent";
+import {AaveActionComponent} from "../axel-integrations/AaveActionComponent";
 
 export class APISearchBox extends React.Component {
 	constructor(props) {
@@ -28,7 +28,7 @@ export class APISearchBox extends React.Component {
 	}
 
 	async chooseOption(component) {
-		if(axel.provider !== null) {
+		if (axel.provider !== null) {
 			this.setState({
 				isSearching: false,
 				actionFn: component.props.actionFn,

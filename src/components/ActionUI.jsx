@@ -34,7 +34,7 @@ export class ActionUI extends React.Component {
 	}
 	
 	_setState(obj) {
-		if(this.mounted) this.setState(obj);
+		if (this.mounted) this.setState(obj);
 	}
 	
 	bindFunctions() {
@@ -69,7 +69,7 @@ export class ActionUI extends React.Component {
 	async handleChange(event) {
 		const amount = event.target.value;
 		let estimate = 0;
-		if(!isNaN(amount) && amount > 0) {
+		if (!isNaN(amount) && amount > 0) {
 			const exchangeRate = 1;
 			// const exchangeRate = await axel.swap_rate({sell_token: "ETH", buy_token: this.defaultToken});
 			estimate = (exchangeRate * amount).toFixed(3);
@@ -80,7 +80,6 @@ export class ActionUI extends React.Component {
 	async handleSubmit(event) {
 		event.preventDefault();
 		// If specialRequestParams is not implemented, it defaults to undefined and adds no properties
-		const {protocol} = this.props;
 		await this.actionFn(Number(this.state.amount));
 		this.props.exitUI();
 	}

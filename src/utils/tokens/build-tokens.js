@@ -12,21 +12,21 @@ function searchForType(path, type, callback, names = []) {
 				const name = dirent.name;
 				const newpath = path + "/" + name;
 				const newnames = [...names, name];
-				if(dirent.isDirectory()) {
+				if (dirent.isDirectory()) {
 					searchForType(newpath, type, callback, newnames).then(() => {
 						completed[i] = true;
-						if(completed.every(v => v)) {
+						if (completed.every(v => v)) {
 							resolve();
 						}
 					});
 				} else {
 					completed[i] = true;
-					if(!!name.match("\\." + type)) {
+					if (!!name.match("\\." + type)) {
 						callback(newnames);
 					}
 				}
 			});
-			if(completed.every(v => v)) {
+			if (completed.every(v => v)) {
 				resolve();
 			}
 		})
@@ -48,12 +48,12 @@ searchForType("./", "json", names => {
 	let mockup = tokenJSONMockup;
 	for(let name of names) {
 		key += "." + sanitize(name);
-		if(sanitizer.test(name)) {
+		if (sanitizer.test(name)) {
 			// If name is a .json
 			json_contents += `${key} = ${varname};\n`;
 		} else {
 			// If name is a directory
-			if(!mockup[name]) {
+			if (!mockup[name]) {
 				mockup[name] = {};
 				json_contents += `${key} = {};\n`;
 			}

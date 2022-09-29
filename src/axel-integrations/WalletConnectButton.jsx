@@ -1,8 +1,5 @@
-import {Wallet} from "ethers";
 import React from "react";
 import "../App.css";
-import {APISearchBox} from "../components/APISearchBox";
-import {Title} from "../components/Title";
 
 import {axel} from "../axel_inst";
 

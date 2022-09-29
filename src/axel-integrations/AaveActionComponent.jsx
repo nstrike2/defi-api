@@ -1,6 +1,5 @@
 import React from "react";
 import "../components/ActionUI.css";
-import {Box} from "@mui/material";
 import {axel} from "../axel_inst";
 import {logos} from "../logos";
 import {lookers} from "@axelapi/sdk";
@@ -31,7 +30,7 @@ export class AaveActionComponent extends React.Component {
 	}
 	
 	_setState(obj) {
-		if(this.mounted) this.setState(obj);
+		if (this.mounted) this.setState(obj);
 	}
 	
 	async componentDidMount() {
@@ -73,7 +72,7 @@ export class AaveActionComponent extends React.Component {
 	async handleChange(event) {
 		const amount = event.target.value;
 		let estimate = 0;
-		if(!isNaN(amount) && amount > 0) {
+		if (!isNaN(amount) && amount > 0) {
 			let swap_rate = this.state.swap_rate;
 			if (swap_rate === undefined) {
 				swap_rate = await axel.get_swap_rate({sell_token: "ETH", buy_token: "ETH"});

@@ -3,10 +3,6 @@ import APIOptions from "../utils/APIOptions.json";
 import "./APISearchBox.css";
 
 export class ActionOption extends React.Component {
-	constructor(props) {
-		super(props);
-	}
-
 	render() {
 		return (
 			<div className="Search-cell" onClick={() => this.props.onClick(this)}>

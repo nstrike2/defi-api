@@ -33,14 +33,14 @@ export class Title extends React.Component {
 		}, time);
 	}
 	render() {
-		if(!this.isTyping) {
+		if (!this.isTyping) {
 			this.isTyping = true;
 			this.appear = false;
 			this.type(Title.initDelay);
 		}
 		return (
 			<div className = "Text-title-big">
-				{ (this.appear) ? this.state.text : <span>&nbsp;&nbsp;</span> }
+				{(this.appear) ? this.state.text : <span>&nbsp;&nbsp;</span>}
 			</div>
 		);
 	}
