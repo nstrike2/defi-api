@@ -1,80 +1,80 @@
 .Search-container {
-	/* box-shadow: 0px 0px 12px 5px rgb(0, 0, 0); */
-	border-radius: 3px;
-	border:  1px solid rgb(0, 0, 0);
-	border-radius: 3%;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	min-width: 30vw;
-	min-height: 396.477px;
-	padding: 4px 0px 0px 0px;
-	margin-top: 9vh;
+   /* box-shadow: 0px 0px 12px 5px rgb(0, 0, 0); */
+   border-radius: 3px;
+   border: 1px solid rgb(0, 0, 0);
+   border-radius: 3%;
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   min-width: 30vw;
+   min-height: 396.477px;
+   padding: 4px 0px 0px 0px;
+   margin-top: 9vh;
 }
 
 .line-break {
-	border-color: #464646;
-	width: 99.5%;
-	margin-top: 0vh;
-	margin-bottom: 0vh;
+   border-color: #464646;
+   width: 99.5%;
+   margin-top: 0vh;
+   margin-bottom: 0vh;
 }
 
 .Input {
-	background-color: transparent;
-	margin-left: 18.48px;
-	margin-top: 4px;
-	margin-bottom: 4px;
-	color: whitesmoke;
-	border: 0;
-	outline-color: whitesmoke;
-	width: 100%;
-	line-height: 32px;
-	font-size: medium;
-	outline: 0;
+   background-color: transparent;
+   margin-left: 18.48px;
+   margin-top: 4px;
+   margin-bottom: 4px;
+   color: whitesmoke;
+   border: 0;
+   outline-color: whitesmoke;
+   width: 100%;
+   line-height: 32px;
+   font-size: medium;
+   outline: 0;
 }
 
 .Search-cell {
-	display: flex;
-	flex-direction: row;
-	padding: 6px 18.48px 6px 18.48px;
-	margin-top: 0px;
-	margin-bottom: 10px;
-	cursor: pointer;
+   display: flex;
+   flex-direction: row;
+   padding: 6px 18.48px 6px 18.48px;
+   margin-top: 0px;
+   margin-bottom: 10px;
+   cursor: pointer;
 }
 
 .Search-cell:hover {
-	background-color: rgb(245, 255, 120);
+   background-color: rgb(245, 255, 120);
 }
 
 .Search-img-container {
-	display: flex;
-	justify-content: center;
-	width: 36px;
-	height: 36px;
+   display: flex;
+   justify-content: center;
+   width: 36px;
+   height: 36px;
 }
 
 .Search-img {
-	max-width: 36px;
-	max-height: 36px;
+   max-width: 36px;
+   max-height: 36px;
 }
 
 .Search-text {
-	font-family: sans-serif;
-	color: rgb(0, 0, 0);
-	font-size: 14px;
-	font-weight: 400;
-	padding: 12px;
+   font-family: sans-serif;
+   color: rgb(0, 0, 0);
+   font-size: 14px;
+   font-weight: 400;
+   padding: 12px;
 }
 
 .Search-action {
-	padding: 0 18px;
-	display: none;
-	overflow: hidden;
-	color: #fff;
+   padding: 0 18px;
+   display: none;
+   overflow: hidden;
+   color: #fff;
 }
 
 .Search-buffer {
-	height: 10px;
-	padding: 0px;
-	margin: 0px;
+   height: 10px;
+   padding: 0px;
+   margin: 0px;
 }
