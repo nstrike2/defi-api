@@ -7,6 +7,9 @@ import {lookers} from "@axelapi/sdk";
 import {ActionComponentCloser} from "../components/ActionComponentCloser";
 import {InputTokenComponent} from "../components/InputTokenComponent";
 import {ReceiptTokenComponent} from "../components/ReceiptTokenComponent";
+import {GasSetting} from "../components/GasSetting";
+import {TransactionDetail} from "../components/TransactionDetail";
+import {TransactionDetails} from "../components/TransactionDetails";
 
 export class AaveActionComponent extends React.Component {
 	constructor(props) {
@@ -76,7 +79,7 @@ export class AaveActionComponent extends React.Component {
 				swap_rate = await axel.get_swap_rate({sell_token: "ETH", buy_token: "ETH"});
 				this._setState({swap_rate});
 			}
-			estimate = (swap_rate * amount).toFixed(3);
+			estimate = swap_rate * amount;
 		}
 		this._setState({ amount, estimate });
 	}
@@ -101,66 +104,18 @@ export class AaveActionComponent extends React.Component {
 						<InputTokenComponent amount={this.state.amount} handleChange={this.handleChange.bind(this)} logo={logos.ETH} logoAlt="Ethereum logo" tokenName="ETH"/>
 
 						<div className="description">Amount &#38; Token To Receive</div>
-						{/* TODO Replace estimate with swap rate SDK call */}
-						<ReceiptTokenComponent estimate={this.state.estimate} logo={logos.aWETH} tokenName="aWETH"/>
+						<ReceiptTokenComponent estimate={this.state.estimate.toFixed(3)} logo={logos.aWETH} tokenName="aWETH"/>
 
 						<div className="description">Transaction Details</div>
 						<div className="menu-form">
-							<Box
-								className="transaction-detail-form"
-								sx={{
-									width: "57.8%",
-									marginTop: "7px",
-									height: "100%",
-									border: 1,
-									borderColor: "#464646",
-									borderRadius: 2,
-									input: {
-										textAlign: "center",
-										color: "#BDBDBD"
-									}
-								}}
-							>
-								<div className="transaction-details">
-									<div className="transaction-detail-cell">
-										<div className="label">Lend APY</div>
-										<div className="data">{this.state.apy}%</div>
-									</div>
-									<div className="transaction-detail-cell">
-										{/* TODO: Logic for choosing the index within gasSetting mapping */}
-										<div className="label">
-											Gas | <span className="gas-setting">{this.state.gasSetting[1]}</span>
-											<img className="gear-logo" src="gear.svg" alt="Gear logo" />
-										</div>
-									</div>
-								</div>
-							</Box>
-							<Box 
-								className="transaction-detail-form"
-								sx={{
-									width: "37.5%",
-									marginTop: "7px",
-									height: "100%",
-									border: 1,
-									borderColor: "#464646",
-									borderRadius: 2,
-									input: {
-										textAlign: "center",
-										color: "#BDBDBD"
-									}
-								}}
-							>
-								<div className="transaction-details">
-									<div className="transaction-detail-cell">
-										<div className="label">ETH:</div>
-										<div className="data">{this.state.ETH_balance}</div>
-									</div>
-									<div className="transaction-detail-cell">
-										<div className="label">aWETH:</div>
-										<div className="data">{this.state.aWETH_balance}</div>
-									</div>
-								</div>
-							</Box>
+							<TransactionDetails width="57.8%">
+								<TransactionDetail name="Lend APY" value={this.state.apy + "%"}/>
+								<TransactionDetail name={(<GasSetting setting={this.state.gasSetting[1]}/>)}/>
+							</TransactionDetails>
+							<TransactionDetails width="40%">
+								<TransactionDetail name="ETH:" value={this.state.ETH_balance}/>
+								<TransactionDetail name="aWETH:" value={this.state.aWETH_balance}/>
+							</TransactionDetails>
 						</div>
 					</label>
 					<input className="supply-button" type="submit" value="Lend ETH" />

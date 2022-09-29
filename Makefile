@@ -1,16 +1,14 @@
+. := $(dir $(abspath $(MAKEFILE_LIST)))
 ifeq ($(OS), Windows_NT)
-	PATH := $(PATH);.\node_modules\.bin
+	PATH := $.\node_modules\.bin;$(PATH)
 else
-	PATH := $(PATH):/Users/neetishsharma/Desktop/defi-api/node_modules/.bin
+	PATH := $./node_modules/.bin:$(PATH)
 endif
 
-os:
-	echo $(OS)
-.PHONY: os
-
-path:
-	echo $(PATH)
-.PHONY: path
+install:
+	npm install
+	npm audit --omit=dev
+.PHONY: install
 
 start:
 	react-scripts start
