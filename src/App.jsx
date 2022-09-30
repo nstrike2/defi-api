@@ -4,7 +4,7 @@ import {AxelUI} from "./axel-integrations";
 import {Title} from "./components/Title";
 import {WalletConnectButton} from "./axel-integrations/WalletConnectButton";
 
-class App extends React.Component {
+export class App extends React.Component {
    render() {
       return (
          <div className="App">
@@ -17,11 +17,11 @@ class App extends React.Component {
                   />
                   {/* <div className="navbar-item Text-header">axel</div> */}
                </span>
-               <WalletConnectButton />
+               <WalletConnectButton/>
             </header>
 
             <div className="Main-container">
-               <Title text="Lend. Stake. Yield. Swap." />
+               <Title text="Lend. Stake. Yield. Swap."/>
                <div className="Text-title-small">
                   Showcasing the world's most powerful, composable, and universal DeFi
                   developer platform.
@@ -33,5 +33,3 @@ class App extends React.Component {
       );
    }
 }
-
-export default App;

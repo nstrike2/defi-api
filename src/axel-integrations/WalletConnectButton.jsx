@@ -12,7 +12,7 @@ export class WalletConnectButton extends React.Component {
    componentDidMount() {
       axel.on("provider_connect", () => {
          this.setState({connected: true});
-      })
+      });
       axel.on("provider_disconnect", () => {
          this.setState({connected: false});
       });

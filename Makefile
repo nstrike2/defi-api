@@ -5,6 +5,11 @@ else
 	PATH := $./node_modules/.bin:$(PATH)
 endif
 
+purgeinstall:
+	-rd /s /q node_modules
+	-del /f package-lock.json
+.PHONY: purgeinstall
+
 install:
 	npm install
 	npm audit --omit=dev

@@ -10,6 +10,6 @@ export class SimpleForm extends React.Component {
          <form className="input-api-form" onSubmit={this.onSubmit.bind(this)} autoComplete="off">
             {this.props.children}
          </form>
-      )
+      );
    }
 }

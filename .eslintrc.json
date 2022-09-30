@@ -1,0 +1,31 @@
+{  "root": true
+,  "extends": ["react-app"]
+,  "rules":
+   {  "block-spacing": "error"
+   ,  "quote-props": ["error", "consistent-as-needed"]
+   ,  "comma-dangle": ["error", "always-multiline"]
+   ,  "comma-spacing": ["error", {"before": false, "after": true}]
+   ,  "keyword-spacing": "error"
+   ,  "no-trailing-spaces": "error"
+   ,  "indent": ["error", 3]
+   ,  "no-cond-assign": "error"
+   ,  "no-const-assign": "error"
+   ,  "no-duplicate-imports": "warn"
+   ,  "no-duplicate-case": "error"
+   ,  "no-loss-of-precision": "error"
+   ,  "no-this-before-super": "error"
+   ,  "no-undef": "error"
+   ,  "no-unreachable": "warn"
+   ,  "no-unused-private-class-members": "warn"
+   ,  "no-unused-vars": "warn"
+   ,  "no-use-before-define": "error"
+   ,  "eqeqeq": "error"
+   ,  "guard-for-in": "warn"
+   ,  "no-extra-semi": "error"
+   ,  "no-loop-func": "error"
+   ,  "object-curly-spacing": "error"
+   ,  "quotes": ["error", "double", {"avoidEscape": true}]
+   ,  "space-before-blocks": "error"
+   ,  "semi": ["error", "always", {"omitLastInOneLineBlock": true}]
+   }
+}

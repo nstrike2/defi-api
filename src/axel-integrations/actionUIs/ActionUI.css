@@ -26,6 +26,13 @@
    align-items: center;
    justify-content: space-between;
    justify-content: center;
+   
+   width: 40%;
+   margin-top: 7px;
+   margin-left: 7px;
+   height: 50px;
+   border: 1px solid #464646;
+   border-radius: 8px;
 }
 
 .eth-logo.token-logo {

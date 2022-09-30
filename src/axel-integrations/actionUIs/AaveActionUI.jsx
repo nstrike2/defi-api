@@ -24,7 +24,7 @@ export class AaveActionUI extends React.Component {
          gasSetting: {
             0: "Slow",
             1: "Normal",
-            2: "Fast"
+            2: "Fast",
          },
       };
    }
@@ -88,16 +88,6 @@ export class AaveActionUI extends React.Component {
       });
    }
 
-   async handleSubmit(event) {
-      event.preventDefault();
-
-      await axel.lend({
-         protocol: "aave",
-         token: "ETH",
-         amount: Number(this.state.amount),
-      });
-   }
-
    render() {
       return (
          <div className="menu-modal">
@@ -105,7 +95,7 @@ export class AaveActionUI extends React.Component {
             <SimpleForm onSubmit={e => { axel.lend({protocol: "aave", token: "ETH", amount: Number(this.state.amount)}) }}>
 
                <div className="description">Amount &#38; Token To Lend</div>
-               <InputTokenComponent amount={this.state.amount} handleChange={this.handleChange.bind(this)} logo={logos.ETH} logoAlt="Ethereum logo" tokenName="ETH"/>
+               <InputTokenComponent amount={this.state.amount} handleChange={this.handleChange.bind(this)} logo={logos.ETH} tokenName="ETH"/>
 
                <div className="description">Amount &#38; Token To Receive</div>
                <ReceiptTokenComponent estimate={this.state.estimate.toFixed(3)} logo={logos.aWETH} tokenName="aWETH"/>

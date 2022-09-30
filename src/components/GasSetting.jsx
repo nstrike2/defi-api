@@ -5,7 +5,7 @@ export class GasSetting extends React.Component {
       return (
          <div className="gas-setting-container">
             Gas | <span className="gas-setting">{this.props.setting}</span>
-            <img className="gear-logo" src="gear.svg" alt="Gear logo" />
+            <img className="gear-logo" src="gear.svg" alt="Gear logo"/>
          </div>
       );
    }
